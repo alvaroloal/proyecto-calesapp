@@ -1,9 +1,8 @@
 package com.salesianostriana.dam.calesapp.security.jwt.refresh;
 
-import com.salesianostriana.dam.calesapp.user.model.User;
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -23,7 +22,7 @@ public class RefreshToken {
     //@MapsId
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Usuario user;
 
     /*@NaturalId
     @Column(nullable = false, unique = true)

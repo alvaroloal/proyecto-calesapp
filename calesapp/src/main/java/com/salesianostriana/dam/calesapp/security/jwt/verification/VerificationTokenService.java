@@ -1,9 +1,9 @@
 package com.salesianostriana.dam.calesapp.security.jwt.verification;
 
 
-import com.salesianostriana.dam.calesapp.user.dto.UserResponse;
-import com.salesianostriana.dam.calesapp.user.model.User;
-import com.salesianostriana.dam.calesapp.user.repository.UserRepository;
+import com.salesianostriana.dam.calesapp.user.dto.UsuarioResponse;
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
+import com.salesianostriana.dam.calesapp.user.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,9 +19,9 @@ public class VerificationTokenService {
 
     @Value("${jwt.verification.duration}")
     private int durationInMinutes;
-    private final UserRepository userRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public VerificationToken createToken(User user) {
+    public VerificationToken createToken(Usuario user) {
         verificationTokenRepository.deleteByUser(user);
         return verificationTokenRepository.save(
                 VerificationToken.builder()
@@ -41,7 +41,7 @@ public class VerificationTokenService {
         return token;
     }
 
-    public User verifyUser(String token) {
+    public Usuario verifyUser(String token) {
 
         return verificationTokenRepository.findById(UUID.fromString(token))
                 .map(this::verifyToken)
@@ -50,12 +50,12 @@ public class VerificationTokenService {
 
                     usuario.setEnabled(true);
                     verificationTokenRepository.deleteByUser(usuario);
-                    return userRepository.save(usuario);
+                    return usuarioRepository.save(usuario);
                 })
                 .orElseThrow(() -> new VerificationTokenException("No se ha encontrado el token"));
     }
 
-    public UserResponse refreshToken(String token) {
+    public UsuarioResponse refreshToken(String token) {
 
         return verificationTokenRepository.findById(UUID.fromString(token))
                 .map(VerificationToken::getUser)
@@ -63,7 +63,7 @@ public class VerificationTokenService {
 
                     VerificationToken verificationToken = this.createToken(user);
 
-                    return UserResponse.of(user, verificationToken.getToken());
+                    return UsuarioResponse.of(user, verificationToken.getToken());
                 })
                 .orElseThrow(() -> new VerificationTokenException("No se ha encontrado el token"));
     }

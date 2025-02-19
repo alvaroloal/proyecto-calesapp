@@ -3,13 +3,12 @@ package com.salesianostriana.dam.calesapp.security.jwt.refresh;
 
 
 import com.salesianostriana.dam.calesapp.security.jwt.access.JwtService;
-import com.salesianostriana.dam.calesapp.user.dto.UserResponse;
-import com.salesianostriana.dam.calesapp.user.model.User;
-import com.salesianostriana.dam.calesapp.user.repository.UserRepository;
+import com.salesianostriana.dam.calesapp.user.dto.UsuarioResponse;
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
+import com.salesianostriana.dam.calesapp.user.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -19,13 +18,13 @@ import java.util.UUID;
 public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserRepository userRepository;
+    private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
 
     @Value("${jwt.refresh.duration}")
     private int durationInMinutes;
 
-    public RefreshToken create(User user) {
+    public RefreshToken create(Usuario user) {
         refreshTokenRepository.deleteByUser(user);
         return refreshTokenRepository.save(
                 RefreshToken.builder()
@@ -47,7 +46,7 @@ public class RefreshTokenService {
 
     }
 
-    public UserResponse refreshToken(String token) {
+    public UsuarioResponse refreshToken(String token) {
 
         return refreshTokenRepository.findById(UUID.fromString(token))
                 .map(this::verify)
@@ -55,7 +54,7 @@ public class RefreshTokenService {
                 .map(user -> {
                     String accessToken = jwtService.generateAccessToken(user);
                     RefreshToken refreshedToken = this.create(user);
-                    return UserResponse.of(user, accessToken, refreshedToken.getToken());
+                    return UsuarioResponse.of(user, accessToken, refreshedToken.getToken());
                 })
                 .orElseThrow(() -> new RefreshTokenException("No se ha podido refrescar el token. Por favor, vuelva a loguearse"));
 

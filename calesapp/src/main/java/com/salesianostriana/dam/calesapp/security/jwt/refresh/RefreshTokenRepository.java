@@ -1,6 +1,6 @@
 package com.salesianostriana.dam.calesapp.security.jwt.refresh;
 
-import com.salesianostriana.dam.calesapp.user.model.User;
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ public interface RefreshTokenRepository
 
     @Modifying
     @Transactional
-    void deleteByUser(User user);
+    void deleteByUser(Usuario user);
 
 }
 

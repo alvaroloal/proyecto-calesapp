@@ -1,7 +1,7 @@
 package com.salesianostriana.dam.calesapp.security.jwt.access;
 
-import com.salesianostriana.dam.calesapp.user.model.User;
-import com.salesianostriana.dam.calesapp.user.repository.UserRepository;
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
+import com.salesianostriana.dam.calesapp.user.repository.UsuarioRepository;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,7 +27,7 @@ import java.util.UUID;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     //private final UserService userService;
-    private final UserRepository userRepository;
+    private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
 
     @Autowired
@@ -50,10 +50,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 UUID id = jwtService.getUserIdFromAccessToken(token);
 
-                Optional<User> result = userRepository.findById(id);
+                Optional<Usuario> result = usuarioRepository.findById(id);
 
                 if (result.isPresent()) {
-                    User user = result.get();
+                    Usuario user = result.get();
                     UsernamePasswordAuthenticationToken
                             authenticationToken = new UsernamePasswordAuthenticationToken(
                             user,

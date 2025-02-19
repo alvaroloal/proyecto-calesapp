@@ -1,6 +1,6 @@
 package com.salesianostriana.dam.calesapp.security.jwt.access;
 
-import com.salesianostriana.dam.calesapp.user.model.User;
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -42,7 +42,7 @@ public class JwtService {
 
     }
 
-    public String generateAccessToken(User user) {
+    public String generateAccessToken(Usuario user) {
 
         Date tokeExpirationDate =
                 Date.from(

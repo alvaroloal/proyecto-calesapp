@@ -6,11 +6,11 @@ import com.salesianostriana.dam.calesapp.security.jwt.refresh.RefreshTokenReques
 import com.salesianostriana.dam.calesapp.security.jwt.refresh.RefreshTokenService;
 import com.salesianostriana.dam.calesapp.security.jwt.verification.VerificationToken;
 import com.salesianostriana.dam.calesapp.security.jwt.verification.VerificationTokenService;
-import com.salesianostriana.dam.calesapp.user.dto.CreateUserRequest;
+import com.salesianostriana.dam.calesapp.user.dto.CreateUsuarioRequest;
 import com.salesianostriana.dam.calesapp.user.dto.LoginRequest;
-import com.salesianostriana.dam.calesapp.user.dto.UserResponse;
-import com.salesianostriana.dam.calesapp.user.model.User;
-import com.salesianostriana.dam.calesapp.user.service.UserService;
+import com.salesianostriana.dam.calesapp.user.dto.UsuarioResponse;
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
+import com.salesianostriana.dam.calesapp.user.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,22 +23,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class UsuarioController {
 
-    private final UserService userService;
+    private final UsuarioService usuarioService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
     private final VerificationTokenService verificationTokenService;
 
     @PostMapping("/auth/register")
-    public ResponseEntity<UserResponse> register(@RequestBody CreateUserRequest createUserRequest) {
-        User user = userService.createUser(createUserRequest);
+    public ResponseEntity<UsuarioResponse> register(@RequestBody CreateUsuarioRequest createUsuarioRequest) {
+        Usuario user = usuarioService.createUser(createUsuarioRequest);
 
         VerificationToken verificationToken = verificationTokenService.createToken(user);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(UserResponse.of(user, verificationToken.getToken()));
+                .body(UsuarioResponse.of(user, verificationToken.getToken()));
     }
 
     @PostMapping("/auth/login")
@@ -55,14 +55,14 @@ public class UserController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        User user = (User) authentication.getPrincipal();
+        Usuario user = (Usuario) authentication.getPrincipal();
 
         String accessToken = jwtService.generateAccessToken(user);
 
         RefreshToken refreshToken = refreshTokenService.create(user);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(UserResponse.of(user, accessToken, refreshToken.getToken()));
+                .body(UsuarioResponse.of(user, accessToken, refreshToken.getToken()));
 
     }
 
@@ -76,23 +76,23 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public UserResponse me(@AuthenticationPrincipal User user) {
-        return UserResponse.of(user);
+    public UsuarioResponse me(@AuthenticationPrincipal Usuario user) {
+        return UsuarioResponse.of(user);
     }
 
     @GetMapping("/me/admin")
-    public User adminMe(@AuthenticationPrincipal User user) {
+    public Usuario adminMe(@AuthenticationPrincipal Usuario user) {
         return user;
     }
 
     @PutMapping("/auth/user/verify")
-    public UserResponse verifyUser(@RequestParam String token) {
+    public UsuarioResponse verifyUser(@RequestParam String token) {
 
-        return UserResponse.of(verificationTokenService.verifyUser(token));
+        return UsuarioResponse.of(verificationTokenService.verifyUser(token));
     }
 
     @PostMapping("/auth/user/verify/refresh")
-    public UserResponse refreshVerification(@RequestParam String token) {
+    public UsuarioResponse refreshVerification(@RequestParam String token) {
 
         return verificationTokenService.refreshToken(token);
     }

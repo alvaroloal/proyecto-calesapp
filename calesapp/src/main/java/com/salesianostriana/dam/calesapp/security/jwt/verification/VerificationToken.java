@@ -1,6 +1,6 @@
 package com.salesianostriana.dam.calesapp.security.jwt.verification;
 
-import com.salesianostriana.dam.calesapp.user.model.User;
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,7 +21,7 @@ public class VerificationToken {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Usuario user;
 
     private Instant expireAt;
 
