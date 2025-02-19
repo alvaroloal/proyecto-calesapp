@@ -2,6 +2,7 @@ package com.salesianostriana.dam.calesapp.controller;
 
 import com.salesianostriana.dam.calesapp.dto.CreateUpdateParadaDTO;
 import com.salesianostriana.dam.calesapp.dto.ParadaDTO;
+import com.salesianostriana.dam.calesapp.dto.ParadaListDTO;
 import com.salesianostriana.dam.calesapp.model.Parada;
 import com.salesianostriana.dam.calesapp.service.ParadaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +26,7 @@ public class ParadaController {
     public ParadaController(ParadaService paradaService) {
         this.paradaService = paradaService;
     }
-
+    /*
     @GetMapping
     @Operation(summary = "Obtener todas las paradas")
     @ApiResponses(value = {
@@ -39,6 +40,12 @@ public class ParadaController {
                 .map(ParadaDTO::fromEntity)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(paradasDTO);
+    }*/
+
+
+    @GetMapping
+    public ParadaListDTO getAllEmpresas() {
+        return ParadaListDTO.of(paradaService.findAll());
     }
 
     @GetMapping("/{id}")
