@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.calesapp.user.model;
 
+import com.salesianostriana.dam.calesapp.model.Parada;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
@@ -8,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -37,6 +39,7 @@ public class Usuario implements UserDetails {
     private boolean enabled=true;
 
     private String verificationToken;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

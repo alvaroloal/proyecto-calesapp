@@ -26,6 +26,7 @@ public class ParadaController {
     public ParadaController(ParadaService paradaService) {
         this.paradaService = paradaService;
     }
+
     /*
     @GetMapping
     @Operation(summary = "Obtener todas las paradas")
@@ -41,7 +42,6 @@ public class ParadaController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(paradasDTO);
     }*/
-
 
     @GetMapping
     public ParadaListDTO getAllEmpresas() {
