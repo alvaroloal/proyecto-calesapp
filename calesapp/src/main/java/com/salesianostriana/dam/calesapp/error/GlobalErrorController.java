@@ -13,7 +13,7 @@ public class GlobalErrorController
         extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ProblemDetail handleUserNotFound(EntityNotFoundException ex) {
+    public ProblemDetail handleEntityNotFound(EntityNotFoundException ex) {
         ProblemDetail result = ProblemDetail
                 .forStatusAndDetail(HttpStatus.NOT_FOUND,
                         ex.getMessage());
