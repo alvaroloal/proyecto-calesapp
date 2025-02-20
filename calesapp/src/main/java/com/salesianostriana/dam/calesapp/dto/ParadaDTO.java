@@ -1,6 +1,5 @@
 package com.salesianostriana.dam.calesapp.dto;
 
-
 import com.salesianostriana.dam.calesapp.model.Parada;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -26,5 +25,9 @@ public record ParadaDTO(
                 parada.getDescripcion(),
                 parada.getUbicacion()
         );
+    }
+
+    public static ParadaDTO of(Parada parada) {
+        return new ParadaDTO(parada.getId(), parada.getNombre(), parada.getDescripcion(), parada.getUbicacion());
     }
 }
