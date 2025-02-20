@@ -25,7 +25,7 @@ public class ParadaController {
     }
 
 
-    @Operation(summary = "Obtener todas las paradas")
+    @Operation(summary = "Obtener la lista de paradas")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de paradas obtenida con éxito",
                     content = @Content(mediaType = "application/json",
@@ -39,7 +39,7 @@ public class ParadaController {
 
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener una parada por ID", description = "Retorna una parada basada en su ID")
+    @Operation(summary = "Obtener una parada por su ID", description = "Retorna una parada basada en su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Parada encontrada",
                     content = @Content(mediaType = "application/json",
