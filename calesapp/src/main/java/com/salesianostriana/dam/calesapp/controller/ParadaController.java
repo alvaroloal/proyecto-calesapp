@@ -1,8 +1,8 @@
 package com.salesianostriana.dam.calesapp.controller;
 
-import com.salesianostriana.dam.calesapp.dto.CreateUpdateParadaDTO;
-import com.salesianostriana.dam.calesapp.dto.ParadaDTO;
-import com.salesianostriana.dam.calesapp.dto.ParadaListDTO;
+import com.salesianostriana.dam.calesapp.dto.parada.CreateUpdateParadaDTO;
+import com.salesianostriana.dam.calesapp.dto.parada.ParadaDTO;
+import com.salesianostriana.dam.calesapp.dto.parada.ParadaListDTO;
 import com.salesianostriana.dam.calesapp.model.Parada;
 import com.salesianostriana.dam.calesapp.service.ParadaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,9 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/api/paradas")
 public class ParadaController {
@@ -27,8 +24,7 @@ public class ParadaController {
         this.paradaService = paradaService;
     }
 
-    /*
-    @GetMapping
+
     @Operation(summary = "Obtener todas las paradas")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de paradas obtenida con éxito",
@@ -36,15 +32,8 @@ public class ParadaController {
                             schema = @Schema(implementation = ParadaDTO.class))),
             @ApiResponse(responseCode = "204", description = "No se encontraron paradas")
     })
-    public ResponseEntity<List<ParadaDTO>> getAllParadas() {
-        List<ParadaDTO> paradasDTO = paradaService.findAll().stream()
-                .map(ParadaDTO::fromEntity)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(paradasDTO);
-    }*/
-
     @GetMapping
-    public ParadaListDTO getAllEmpresas() {
+    public ParadaListDTO getAllParadas() {
         return ParadaListDTO.of(paradaService.findAll());
     }
 

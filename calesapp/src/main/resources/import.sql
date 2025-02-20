@@ -12,3 +12,7 @@ INSERT INTO parada (id, nombre, ubicacion, descripcion, ciudad_id) VALUES
 (8, 'Altozano', '37.3910, -5.9998', 'Parada en la Plaza del Altozano, en pleno barrio de Triana.', 1);
 
 
+
+
+
+
