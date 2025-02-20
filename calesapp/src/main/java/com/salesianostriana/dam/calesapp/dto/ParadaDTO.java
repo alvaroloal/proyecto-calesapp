@@ -17,8 +17,6 @@ public record ParadaDTO(
 
         @Schema(description = "Ubicacion de la parada", example = "40.4168,-3.7038")
         String ubicacion
-
-
 ) {
 
     public static ParadaDTO fromEntity(Parada parada) {

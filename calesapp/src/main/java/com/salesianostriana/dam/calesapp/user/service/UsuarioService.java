@@ -24,7 +24,6 @@ public class UsuarioService {
                 .password(passwordEncoder.encode(createUsuarioRequest.password()))
                 .roles(Set.of(UsuarioRole.USER))
                 .build();
-
         return usuarioRepository.save(user);
     }
 

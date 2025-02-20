@@ -26,6 +26,8 @@ public class ParadaController {
         this.paradaService = paradaService;
     }
 
+
+    /*
     @GetMapping
     @Operation(summary = "Obtener todas las paradas")
     @ApiResponses(value = {
@@ -39,15 +41,20 @@ public class ParadaController {
                 .map(ParadaDTO::fromEntity)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(paradasDTO);
+    }*/
+
+    @GetMapping
+    public ParadaListDTO getAllEmpresas() {
+        return ParadaListDTO.of(paradaService.findAll());
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Obtener una parada por ID", description = "Retorna una parada basada en su ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Parada encontrada.",
+            @ApiResponse(responseCode = "200", description = "Parada encontrada",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ParadaDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Parada no encontrada.")
+            @ApiResponse(responseCode = "404", description = "Parada no encontrada")
     })
     public ResponseEntity<ParadaDTO> getParadaById(
             @Parameter(description = "ID de la parada a buscar", required = true)
