@@ -1,6 +1,6 @@
 package com.salesianostriana.dam.calesapp.service;
 
-import com.salesianostriana.dam.calesapp.dto.CreateUpdateParadaDTO;
+import com.salesianostriana.dam.calesapp.dto.parada.CreateUpdateParadaDTO;
 import com.salesianostriana.dam.calesapp.error.CustomException;
 import com.salesianostriana.dam.calesapp.model.Parada;
 import com.salesianostriana.dam.calesapp.repository.ParadaRepository;

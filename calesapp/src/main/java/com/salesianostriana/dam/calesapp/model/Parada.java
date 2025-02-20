@@ -1,6 +1,7 @@
 package com.salesianostriana.dam.calesapp.model;
 
 
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -32,6 +33,10 @@ public class Parada {
     @JoinColumn(name = "ciudad_id",
             foreignKey = @ForeignKey(name = "fk_parada_ciudad"))
     private Ciudad ciudad;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(name = "fk_parada_usuario"))
+    private Usuario usuario;
 
 
     @Override

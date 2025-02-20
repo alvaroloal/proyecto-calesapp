@@ -1,4 +1,4 @@
-package com.salesianostriana.dam.calesapp.dto;
+package com.salesianostriana.dam.calesapp.dto.parada;
 
 import com.salesianostriana.dam.calesapp.model.Parada;
 
