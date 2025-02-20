@@ -29,8 +29,4 @@ public record ParadaDTO(
                 parada.getUbicacion()
         );
     }
-
-    public static ParadaDTO of(Parada parada) {
-        return new ParadaDTO(parada.getId(), parada.getNombre(), parada.getDescripcion(), parada.getUbicacion());
-    }
 }
