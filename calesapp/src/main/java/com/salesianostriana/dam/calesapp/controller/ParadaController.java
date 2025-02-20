@@ -88,7 +88,7 @@ public class ParadaController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar una parada", description = "Elimina una parada basada en su ID")
+    @Operation(summary = "Eliminar una parada por su id", description = "Elimina una parada basada en su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Parada eliminada con éxito"),
             @ApiResponse(responseCode = "404", description = "Parada no encontrada"),
