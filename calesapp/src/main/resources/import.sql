@@ -12,7 +12,7 @@ INSERT INTO parada (id, nombre, ubicacion, descripcion, ciudad_id) VALUES
 (8, 'Altozano', '37.3910, -5.9998', 'Parada en la Plaza del Altozano, en pleno barrio de Triana.', 1);
 
 
-INSERT INTO cochero (id, nombre, experiencia) VALUES (1, 'Juan Pérez', 5);
+INSERT INTO cochero (id, nombre, apellidos, experiencia) VALUES (1, 'Jesus', 'Lorente Gaviño',5.0);
 
 
 INSERT INTO servicio (id, tipo_servicio, tarifa, duracion, descripcion, disponibilidad, cochero_id) VALUES
