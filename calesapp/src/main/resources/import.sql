@@ -12,6 +12,21 @@ INSERT INTO parada (id, nombre, ubicacion, descripcion, ciudad_id) VALUES
 (8, 'Altozano', '37.3910, -5.9998', 'Parada en la Plaza del Altozano, en pleno barrio de Triana.', 1);
 
 
+INSERT INTO cochero (id, nombre, experiencia) VALUES (1, 'Juan Pérez', 5);
+
+
+INSERT INTO servicio (id, tipo_servicio, tarifa, duracion, descripcion, disponibilidad, cochero_id) VALUES
+(1, 'TRANSPORTE', 25.50, 60, 'Servicio de transporte turístico', true, 1),
+(2, 'EVENTO', 40.00, 120, 'Alquiler para eventos especiales', false, 1),
+(3, 'PASEO', 30.00, 90, 'Paseo guiado por el centro histórico', true, 1);
+
+
+--INSERT INTO contacto (id, nombre, telefono, email, servicio_id) VALUES
+--(1, 'Carlos López', '654123987', 'carlos@email.com', 1),
+--(2, 'María Gómez', '687456321', 'maria@email.com', 2),
+--(3, 'Ana Rodríguez', '612789654', 'ana@email.com', 3);
+
+
 
 
 

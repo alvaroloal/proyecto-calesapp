@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo_usuario", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "user_entity")
 public class Usuario implements UserDetails {
 
