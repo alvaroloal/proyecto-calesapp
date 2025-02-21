@@ -8,7 +8,6 @@ import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -54,8 +53,5 @@ public class Parada {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
-
-
-
 
 }
