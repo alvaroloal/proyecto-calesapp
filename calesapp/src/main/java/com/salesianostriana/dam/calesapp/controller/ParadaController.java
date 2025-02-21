@@ -24,7 +24,6 @@ public class ParadaController {
         this.paradaService = paradaService;
     }
 
-
     @Operation(summary = "Obtener la lista de paradas")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de paradas obtenida con éxito",
