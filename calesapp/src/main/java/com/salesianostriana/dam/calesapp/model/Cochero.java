@@ -13,11 +13,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@DiscriminatorValue("COCHERO")
-public class Cochero extends Usuario {
+@Table(name = "cochero")
+public class Cochero{
 
-    private String detallesContacto;
-    private String ubicacion;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nombre;
+    private String apellidos;
+    private Double experiencia;
 
     @OneToMany(mappedBy = "cochero", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Servicio> servicios = new ArrayList<>();
