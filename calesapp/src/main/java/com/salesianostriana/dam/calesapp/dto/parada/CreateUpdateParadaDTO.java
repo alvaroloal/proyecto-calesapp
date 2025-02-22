@@ -11,7 +11,6 @@ public record CreateUpdateParadaDTO(
 
     public static CreateUpdateParadaDTO fromEntity(Parada parada) {
         return new CreateUpdateParadaDTO(
-
                 parada.getNombre(),
                 parada.getUbicacion(),
                 parada.getDescripcion()

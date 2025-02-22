@@ -1,8 +1,7 @@
 package com.salesianostriana.dam.calesapp.dto.cochero;
 
-import com.salesianostriana.dam.calesapp.dto.parada.CreateUpdateParadaDTO;
 import com.salesianostriana.dam.calesapp.model.Cochero;
-import com.salesianostriana.dam.calesapp.model.Parada;
+
 
 public record CreateUpdateCocheroDTO(
         String nombre,
