@@ -9,7 +9,8 @@ INSERT INTO parada (id, nombre, ubicacion, descripcion, ciudad_id) VALUES
 (5, 'Plaza de España', '37.3772, -5.9869', 'Parada en el icónico conjunto arquitectónico de Sevilla.', 1),
 (6, 'Plaza de America', '37.3738, -5.9870', 'Parada ubicada en el Parque María Luisa, cerca del Museo Arqueológico.', 1),
 (7, 'Giralda', '37.3860, -5.9924', 'Parada junto al famoso campanario de la Catedral de Sevilla.', 1),
-(8, 'Altozano', '37.3910, -5.9998', 'Parada en la Plaza del Altozano, en pleno barrio de Triana.', 1);
+(8, 'Altozano', '37.3910, -5.9998', 'Parada en la Plaza del Altozano, en pleno barrio de Triana.', 1),
+(9, 'Todogoma', '37.3860, -5.9924', 'Parada en la esquina de la calle Adriano con Paseo Colon', 1);
 
 INSERT INTO cochero (id, nombre, apellidos, experiencia) VALUES
 (1, 'Jesus', 'Lorente Gaviño',7.5),
