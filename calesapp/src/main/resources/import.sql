@@ -18,7 +18,8 @@ INSERT INTO cochero (id, nombre, apellidos, experiencia) VALUES
 (3, 'Jose', 'Lorente Cala',9.0),
 (4, 'Manuel', 'Lorente Cala',10.0),
 (5, 'Carlos', 'Lorente Cala',10.0),
-(6, 'David', 'Lopez Gutierrez',7.5);
+(6, 'David', 'Heredia Fernandez',9.5),
+(7, 'Antonio', 'Heredia Fernandez',7.5);
 
 INSERT INTO servicio (id, tipo_servicio, tarifa, duracion, descripcion, disponibilidad, cochero_id) VALUES
 (1, 'TRANSPORTE', 25.50, 60, 'Servicio de transporte a cualquier punto de la ciudad', true, 1),
