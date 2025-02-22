@@ -1,7 +1,5 @@
 package com.salesianostriana.dam.calesapp.model;
 
-
-
 import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,9 +19,9 @@ public class Contacto {
     private Long id;
 
     private String mensaje;
-    private LocalDate fechaSolicitud;
+    private LocalDate fecha;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(name = "fk_contacto_usuario"))
     private Usuario usuario;
 
