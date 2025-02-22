@@ -21,9 +21,9 @@ INSERT INTO cochero (id, nombre, apellidos, experiencia) VALUES
 (6, 'David', 'Lopez Gutierrez',7.5);
 
 INSERT INTO servicio (id, tipo_servicio, tarifa, duracion, descripcion, disponibilidad, cochero_id) VALUES
-(1, 'TRANSPORTE', 25.50, 60, 'Servicio de transporte turistico', true, 1),
+(1, 'TRANSPORTE', 25.50, 60, 'Servicio de transporte a cualquier punto de la ciudad', true, 1),
 (2, 'EVENTO', 40.00, 120, 'Alquiler para eventos especiales', false, 2),
-(3, 'PASEO', 30.00, 90, 'Paseo guiado por el centro historico', true, 3);
+(3, 'PASEO', 30.00, 90, 'Paseo guiado por el centro historico de Sevilla y sus monumentos mas emblematicos', true, 3);
 
 
 
