@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,21 +25,16 @@ public class UsuarioService {
 
 
     public Usuario createUser(CreateUsuarioRequest createUsuarioRequest) {
-        Usuario user = Usuario.builder()
-                .username(createUsuarioRequest.username())
-                .password(passwordEncoder.encode(createUsuarioRequest.password()))
-                .roles(Set.of(UsuarioRole.USER))
-                .build();
-        return usuarioRepository.save(user);
-    }
-
-    public Usuario createUserAdmin(CreateUsuarioRequest createUsuarioRequest) {
-        Usuario user = Usuario.builder()
-                .username(createUsuarioRequest.username())
-                .password(passwordEncoder.encode(createUsuarioRequest.password()))
-                .roles(Set.of(UsuarioRole.ADMIN))
-                .build();
-        return usuarioRepository.save(user);
+        Usuario usuario = new Usuario();
+        /*VALIDAR QUE EXISTA Y QUE EL NOMBRE DE USUARIO NO EXISTA*/
+        if(createUsuarioRequest.rol().equals(UsuarioRole.USER))
+            usuario.setRol(UsuarioRole.valueOf(UsuarioRole.USER.name()));
+            else{
+                usuario.setRol(UsuarioRole.valueOf(UsuarioRole.ADMIN.name()));
+        }
+            usuario.setUsername(createUsuarioRequest.username());
+            usuario.setPassword(passwordEncoder.encode(createUsuarioRequest.password()));
+        return usuarioRepository.save(usuario);
     }
 
     public List<Usuario> findAll() {
@@ -57,6 +53,35 @@ public class UsuarioService {
             return usuarioRepository.findById(id);
         } catch (Exception e) {
             throw new CustomException("Error al buscar usuario");
+        }
+    }
+
+    public Optional<Usuario> update(UUID id, CreateUsuarioRequest createUsuarioRequest) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new CustomException("Usuario no encontrado");
+        }
+        try {
+            Usuario usuario = usuarioRepository.findById(id).get();
+            usuario.setUsername(createUsuarioRequest.username());
+            usuario.setPassword(createUsuarioRequest.password());
+            usuario.setRol(createUsuarioRequest.rol());
+            usuarioRepository.save(usuario);
+            return Optional.of(usuario);
+        } catch (Exception e) {
+            throw new CustomException("Error al actualizar usuario");
+        }
+
+    }
+
+    public Boolean delete(UUID id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new CustomException("Usuario no encontrado");
+        }
+        try {
+            usuarioRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            throw new CustomException("Error al eliminar usuario");
         }
     }
 

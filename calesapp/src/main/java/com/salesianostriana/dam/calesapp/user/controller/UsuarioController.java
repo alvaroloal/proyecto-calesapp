@@ -13,6 +13,7 @@ import com.salesianostriana.dam.calesapp.user.dto.UsuarioResponse;
 import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import com.salesianostriana.dam.calesapp.user.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,6 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,17 +51,6 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UsuarioResponse.of(user, verificationToken.getToken()));
     }
-
-    @PostMapping("/auth/register/admin")
-    public ResponseEntity<UsuarioResponse> registerAdmin(@RequestBody CreateUsuarioRequest createUsuarioRequest) {
-        Usuario user = usuarioService.createUserAdmin(createUsuarioRequest);
-
-        VerificationToken verificationToken = verificationTokenService.createToken(user);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(UsuarioResponse.of(user, verificationToken.getToken()));
-    }
-
 
 
     @PostMapping("/auth/login")
@@ -97,6 +88,7 @@ public class UsuarioController {
 
     @GetMapping("/me/admin")
     public Usuario adminMe(@AuthenticationPrincipal Usuario user) {
+        System.out.println("prueba");
         return user;
     }
 
@@ -123,6 +115,42 @@ public class UsuarioController {
                 .map(UsuarioResponse::of)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(usuarioResponse);
+    }
+
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Actualizar un usuario existente", description = "Actualiza un usuario existente basado en su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario actualizado con éxito",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<UsuarioResponse> updateUsuario(
+            @Parameter(description = "ID del usuario a actualizar", required = true)
+            @PathVariable("id") UUID id,
+            @Parameter(description = "Nuevos datos del usuario", required = true)
+            @RequestBody CreateUsuarioRequest usuarioDTO) {
+        return usuarioService.update(id, usuarioDTO)
+                .map(usuario -> ResponseEntity.ok(UsuarioResponse.of(usuario)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Eliminar un usuario", description = "Elimina un usuario basado en su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuario eliminado con éxito"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<Void> deleteUsuario(
+            @Parameter(description = "ID del usuario a eliminar", required = true)
+            @PathVariable("id") UUID id) {
+        if (usuarioService.delete(id)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
 
