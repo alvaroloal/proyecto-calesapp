@@ -41,6 +41,18 @@ public class UsuarioController {
                 .body(UsuarioResponse.of(user, verificationToken.getToken()));
     }
 
+    @PostMapping("/auth/register/admin")
+    public ResponseEntity<UsuarioResponse> registerAdmin(@RequestBody CreateUsuarioRequest createUsuarioRequest) {
+        Usuario user = usuarioService.createUser(createUsuarioRequest);
+
+        VerificationToken verificationToken = verificationTokenService.createToken(user);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(UsuarioResponse.of(user, verificationToken.getToken()));
+    }
+
+
+
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 
