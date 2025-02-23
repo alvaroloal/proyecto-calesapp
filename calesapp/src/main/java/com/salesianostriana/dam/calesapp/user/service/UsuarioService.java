@@ -27,5 +27,14 @@ public class UsuarioService {
         return usuarioRepository.save(user);
     }
 
+    public Usuario createUserAdmin(CreateUsuarioRequest createUsuarioRequest) {
+        Usuario user = Usuario.builder()
+                .username(createUsuarioRequest.username())
+                .password(passwordEncoder.encode(createUsuarioRequest.password()))
+                .roles(Set.of(UsuarioRole.ADMIN))
+                .build();
+        return usuarioRepository.save(user);
+    }
+
 
 }
