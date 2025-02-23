@@ -49,7 +49,6 @@ public class UsuarioService {
         }
     }
 
-
     public Optional<Usuario> findById(UUID id) {
         if (!usuarioRepository.existsById(id)) {
             throw new CustomException("Usuario no encontrado");

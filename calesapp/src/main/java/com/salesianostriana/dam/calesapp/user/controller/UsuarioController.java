@@ -52,7 +52,7 @@ public class UsuarioController {
 
     @PostMapping("/auth/register/admin")
     public ResponseEntity<UsuarioResponse> registerAdmin(@RequestBody CreateUsuarioRequest createUsuarioRequest) {
-        Usuario user = usuarioService.createUser(createUsuarioRequest);
+        Usuario user = usuarioService.createUserAdmin(createUsuarioRequest);
 
         VerificationToken verificationToken = verificationTokenService.createToken(user);
 
