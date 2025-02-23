@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.calesapp.user.controller;
 
+import com.salesianostriana.dam.calesapp.dto.contacto.ContactoDTO;
 import com.salesianostriana.dam.calesapp.security.jwt.access.JwtService;
 import com.salesianostriana.dam.calesapp.security.jwt.refresh.RefreshToken;
 import com.salesianostriana.dam.calesapp.security.jwt.refresh.RefreshTokenRequest;
@@ -11,6 +12,11 @@ import com.salesianostriana.dam.calesapp.user.dto.LoginRequest;
 import com.salesianostriana.dam.calesapp.user.dto.UsuarioResponse;
 import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import com.salesianostriana.dam.calesapp.user.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +26,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,7 +52,7 @@ public class UsuarioController {
 
     @PostMapping("/auth/register/admin")
     public ResponseEntity<UsuarioResponse> registerAdmin(@RequestBody CreateUsuarioRequest createUsuarioRequest) {
-        Usuario user = usuarioService.createUser(createUsuarioRequest);
+        Usuario user = usuarioService.createUserAdmin(createUsuarioRequest);
 
         VerificationToken verificationToken = verificationTokenService.createToken(user);
 
@@ -55,8 +64,6 @@ public class UsuarioController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-
-
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
@@ -64,18 +71,14 @@ public class UsuarioController {
                                 loginRequest.password()
                         )
                 );
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         Usuario user = (Usuario) authentication.getPrincipal();
 
         String accessToken = jwtService.generateAccessToken(user);
-
         RefreshToken refreshToken = refreshTokenService.create(user);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UsuarioResponse.of(user, accessToken, refreshToken.getToken()));
-
     }
 
     @PostMapping("/auth/refresh/token")
@@ -99,14 +102,30 @@ public class UsuarioController {
 
     @PutMapping("/auth/user/verify")
     public UsuarioResponse verifyUser(@RequestParam String token) {
-
         return UsuarioResponse.of(verificationTokenService.verifyUser(token));
     }
 
     @PostMapping("/auth/user/verify/refresh")
     public UsuarioResponse refreshVerification(@RequestParam String token) {
-
         return verificationTokenService.refreshToken(token);
     }
+
+    @GetMapping("/usuarios")
+    @Operation(summary = "Obtener todos los usuarios", description = "Retorna todos los usuarios")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de usuarios encontrada",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<List<UsuarioResponse>> getAllUsuarios() {
+        List<UsuarioResponse> usuarioResponse = usuarioService.findAll().stream()
+                .map(UsuarioResponse::of)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(usuarioResponse);
+    }
+
+
+
 
 }
