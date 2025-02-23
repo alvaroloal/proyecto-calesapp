@@ -3,7 +3,10 @@ package com.salesianostriana.dam.calesapp.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,6 +33,6 @@ public class Servicio {
     @JoinColumn(name = "cochero_id", foreignKey = @ForeignKey(name = "fk_servicio_cochero"))
     private Cochero cochero;
 
-    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Contacto> contactos;
+    @OneToMany(mappedBy = "servicio", orphanRemoval = true)
+    private Set<Contacto> contactos = new HashSet<>();
 }

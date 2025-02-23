@@ -42,6 +42,16 @@ INSERT INTO user_entity (id, username, password, enabled, verification_token) VA
 ('a8a31f2b-7dd6-4b56-86d8-5b49730a2cb1', 'anagomez', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'jkl012'),
 ('3b6e27bc-8fcd-41c3-a6f2-265e677aa9f6', 'luistorres', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'mno345');
 
+INSERT INTO contacto (id, mensaje, fecha, usuario_id, servicio_id) VALUES
+(1, 'Consulta sobre disponibilidad de plazas', '2025-02-01', '550e8400-e29b-41d4-a716-446655440000', 2),
+(2, 'Solicitud de información adicional', '2025-02-05', '7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0', 1),
+(3, 'Problemas con la plataforma', '2025-02-10', 'a58e25bb-4c08-4f91-b45f-3cb8fd50c6a9', 3),
+(4, 'Revisión de documentos enviados', '2025-02-12', 'a8a31f2b-7dd6-4b56-86d8-5b49730a2cb1', 2),
+(5, 'Cambio en los datos de inscripción', '2025-02-15', '3b6e27bc-8fcd-41c3-a6f2-265e677aa9f6', 1);
+
+
+
+
 
 
 
