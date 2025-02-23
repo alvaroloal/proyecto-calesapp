@@ -64,8 +64,6 @@ public class UsuarioController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-
-
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
@@ -73,18 +71,14 @@ public class UsuarioController {
                                 loginRequest.password()
                         )
                 );
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         Usuario user = (Usuario) authentication.getPrincipal();
 
         String accessToken = jwtService.generateAccessToken(user);
-
         RefreshToken refreshToken = refreshTokenService.create(user);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UsuarioResponse.of(user, accessToken, refreshToken.getToken()));
-
     }
 
     @PostMapping("/auth/refresh/token")
@@ -108,13 +102,11 @@ public class UsuarioController {
 
     @PutMapping("/auth/user/verify")
     public UsuarioResponse verifyUser(@RequestParam String token) {
-
         return UsuarioResponse.of(verificationTokenService.verifyUser(token));
     }
 
     @PostMapping("/auth/user/verify/refresh")
     public UsuarioResponse refreshVerification(@RequestParam String token) {
-
         return verificationTokenService.refreshToken(token);
     }
 
