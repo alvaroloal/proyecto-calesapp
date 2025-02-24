@@ -52,7 +52,6 @@ public class UsuarioController {
                 .body(UsuarioResponse.of(user, verificationToken.getToken()));
     }
 
-
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         Authentication authentication =
@@ -115,6 +114,22 @@ public class UsuarioController {
                 .map(UsuarioResponse::of)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(usuarioResponse);
+    }
+
+    @GetMapping("/usuarios/{id}")
+    @Operation(summary = "Obtener un usuario por ID", description = "Retorna un usuario basado en su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<UsuarioResponse> getUsuarioById(
+            @Parameter(description = "ID del usuario a buscar", required = true)
+            @PathVariable("id") UUID id) {
+        UsuarioResponse usuario = UsuarioResponse.of(usuarioService.findById(id).get());
+        return ResponseEntity.ok(usuario);
     }
 
 
