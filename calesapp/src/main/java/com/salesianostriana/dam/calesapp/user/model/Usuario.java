@@ -32,8 +32,8 @@ public class Usuario implements UserDetails {
 
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<UsuarioRole> roles;
+    //@ElementCollection(fetch = FetchType.EAGER)
+    private UsuarioRole rol;
 
     private boolean enabled = true;
 
@@ -81,10 +81,11 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> "ROLE_" + role)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet());
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+
+        list.add(new SimpleGrantedAuthority("ROLE_" + rol));
+
+        return list;
     }
 
     @Override
