@@ -107,7 +107,7 @@ public class UsuarioController {
         return verificationTokenService.refreshToken(token);
     }
 
-    @GetMapping("/usuarios")
+    @GetMapping("/api/usuarios")
     @Operation(summary = "Obtener todos los usuarios", description = "Retorna todos los usuarios")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de usuarios encontrada",
@@ -139,7 +139,7 @@ public class UsuarioController {
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/api/usuarios/{id}")
     @Operation(summary = "Actualizar un usuario existente", description = "Actualiza un usuario existente basado en su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuario actualizado con éxito",

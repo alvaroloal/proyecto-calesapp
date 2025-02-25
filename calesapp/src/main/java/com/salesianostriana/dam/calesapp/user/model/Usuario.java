@@ -26,7 +26,7 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NaturalId
+    //@NaturalId
     //@Column(name = "nombre_usuario", unique = true, updatable = false)
     private String username;
 

@@ -65,35 +65,39 @@ public class SecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler)
         );
-        /*http.authorizeHttpRequests(authz -> authz
-                .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login", "/auth/refresh/token").permitAll()
-                .requestMatchers(HttpMethod.GET,"/me/admin").hasRole("ADMIN")
-                .requestMatchers("/h2-console/**", "/auth/user/verify/**").permitAll()
-                .anyRequest().authenticated());*/
         http.authorizeHttpRequests(authz -> authz
-                .requestMatchers(HttpMethod.GET,"/api/paradas").permitAll()
-                .requestMatchers(HttpMethod.GET,"/api/paradas/{id}").permitAll()
-                .requestMatchers(HttpMethod.GET,"/api/servicios/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.GET,"/api/paradas/buscar").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.POST,"/api/contactos").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.POST,"/api/valoraciones").hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.POST,"/api/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT,"/api/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN")
+
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()
+
                 .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login", "/auth/refresh/token").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/auth/user/verify").permitAll()
 
+                .requestMatchers(HttpMethod.GET,"/api/paradas").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/paradas/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/paradas/buscar").hasAnyRole("USER", "ADMIN")
 
+                .requestMatchers(HttpMethod.GET,"/api/servicios/**").hasAnyRole("USER", "ADMIN")
+
+                .requestMatchers(HttpMethod.POST,"/api/contactos").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.GET,"/api/contactos").permitAll()
+
+                .requestMatchers(HttpMethod.POST,"/api/valoraciones").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.GET,"/api/valoraciones").permitAll()
+
+
+                .requestMatchers(HttpMethod.GET,"/api/cocheros").permitAll()
+
+
+                .requestMatchers(HttpMethod.GET,"/api/usuarios").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT,"/api/usuarios/{id}").hasRole("ADMIN")
 
         );
-
-
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-
         http.headers(headers ->
                 headers.frameOptions(frameOptions -> frameOptions.disable()));
-
         return http.build();
     }
 
