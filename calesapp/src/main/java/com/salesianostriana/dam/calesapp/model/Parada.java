@@ -33,9 +33,6 @@ public class Parada {
             foreignKey = @ForeignKey(name = "fk_parada_ciudad"))
     private Ciudad ciudad;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(name = "fk_parada_usuario"))
-    private Usuario usuario;
 
 
     @Override

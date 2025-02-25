@@ -2,7 +2,9 @@ package com.salesianostriana.dam.calesapp.dto.parada;
 
 
 import com.salesianostriana.dam.calesapp.model.Parada;
+import org.springframework.data.domain.Page;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 public record ParadaListDTO(

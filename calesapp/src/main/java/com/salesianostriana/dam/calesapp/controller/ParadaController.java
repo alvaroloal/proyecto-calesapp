@@ -5,15 +5,23 @@ import com.salesianostriana.dam.calesapp.dto.parada.ParadaDTO;
 import com.salesianostriana.dam.calesapp.dto.parada.ParadaListDTO;
 import com.salesianostriana.dam.calesapp.model.Parada;
 import com.salesianostriana.dam.calesapp.service.ParadaService;
+import com.salesianostriana.dam.calesapp.user.util.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@Log
 @RestController
 @RequestMapping("/api/paradas")
 public class ParadaController {
@@ -100,6 +108,23 @@ public class ParadaController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/buscar")
+    public List<Parada> buscar(@RequestParam(value="search", required = false) String search) {
+        log.info(search);
+        List<SearchCriteria> params = new ArrayList<SearchCriteria>();
+        if (search != null) {
+            Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+            Matcher matcher = pattern.matcher(search + ",");
+            while (matcher.find()) {
+                log.info(matcher.group(1));
+                log.info(matcher.group(2));
+                log.info(matcher.group(3));
+                params.add(new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3)));
+            }
+        }
+        return paradaService.search(params);
     }
 
 

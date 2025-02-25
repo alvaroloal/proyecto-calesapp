@@ -27,7 +27,7 @@ public class Usuario implements UserDetails {
     private UUID id;
 
     @NaturalId
-    @Column(unique = true, updatable = false)
+    //@Column(name = "nombre_usuario", unique = true, updatable = false)
     private String username;
 
     private String password;
@@ -39,8 +39,7 @@ public class Usuario implements UserDetails {
 
     private String verificationToken;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Parada> paradas = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contacto> contactos = new ArrayList<>();
@@ -49,35 +48,7 @@ public class Usuario implements UserDetails {
     private List<Valoracion> valoraciones = new ArrayList<>();
 
 
-    public void addParada(Parada parada) {
-        paradas.add(parada);
-        parada.setUsuario(this);
-    }
 
-    public void removeParada(Parada parada) {
-        paradas.remove(parada);
-        parada.setUsuario(null);
-    }
-
-    public void addContacto(Contacto contacto) {
-        contactos.add(contacto);
-        contacto.setUsuario(this);
-    }
-
-    public void removeContacto(Contacto contacto) {
-        contactos.remove(contacto);
-        contacto.setUsuario(null);
-    }
-
-    public void addValoracion(Valoracion valoracion) {
-        valoraciones.add(valoracion);
-        valoracion.setUsuario(this);
-    }
-
-    public void removeValoracion(Valoracion valoracion) {
-        valoraciones.remove(valoracion);
-        valoracion.setUsuario(null);
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
