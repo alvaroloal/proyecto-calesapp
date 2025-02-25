@@ -1,12 +1,14 @@
 package com.salesianostriana.dam.calesapp.user.service;
 
 import com.salesianostriana.dam.calesapp.error.CustomException;
-import com.salesianostriana.dam.calesapp.model.Cochero;
 import com.salesianostriana.dam.calesapp.user.dto.CreateUsuarioRequest;
 import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import com.salesianostriana.dam.calesapp.user.model.UsuarioRole;
+import com.salesianostriana.dam.calesapp.user.query.UserSpecificationBuilder;
 import com.salesianostriana.dam.calesapp.user.repository.UsuarioRepository;
+import com.salesianostriana.dam.calesapp.user.util.SearchCriteria;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -82,6 +84,16 @@ public class UsuarioService {
         } catch (Exception e) {
             throw new CustomException("Error al eliminar usuario");
         }
+    }
+
+    public List<Usuario> search(List<SearchCriteria> searchCriteriaList) {
+
+        UserSpecificationBuilder userSpecificationBuilder
+                = new UserSpecificationBuilder(searchCriteriaList);
+
+        Specification<Usuario> where = userSpecificationBuilder.build();
+
+        return usuarioRepository.findAll(where);
     }
 
 

@@ -12,6 +12,7 @@ import com.salesianostriana.dam.calesapp.user.dto.LoginRequest;
 import com.salesianostriana.dam.calesapp.user.dto.UsuarioResponse;
 import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import com.salesianostriana.dam.calesapp.user.service.UsuarioService;
+import com.salesianostriana.dam.calesapp.user.util.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,6 +20,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,10 +30,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@Log
 @RestController
 @RequiredArgsConstructor
 public class UsuarioController {
@@ -166,6 +172,23 @@ public class UsuarioController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/usuarios/buscar")
+    public List<Usuario> buscar(@RequestParam(value="search", required = false) String search) {
+        log.info(search);
+        List<SearchCriteria> params = new ArrayList<SearchCriteria>();
+        if (search != null) {
+            Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+            Matcher matcher = pattern.matcher(search + ",");
+            while (matcher.find()) {
+                log.info(matcher.group(1));
+                log.info(matcher.group(2));
+                log.info(matcher.group(3));
+                params.add(new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3)));
+            }
+        }
+        return usuarioService.search(params);
     }
 
 
