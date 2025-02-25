@@ -1,6 +1,7 @@
 package com.salesianostriana.dam.calesapp.error;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,6 +20,15 @@ public class GlobalErrorController
                         ex.getMessage());
         result.setTitle("Entidad no encontrada");
         result.setType(URI.create("https://www.salesianos-triana.edu/errors/entity-not-found"));
+        return result;
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ProblemDetail handleAuthenticationError(AuthenticationException ex){
+        ProblemDetail result = ProblemDetail
+                .forStatusAndDetail(HttpStatus.UNAUTHORIZED,
+                        ex.getMessage());
+        result.setTitle("Operación no permitida");
         return result;
     }
 
