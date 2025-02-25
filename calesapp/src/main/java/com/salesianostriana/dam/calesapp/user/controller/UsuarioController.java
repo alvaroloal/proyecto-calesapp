@@ -174,8 +174,8 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/usuarios/buscar")
-    public List<Usuario> buscar(@RequestParam(value="search", required = false) String search) {
+    @GetMapping("/api/usuarios/buscar")
+    public List<Usuario> buscar(@RequestParam String search) {
         log.info(search);
         List<SearchCriteria> params = new ArrayList<SearchCriteria>();
         if (search != null) {
