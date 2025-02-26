@@ -30,6 +30,23 @@ services:
     volumes:
       - pgadmin-data-dev:/var/lib/pgadmin
 
+  api:
+    build: .
+    container_name: calesapp
+    restart: always
+    depends_on:
+      - pg
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/calesappdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8080:8080"
+
 volumes:
   pgdata-dev:
   pgadmin-data-dev:
+
+
+

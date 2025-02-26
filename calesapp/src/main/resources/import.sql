@@ -32,12 +32,12 @@ INSERT INTO servicio (tipo_servicio, tarifa, duracion, descripcion, disponibilid
 ('EVENTO', 40.00, 120, 'Alquiler para eventos especiales', false, 2),
 ('PASEO', 30.00, 90, 'Paseo guiado por el centro historico de Sevilla y sus monumentos mas emblematicos', true, 3);
 
-INSERT INTO user_entity (id, username, password, enabled, verification_token) VALUES
-('550e8400-e29b-41d4-a716-446655440000', 'juanperez', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'abc123'),
-('7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0', 'marialopez', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'def456'),
-('a58e25bb-4c08-4f91-b45f-3cb8fd50c6a9', 'carlossanchez', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'ghi789'),
-('a8a31f2b-7dd6-4b56-86d8-5b49730a2cb1', 'anagomez', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'jkl012'),
-('3b6e27bc-8fcd-41c3-a6f2-265e677aa9f6', 'luistorres', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'mno345');
+INSERT INTO user_entity (id, username, password, enabled, verification_token, rol) VALUES
+('550e8400-e29b-41d4-a716-446655440000', 'juanperez', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'abc123', 0),
+('7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0', 'marialopez', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'def456', 1),
+('a58e25bb-4c08-4f91-b45f-3cb8fd50c6a9', 'carlossanchez', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'ghi789', 1),
+('a8a31f2b-7dd6-4b56-86d8-5b49730a2cb1', 'anagomez', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'jkl012', 1),
+('3b6e27bc-8fcd-41c3-a6f2-265e677aa9f6', 'luistorres', '$2a$10$X9z3D.q/sFqf5J8eEyo8O.8Z5j5Gk8r1J7K9P1gOQ8F1E4zY9B5Wy', true, 'mno345',1);
 
 INSERT INTO valoracion (puntuacion, comentario, fecha, usuario_id, servicio_id) VALUES
 (5, 'Excelente servicio, muy recomendado.', '2025-02-15', '550e8400-e29b-41d4-a716-446655440000',1),
