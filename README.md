@@ -58,6 +58,10 @@ Aplicacion que pone en contacto  a turistas con cocheros de coches de caballo pa
 - Un usuario autenticado debe ser capaz de valorar un servico de un cochero determinado.
 - El administrador es el unico que puede modificar paradas, servicios y ciudades.
 
+## Modelo de datos
+![Diagrama del modelo de datos](docs/modelo-de-datos.png)
+
+
 
 
 
