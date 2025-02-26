@@ -21,6 +21,9 @@ Aplicación que pone en contacto  a turistas con cocheros de coches de caballo p
 Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
 OpenAPI: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
+## Colección de Postman
+[ProyectoCalesapp.postman_collection.json](docs/ProyectoCalesapp.postman_collection.json)
+
 ## Descripción del problema
 A dia de hoy, cuando alguien quiere alquilar un coche de caballo para un paseo por la cuidad el proceso es el siguiente: ir a la parada donde se encuentra el coche de caballo y contratar el servicio. 
 Este modelo presenta varios problemas: 
