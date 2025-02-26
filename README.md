@@ -14,8 +14,13 @@ Aplicación que pone en contacto  a turistas con cocheros de coches de caballo p
 3. Ejecuta el proyecto con Maven: `mvn spring-boot:run`
 
 ## Perfiles
-`dev`: perfil para desarrollo con mensajes de consultas SQL.  
-`prod`: perfil de producción.
+Para ejecutar la aplicación, puedes utilizar diferentes perfiles de Spring dependiendo del entorno en el que desees ejecutarla. Los perfiles disponibles son:  
+
+`docker-compose -f docker-compose-dev.yml up -d`  
+Perfil para desarrollo con mensajes de consultas SQL, PGAdmin y aplicación ejecutada en un contenedor Docker.
+
+`docker-compose -f docker-compose-prod.yml up -d`  
+Perfil de producción, con mensajes de consultas SQL desactivados y aplicación ejecutada en un contenedor Docker.
 
 ## Documentación
 Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
