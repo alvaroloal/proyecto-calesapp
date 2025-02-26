@@ -29,6 +29,10 @@ OpenAPI: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 ## Colección de Postman
 [ProyectoCalesapp.postman_collection.json](docs/ProyectoCalesapp.postman_collection.json)
 
+## Prueba peticiones
+- Para acceder a las peticiones del USER y del ADMIN hay que registarse, al registrarse se genera un token de verificación, y habiendo verificado el registro ya se puede hacer login, lo que genera un token que es que se necesita para poder acceder a las peticiones.
+- Teniendo así acceso a las peticiones definidas a cada uno.
+
 ## Diseño Figma
 [Diseño UI Calesapp](https://www.figma.com/design/j4B1QGaIhNnBDOHB3CKBqm/Calesa?node-id=0-1&t=THystnwQQcP75NMc-1)
 
@@ -63,6 +67,9 @@ Aplicacion que pone en contacto  a turistas con cocheros de coches de caballo pa
 
 ## Modelo de datos
 ![Diagrama del modelo de datos](docs/modelo-de-datos.png)
+
+
+
 
 
 
