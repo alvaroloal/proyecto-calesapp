@@ -21,10 +21,7 @@ Aplicación que pone en contacto  a turistas con cocheros de coches de caballo p
 Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
 OpenAPI: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
-## Colección de Postman
-
-
-### Descripción del problema
+## Descripción del problema
 A dia de hoy, cuando alguien quiere alquilar un coche de caballo para un paseo por la cuidad el proceso es el siguiente: ir a la parada donde se encuentra el coche de caballo y contratar el servicio. 
 Este modelo presenta varios problemas: 
 generalmente un turista desconoce la ubicacion de las paradas
@@ -33,20 +30,20 @@ no se conocen los detalles de antemano sobre el servicio. (tarifa, duración, di
 no hay valoraciones sobre como son los paseos en los coches de caballos.
 
 
-### Motivacion del proyecto:
+## Motivacion del proyecto:
 Aplicacion que pone en contacto  a turistas con cocheros de coches de caballo para contratar sus servicios:
 
-### Aplicación que:
+## Aplicación que:
 - Ofrecer la ubicacion de las paradas
 - Permite a los cocheros ofrecer sus servicios.
 - Informa a los usuarios sobre los detalles de los servicios que ofrecen los cocheros.
 - Permite a los usuarios valorar el servicio ofrecido por cada uno de los cocheros.
 - Permite a los usuarios contactar con el cochero.
 
-### Requisitos funcionales
+## Requisitos funcionales
 - Vamos a definir 3 perfiles de usuarios: no autenticado (visitante), autenticado, administrador.
 
-### API:
+## API:
 - Visitante puede ver las paradas que existen.
 - Usuario autenticado puede ver la informacion de los servicios que te ofrecen los cocheros.
 - Usuario autenticado debe ser capaz de buscar el servicio que desee y contactar con el cochero.
