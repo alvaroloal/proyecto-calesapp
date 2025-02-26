@@ -3,6 +3,7 @@ package com.salesianostriana.dam.calesapp.user.model;
 import com.salesianostriana.dam.calesapp.model.Contacto;
 import com.salesianostriana.dam.calesapp.model.Parada;
 import com.salesianostriana.dam.calesapp.model.Valoracion;
+import com.salesianostriana.dam.calesapp.security.jwt.verification.VerificationToken;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;

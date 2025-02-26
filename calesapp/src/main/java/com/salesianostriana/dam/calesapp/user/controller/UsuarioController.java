@@ -122,7 +122,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioResponse);
     }
 
-    @GetMapping("/usuarios/{id}")
+    @GetMapping("/api/usuarios/{id}")
     @Operation(summary = "Obtener un usuario por ID", description = "Retorna un usuario basado en su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuario encontrado",

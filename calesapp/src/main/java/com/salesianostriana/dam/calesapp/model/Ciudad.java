@@ -27,7 +27,7 @@ public class Ciudad {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
     @ToString.Exclude
     private List<Parada> paradas = new ArrayList<>();

@@ -34,7 +34,7 @@ public class Servicio {
     @JoinColumn(name = "cochero_id", foreignKey = @ForeignKey(name = "fk_servicio_cochero"))
     private Cochero cochero;
 
-    @OneToMany(mappedBy = "servicio", orphanRemoval = true)
+    @OneToMany(mappedBy = "servicio", orphanRemoval = true, cascade= CascadeType.ALL)
     private Set<Contacto> contactos = new HashSet<>();
 
     @Override
