@@ -68,6 +68,21 @@ Aplicacion que pone en contacto  a turistas con cocheros de coches de caballo pa
 ## Modelo de datos
 ![Diagrama del modelo de datos](docs/modelo-de-datos.png)
 
+## Tests de ParadaService
+Verifica el correcto funcionamiento del servicio ParadaService, encargado de gestionar las paradas en la aplicación.
+
+Se utilizan mocks de ParadaRepository y CiudadRepository para simular la capa de persistencia.
+
+Las pruebas incluyen los métodos:
+ 
+- `findAll()`: Comprueba que se recuperan correctamente todas las paradas almacenadas.
+- `findById()`: Verifica la búsqueda de una parada por su ID, tanto cuando existe como cuando no.
+- `create()`: Prueba la creación de una nueva parada a partir de un DTO.
+- `update()`: Valida la actualización de una parada existente.
+- `delete()`: Confirma que una parada existente puede eliminarse correctamente.
+
+Se emplea JUnit 5 con Mockito para la simulación de dependencias y la validación de los resultados esperados.
+
 
 
 
