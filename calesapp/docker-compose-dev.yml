@@ -1,5 +1,4 @@
 services:
-
   pg:
     image: postgres:16-alpine
     environment:
@@ -7,7 +6,7 @@ services:
       - POSTGRES_PASSWORD=12345678
       - POSTGRES_DB=calesappdb
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 30s
       timeout: 30s
       retries: 3
@@ -29,24 +28,28 @@ services:
       PGADMIN_DEFAULT_PASSWORD: 1
     volumes:
       - pgadmin-data-dev:/var/lib/pgadmin
+    depends_on:
+      # depende de que pg este disponible
+      pg:
+        condition: service_started
 
   api:
     build: .
     container_name: calesapp
     restart: always
     depends_on:
-      - pg
+      pg:
+        # asegura de que pg esté listo antes de que api intente conectar
+        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/calesappdb
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pg:5432/calesappdb
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 12345678
       SPRING_PROFILES_ACTIVE: dev
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
     ports:
       - "8081:8080"
 
 volumes:
   pgdata-dev:
   pgadmin-data-dev:
-
-
-
