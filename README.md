@@ -86,7 +86,7 @@ Diseño UI de la aplicación web en Figma:
 
 ## Descripción del problema
 
-A dia de hoy, cuando alguien quiere alquilar un coche de caballo para un paseo por la cuidad el proceso es el siguiente: ir a la parada donde se encuentra el coche de caballo y contratar el servicio. 
+A dia de hoy, cuando alguien quiere alquilar un coche de caballo para un paseo por la ciudad el proceso es el siguiente, ir a la parada donde se encuentra el coche de caballo y contratar el servicio. 
 Este modelo presenta varios problemas:
 
 - Generalmente un turista desconoce la ubicacion de las paradas.
