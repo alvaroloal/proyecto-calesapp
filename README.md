@@ -1,6 +1,6 @@
 # Calesapp
 
-**Calesapp** es una aplicación que conecta a turistas con cocheros de coches de caballos para facilitar la contratación de paseos por la ciudad. Ofrece una solución digital a un servicio tradicional, mejorando la accesibilidad y comunicación.
+**Calesapp** es una aplicación que conecta a turistas con cocheros de coches de caballos para facilitar la contratación de paseos por la ciudad. Ofrece una solución digital a un servicio tradicional, mejorando su accesibilidad y comunicación.
 
 ---
 
