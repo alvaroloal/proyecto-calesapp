@@ -1,95 +1,151 @@
-# proyecto-calesapp
-Aplicación que pone en contacto  a turistas con cocheros de coches de caballo para contratar sus servicios.
+# Calesapp
 
-## Requisitos
-- Jdk17
-- Maven
-- Docker
-- Docker-compose
+**Calesapp** es una aplicación que conecta a turistas con cocheros de coches de caballos para facilitar la contratación de paseos por la ciudad. Ofrece una solución digital a un servicio tradicional, mejorando la accesibilidad y comunicación.
 
-## Inicializando el proyecto
+---
 
-1. Clona el repositorio en un directorio local.
-2. Levanta la base de datos: `docker-compose --build -d`
-3. Ejecuta el proyecto con Maven: `mvn spring-boot:run`
+## Requisitos del sistema
 
-## Perfiles
-Para ejecutar la aplicación, puedes utilizar diferentes perfiles de Spring dependiendo del entorno en el que desees ejecutarla. Los perfiles disponibles son:  
+Para ejecutar el proyecto localmente, asegúrate de tener instalado:
 
-`docker-compose -f docker-compose-dev.yml up -d`  
-Perfil para desarrollo con mensajes de consultas SQL, PGAdmin y aplicación ejecutada en un contenedor Docker.
+- Java Development Kit (JDK) 17  
+- Apache Maven  
+- Docker  
+- Docker Compose  
 
-`docker-compose -f docker-compose-prod.yml up -d`  
-Perfil de producción, con mensajes de consultas SQL desactivados y aplicación ejecutada en un contenedor Docker.
+---
 
-## Documentación
-Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
-OpenAPI: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+## Puesta en marcha
+
+1. Clonar el repositorio en tu máquina local:
+   ```bash
+   git clone <url-del-repositorio>
+   cd proyecto-calesapp
+   ```
+
+2. Iniciar la base de datos:
+   ```bash
+   docker-compose up --build -d
+   ```
+
+3. Ejecutar la aplicación con Maven:
+   ```bash
+   mvn spring-boot:run
+   ```
+
+---
+
+## Perfiles de configuración
+
+La aplicación dispone de distintos perfiles de configuración que se adaptan al entorno de ejecución:
+
+- **Desarrollo**
+  ```bash
+  docker-compose -f docker-compose-dev.yml up -d
+  ```
+  Ejecuta la aplicación en un contenedor Docker con acceso a PGAdmin, y muestra mensajes de consultas SQL en consola.
+
+- **Producción**
+  ```bash
+  docker-compose -f docker-compose-prod.yml up -d
+  ```
+  Ejecuta la aplicación en un contenedor Docker sin mostrar las consultas SQL.
+
+---
+
+## Documentación de la API
+
+- **Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
+- **OpenAPI (JSON)**: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+
+---
 
 ## Colección de Postman
-[ProyectoCalesapp.postman_collection.json](docs/ProyectoCalesapp.postman_collection.json)
 
-## Prueba peticiones
-- Para acceder a las peticiones del USER y del ADMIN hay que registarse, al registrarse se genera un token de verificación, y habiendo verificado el registro ya se puede hacer login, lo que genera un token que es que se necesita para poder acceder a las peticiones.
-- Teniendo así acceso a las peticiones definidas a cada uno.
+[`ProyectoCalesapp.postman_collection.json`](docs/ProyectoCalesapp.postman_collection.json)
 
-## Diseño Figma
-[Diseño UI Calesapp](https://www.figma.com/design/j4B1QGaIhNnBDOHB3CKBqm/Calesa?node-id=0-1&t=THystnwQQcP75NMc-1)
+---
+
+## Pruebas de autenticación
+
+Para acceder a los endpoints protegidos (usuario y administrador), sigue el siguiente flujo:
+
+1. **Registro**: Al registrarse, se genera un token de verificación.
+2. **Verificación**: Una vez verificado el registro, se habilita el acceso al inicio de sesión.
+3. **Autenticación**: Al iniciar sesión, se genera un token JWT necesario para consumir los endpoints protegidos.
+
+---
+
+## Diseño de la Interfaz
+
+Diseño UI de la aplicación web en Figma:
+
+[Diseño UI CALESAPP](https://www.figma.com/design/j4B1QGaIhNnBDOHB3CKBqm/Calesa?node-id=0-1&t=THystnwQQcP75NMc-1)
+
+---
 
 ## Descripción del problema
+
 A dia de hoy, cuando alguien quiere alquilar un coche de caballo para un paseo por la cuidad el proceso es el siguiente: ir a la parada donde se encuentra el coche de caballo y contratar el servicio. 
-Este modelo presenta varios problemas: 
-generalmente un turista desconoce la ubicacion de las paradas
-son muy pocos los cocheros que ofrecen sus servicios de manera particular por internet.
-no se conocen los detalles de antemano sobre el servicio. (tarifa, duración, disponibilidad)
-no hay valoraciones sobre como son los paseos en los coches de caballos.
+Este modelo presenta varios problemas:
 
+- Generalmente un turista desconoce la ubicacion de las paradas.
+- Son muy pocos los cocheros que ofrecen sus servicios de manera particular por internet.
+- No se conocen los detalles de antemano sobre el servicio. (tarifa, duración, disponibilidad).
+- No hay valoraciones sobre como son los paseos en los coches de caballos.
 
-## Motivacion del proyecto:
-Aplicacion que pone en contacto  a turistas con cocheros de coches de caballo para contratar sus servicios:
+---
 
-## Aplicación que:
-- Ofrecer la ubicacion de las paradas
-- Permite a los cocheros ofrecer sus servicios.
-- Informa a los usuarios sobre los detalles de los servicios que ofrecen los cocheros.
-- Permite a los usuarios valorar el servicio ofrecido por cada uno de los cocheros.
-- Permite a los usuarios contactar con el cochero.
+## Motivación del proyecto
+
+Aplicacion que pone en contacto a clientes con cocheros de coches de caballo para contratar sus servicios, ofreciendo:
+
+- Localización de paradas.
+- Plataforma para que los cocheros puedan publicar sus servicios.
+- Información sobre tarifas, duración y disponibilidad.
+- Sistema de valoración para que los usuarios evalúen los paseos.
+- Canal de contacto entre clientes y cocheros.
+
+---
 
 ## Requisitos funcionales
-- Vamos a definir 3 perfiles de usuarios: no autenticado (visitante), autenticado, administrador.
 
-## API:
-- Visitante puede ver las paradas que existen.
-- Usuario autenticado puede ver la informacion de los servicios que te ofrecen los cocheros.
-- Usuario autenticado debe ser capaz de buscar el servicio que desee y contactar con el cochero.
-- Un usuario autenticado debe ser capaz de valorar un servico de un cochero determinado.
-- El administrador es el unico que puede modificar paradas, servicios y ciudades.
+Se definen tres roles de usuario:
+
+- **Visitante (no autenticado)**  
+- **Usuario autenticado**  
+- **Administrador**
+
+### Funcionalidades según rol
+
+#### Visitante
+- Consultar las paradas disponibles.
+
+#### Usuario autenticado
+- Visualizar la información de los servicios ofrecidos por los cocheros.
+- Buscar y contactar con un cochero.
+- Valorar los servicios recibidos.
+
+#### Administrador
+- Gestionar (crear, actualizar, eliminar) paradas, servicios, contactos, cocheros, valoraciones y usuarios.
+
+---
 
 ## Modelo de datos
-![Diagrama del modelo de datos](docs/modelo-de-datos.png)
 
-## Tests de ParadaService
-Verifica el correcto funcionamiento del servicio ParadaService, encargado de gestionar las paradas en la aplicación.
+Diagrama del modelo de datos:  
+![Modelo de datos](docs/modelo-de-datos.png)
 
-Se utilizan mocks de ParadaRepository y CiudadRepository para simular la capa de persistencia.
+---
 
-Las pruebas incluyen los métodos:
- 
-- `findAll()`: Comprueba que se recuperan correctamente todas las paradas almacenadas.
-- `findById()`: Verifica la búsqueda de una parada por su ID, tanto cuando existe como cuando no.
-- `create()`: Prueba la creación de una nueva parada a partir de un DTO.
-- `update()`: Valida la actualización de una parada existente.
-- `delete()`: Confirma que una parada existente puede eliminarse correctamente.
+## Pruebas de `ParadaService`
 
-Se emplea JUnit 5 con Mockito para la simulación de dependencias y la validación de los resultados esperados.
+El servicio `ParadaService` gestiona la lógica de negocio relacionada con las paradas. Las pruebas unitarias se realizan utilizando **JUnit 5** y **Mockito**, simulando las dependencias de `ParadaRepository` y `CiudadRepository`.
 
+### Métodos probados
 
-
-
-
-
-
-
-
-
-
+- `findAll()`: Verifica la recuperación de todas las paradas.
+- `findById()`: Prueba la búsqueda por ID, tanto con resultados como sin ellos.
+- `create()`: Valida la creación de una nueva parada a partir de un DTO.
+- `update()`: Comprueba la actualización de una parada existente.
+- `delete()`: Verifica la eliminación correcta de una parada existente.
