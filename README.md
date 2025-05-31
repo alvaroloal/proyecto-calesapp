@@ -20,7 +20,7 @@ Para ejecutar el proyecto localmente, asegúrate de tener instalado:
 1. Clonar el repositorio en tu máquina local:
    ```bash
    git clone https://github.com/alvaroloal/proyecto-calesapp.git
-   cd proyecto-calesapp
+   cd calesapp
    ```
 
 2. Iniciar la base de datos:
