@@ -1,7 +1,5 @@
 package com.salesianostriana.dam.calesapp.model;
 
-import com.salesianostriana.dam.calesapp.model.Servicio;
-import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "cochero")
-public class Cochero{
+public class Cochero {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +25,3 @@ public class Cochero{
     @OneToMany(mappedBy = "cochero", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Servicio> servicios = new ArrayList<>();
 }
-

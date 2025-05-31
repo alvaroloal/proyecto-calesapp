@@ -6,16 +6,13 @@ import com.salesianostriana.dam.calesapp.model.Parada;
 import com.salesianostriana.dam.calesapp.repository.CiudadRepository;
 import com.salesianostriana.dam.calesapp.repository.ParadaRepository;
 import com.salesianostriana.dam.calesapp.user.query.ParadaSpecificationBuilder;
-import com.salesianostriana.dam.calesapp.user.query.UserSpecificationBuilder;
 import com.salesianostriana.dam.calesapp.user.util.SearchCriteria;
 import jakarta.transaction.Transactional;
-import org.hibernate.query.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 @Transactional
@@ -91,11 +88,9 @@ public class ParadaService {
         return paradaRepository.save(parada);
     }
 
-
     public List<Parada> search(List<SearchCriteria> searchCriteriaList) {
 
-        ParadaSpecificationBuilder paradaSpecificationBuilder
-                = new ParadaSpecificationBuilder(searchCriteriaList);
+        ParadaSpecificationBuilder paradaSpecificationBuilder = new ParadaSpecificationBuilder(searchCriteriaList);
 
         Specification<Parada> where = paradaSpecificationBuilder.build();
 

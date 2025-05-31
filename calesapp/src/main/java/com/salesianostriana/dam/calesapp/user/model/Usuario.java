@@ -1,18 +1,14 @@
 package com.salesianostriana.dam.calesapp.user.model;
 
 import com.salesianostriana.dam.calesapp.model.Contacto;
-import com.salesianostriana.dam.calesapp.model.Parada;
 import com.salesianostriana.dam.calesapp.model.Valoracion;
-import com.salesianostriana.dam.calesapp.security.jwt.verification.VerificationToken;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -27,29 +23,24 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    //@NaturalId
-    //@Column(name = "nombre_usuario", unique = true, updatable = false)
+    // @NaturalId
+    // @Column(name = "nombre_usuario", unique = true, updatable = false)
     private String username;
 
     private String password;
 
-    //@ElementCollection(fetch = FetchType.EAGER)
+    // @ElementCollection(fetch = FetchType.EAGER)
     private UsuarioRole rol;
 
     private boolean enabled = true;
 
     private String verificationToken;
 
-
-
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contacto> contactos = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Valoracion> valoraciones = new ArrayList<>();
-
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,6 +55,5 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
-
 
 }

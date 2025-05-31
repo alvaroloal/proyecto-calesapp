@@ -1,11 +1,9 @@
 package com.salesianostriana.dam.calesapp.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -34,14 +32,19 @@ public class Servicio {
     @JoinColumn(name = "cochero_id", foreignKey = @ForeignKey(name = "fk_servicio_cochero"))
     private Cochero cochero;
 
-    @OneToMany(mappedBy = "servicio", orphanRemoval = true, cascade= CascadeType.ALL)
+    @OneToMany(mappedBy = "servicio", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Contacto> contactos = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Servicio servicio = (Servicio) o;
-        return Objects.equals(id, servicio.id) && tipoServicio == servicio.tipoServicio && Objects.equals(tarifa, servicio.tarifa) && Objects.equals(duracion, servicio.duracion) && Objects.equals(descripcion, servicio.descripcion) && Objects.equals(disponibilidad, servicio.disponibilidad) && Objects.equals(cochero, servicio.cochero) && Objects.equals(contactos, servicio.contactos);
+        return Objects.equals(id, servicio.id) && tipoServicio == servicio.tipoServicio
+                && Objects.equals(tarifa, servicio.tarifa) && Objects.equals(duracion, servicio.duracion)
+                && Objects.equals(descripcion, servicio.descripcion)
+                && Objects.equals(disponibilidad, servicio.disponibilidad) && Objects.equals(cochero, servicio.cochero)
+                && Objects.equals(contactos, servicio.contactos);
     }
 
     @Override

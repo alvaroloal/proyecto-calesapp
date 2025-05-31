@@ -11,7 +11,6 @@ import com.salesianostriana.dam.calesapp.files.service.imgur.error.ImgurImageNot
 import jakarta.annotation.PostConstruct;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.*;
@@ -26,7 +25,6 @@ import org.springframework.web.util.UriBuilderFactory;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Collections;
 
@@ -47,7 +45,6 @@ public class ImgurStorageService implements StorageService {
 
     private RestTemplate restTemplate;
     private UriBuilderFactory uriBuilderFactory;
-
 
     @PostConstruct
     @Override
@@ -76,7 +73,6 @@ public class ImgurStorageService implements StorageService {
             }
         });
 
-
     }
 
     @Override
@@ -88,40 +84,34 @@ public class ImgurStorageService implements StorageService {
             try {
                 NewImageRequest req = new NewImageRequest(
                         Base64.getEncoder().encodeToString(file.getBytes()),
-                        file.getOriginalFilename()
-                );
+                        file.getOriginalFilename());
 
                 HttpHeaders headers = getHeaders();
-                HttpEntity<NewImageRequest> request =
-                        new HttpEntity<>(req, headers);
+                HttpEntity<NewImageRequest> request = new HttpEntity<>(req, headers);
 
-                NewImageResponse response =
-                        restTemplate.postForObject(
-                                URL_NEW_IMAGE,
-                                request,
-                                NewImageResponse.class);
+                NewImageResponse response = restTemplate.postForObject(
+                        URL_NEW_IMAGE,
+                        request,
+                        NewImageResponse.class);
 
                 if (response != null &&
-                    response.status() == SUCCESS_UPLOAD_STATUS) {
+                        response.status() == SUCCESS_UPLOAD_STATUS) {
                     return new ImgurFileMetadataImpl(
                             response.data().id(),
                             file.getOriginalFilename(),
                             uriBuilderFactory.uriString(URL_GET_IMAGE).build(response.data().id()).toString(),
                             response.data().deletehash(),
-                            uriBuilderFactory.uriString(URL_DELETE_IMAGE).build(response.data().deletehash()).toString()
-                            );
+                            uriBuilderFactory.uriString(URL_DELETE_IMAGE).build(response.data().deletehash())
+                                    .toString());
                 } else {
                     throw new ImgurBadRequestException("Error en la solicitud. Error en la subida de imagen");
                 }
-
-
 
             } catch (Exception e) {
                 throw new ImgurBadRequestException(e.getMessage());
             }
 
         }
-
 
     }
 
@@ -134,16 +124,13 @@ public class ImgurStorageService implements StorageService {
                 .accept(MediaType.APPLICATION_JSON)
                 .build();
 
-        ResponseEntity<GetImageResponse> responseEntity =
-                restTemplate.exchange(request, GetImageResponse.class);
+        ResponseEntity<GetImageResponse> responseEntity = restTemplate.exchange(request, GetImageResponse.class);
 
         if (responseEntity.getStatusCode().is2xxSuccessful() && responseEntity.hasBody()) {
-             GetImageResponse getImageResponse =
-                     responseEntity.getBody();
+            GetImageResponse getImageResponse = responseEntity.getBody();
 
             try {
-                UrlResource resource =
-                        new UrlResource(getImageResponse.data().link());
+                UrlResource resource = new UrlResource(getImageResponse.data().link());
 
                 if (resource.exists() && resource.isReadable()) {
                     return resource;
@@ -159,6 +146,7 @@ public class ImgurStorageService implements StorageService {
             throw new ImgurImageNotFoundException("No se ha encontrado la imagen con id %s".formatted(id));
         }
     }
+
     @Override
     public void deleteFile(String deleteHash) {
         URI uri = uriBuilderFactory.uriString(URL_DELETE_IMAGE).build(deleteHash);
@@ -179,5 +167,3 @@ public class ImgurStorageService implements StorageService {
         return headers;
     }
 }
-
-
