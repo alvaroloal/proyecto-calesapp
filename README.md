@@ -68,7 +68,7 @@ La aplicación dispone de distintos perfiles de configuración que se adaptan al
 
 ## Pruebas de autenticación
 
-Para acceder a los endpoints protegidos (usuario y administrador), sigue el siguiente flujo:
+Para acceder a los endpoints protegidos (usuario y administrador), hay que seguir el siguiente flujo:
 
 1. **Registro**: Al registrarse, se genera un token de verificación.
 2. **Verificación**: Una vez verificado el registro, se habilita el acceso al inicio de sesión.
@@ -80,7 +80,7 @@ Para acceder a los endpoints protegidos (usuario y administrador), sigue el sigu
 
 Diseño UI de la aplicación web en Figma:
 
-[Diseño UI CALESAPP](https://www.figma.com/design/j4B1QGaIhNnBDOHB3CKBqm/Calesa?node-id=0-1&t=THystnwQQcP75NMc-1)
+[APP WEB CALESAPP](https://www.figma.com/design/j4B1QGaIhNnBDOHB3CKBqm/Calesa?node-id=0-1&t=THystnwQQcP75NMc-1)
 
 ---
 
@@ -122,7 +122,7 @@ Se definen tres roles de usuario:
 - Consultar las paradas disponibles.
 
 #### Usuario autenticado
-- Visualizar la información de los servicios ofrecidos por los cocheros.
+- Ver la información de los servicios ofrecidos por los cocheros.
 - Buscar y contactar con un cochero.
 - Valorar los servicios recibidos.
 
