@@ -1,0 +1,54 @@
+<div class="bg-[var(--bg-color-gray)] rounded-md shadow-md p-4 mb-4 inline-block">
+    <h2 class="text-xl font-bold">Dashboard Administrador</h2>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="bg-gradient-to-br from-slate-200 to-stone-500 rounded-md shadow-md p-10">
+        <h2 class="text-xl font-bold">Paradas</h2>
+        <p>Lista paradas</p>
+    </div>
+    <div class="bg-gradient-to-br from-slate-200 to-stone-500 rounded-md shadow-md p-10">
+        <h2 class="text-xl font-bold">Cocheros</h2>
+        <p>Lista cocheros</p>
+    </div>
+    <div class="bg-gradient-to-br from-slate-200 to-stone-500 rounded-md shadow-md p-10">
+        <h2 class="text-xl font-bold">Servicios</h2>
+        <p>Lista servicios</p>
+    </div>
+    <div class="bg-gradient-to-br from-slate-200 to-stone-500 rounded-md shadow-md p-10">
+        <h2 class="text-xl font-bold">Valoraciones</h2>
+        <div class="chart-container">
+            <canvas #chart></canvas>
+        </div>
+        <button type="submit"
+            class="bg-gray-800 transition delay-100 duration-100 ease-in-out hover:translate-y-1 hover:scale-110 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Ver
+        </button>
+    </div>
+    <div class="bg-gradient-to-br from-slate-200 to-stone-500 rounded-md shadow-md p-10">
+        <h2 class="text-xl font-bold">Ingresos</h2>
+        <div class="chart-container">
+            <canvas #circle></canvas>
+        </div>
+        <button type="submit"
+            class="bg-gray-800 transition delay-100 duration-100 ease-in-out hover:translate-y-1 hover:scale-110 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Ver</button>
+    </div>
+    <div class="bg-gray-300 rounded-md shadow-md p-10">
+        <h2 class="text-xl font-bold">Últimos comentarios</h2>
+        <div class="mt-4 overflow-y-auto max-h-48"></div>
+        @for (comment of comments ; track $index) {
+        <div class="flex items-center py-2 border-b border-gray-700">
+            <img src="https://i.pravatar.cc/300" alt="" class="w-8 h-8 rounded-full mr-4">
+            <div>
+                <p class="font-medium">{{comment.user}}</p>
+                <p class="text-gray-400 text-sm">{{comment.text}}</p>
+                <p class="text-gray-500 text-xs">{{comment.date | date:'short'}}</p>
+            </div>
+        </div>
+        }
+        @if (comments.length===0) {
+        <div class="text-center text-gray-400 text-sm mt-4">
+            No hay comentarios
+        </div>
+        }
+    </div>
+</div>

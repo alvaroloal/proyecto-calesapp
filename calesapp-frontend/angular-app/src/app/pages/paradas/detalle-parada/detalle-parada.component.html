@@ -1,0 +1,20 @@
+<section class="container mx-auto p-6">
+    <a routerLink="/paradas" class="text-blue-600 hover:underline">&larr; Volver a paradas</a>
+
+    <div *ngIf="loading" class="text-center mt-4">Cargando detalles..</div>
+
+    <div *ngIf="!loading && parada" class="bg-white shadow-md rounded-lg p-6 mt-4">
+        <h1 class="text-3xl font-bold">{{ parada.nombre }}</h1>
+        <p class="text-gray-600">{{ parada.direccion }}</p>
+        <p class="mt-2">{{ parada.descripcion }}</p>
+
+        <h2 class="text-xl font-semibold mt-4">Cocheros disponibles:</h2>
+        <ul class="list-disc list-inside mt-2">
+            <li *ngFor="let cochero of parada.cocheros">{{ cochero }}</li>
+        </ul>
+    </div>
+
+    <div *ngIf="!loading && !parada" class="text-red-600 text-center mt-4">
+        <p>Parada no encontrada.</p>
+    </div>
+</section>

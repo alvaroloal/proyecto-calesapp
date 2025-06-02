@@ -1,4 +1,23 @@
 services:
+
+  api:
+    build: .
+    container_name: calesapp
+    restart: always
+    depends_on:
+      pg:
+        # asegura de que pg esté listo antes de que api intente conectar
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pg:5432/calesappdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+    ports:
+      - "8081:8080"
+
+
   pg:
     image: postgres:16-alpine
     environment:
@@ -33,22 +52,7 @@ services:
       pg:
         condition: service_started
 
-  api:
-    build: .
-    container_name: calesapp
-    restart: always
-    depends_on:
-      pg:
-        # asegura de que pg esté listo antes de que api intente conectar
-        condition: service_healthy
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://pg:5432/calesappdb
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 12345678
-      SPRING_PROFILES_ACTIVE: dev
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
-    ports:
-      - "8081:8080"
+  
 
 volumes:
   pgdata-dev:

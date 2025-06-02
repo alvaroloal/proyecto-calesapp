@@ -1,0 +1,69 @@
+services:
+  # servicio api Spring Boot
+  spring-boot-api:
+    build: ./spring-boot-api/poc-api
+    container_name: poc-backend
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: pocdb
+      DB_USER: user
+      DB_PASSWORD: password
+    depends_on:
+      - db
+    networks:
+      - poc-network
+
+  nginx:
+    build:
+      context: ./angular-app
+      dockerfile: Dockerfile
+    container_name: poc-frontend
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - ./angular-app/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - spring-boot-api
+      - pgadmin
+    networks:
+      - poc-network
+
+  # servicio PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: poc-db
+    environment:
+      POSTGRES_DB: pocdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - poc-network
+    restart: unless-stopped
+
+  # servicio pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: poc-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 80
+    depends_on:
+      - db
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - poc-network
+    restart: unless-stopped
+
+networks:
+  poc-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  pgadmin_data:

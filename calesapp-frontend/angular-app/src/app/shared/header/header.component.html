@@ -1,0 +1,45 @@
+<header class="bg-[var(--bg-color-yellow)] text-white shadow-lg">
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+            <a routerLink="/" class="text-2xl font-bold tracking-tight">
+                Calesapp
+            </a>
+
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a routerLink="/paradas"
+                            class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Paradas</a>
+                    </li>
+                    <li><a routerLink="/cocheros"
+                            class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Cocheros</a>
+                    </li>
+                    <li><a routerLink="/servicios"
+                            class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Servicios</a>
+                    </li>
+                    <li><a routerLink="/valoraciones"
+                            class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Valoraciones</a>
+                    </li>
+                    <li><a routerLink="/login"
+                            class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200">LOG
+                            IN</a>
+                    </li>
+                    <li><a routerLink="/admin"
+                            class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200">ADMIN</a>
+                    </li>
+                    <!---<button (click)="collapsed.set(!collapsed())">
+                        <i class="fa fa-bars text-gray-800"></i>
+                    </button>-->
+                </ul>
+            </nav>
+        </div>
+        @if (collapsed()) {
+        <div [@expandContractMenu]>
+            <div class="absolute right-0 top-14 bg-gray-800 p-1 rounded shadow-md">
+                <a class="block py-2 px-4 hover:bg-gray-700">Perfil</a>
+                <a class="block py-2 px-4 hover:bg-gray-700">Configuración</a>
+                <a routerLink="**" class="block py-2 px-4 hover:bg-gray-700">Salir</a>
+            </div>
+        </div>
+        }
+    </div>
+</header>
