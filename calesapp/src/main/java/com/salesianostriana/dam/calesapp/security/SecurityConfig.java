@@ -25,87 +25,80 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserDetailsService userDetailsService;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
-    private final JwtAccessDeniedHandler accessDeniedHandler;
+        private final PasswordEncoder passwordEncoder;
+        private final UserDetailsService userDetailsService;
+        private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+        private final JwtAccessDeniedHandler accessDeniedHandler;
 
-    @Bean
-    AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        @Bean
+        AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
 
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
+                AuthenticationManagerBuilder authenticationManagerBuilder = http
+                                .getSharedObject(AuthenticationManagerBuilder.class);
 
-        AuthenticationManager authenticationManager =
-                authenticationManagerBuilder.authenticationProvider(authenticationProvider())
-                        .build();
+                AuthenticationManager authenticationManager = authenticationManagerBuilder
+                                .authenticationProvider(authenticationProvider())
+                                .build();
 
-        return authenticationManager;
-    }
+                return authenticationManager;
+        }
 
-    @Bean
-    DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider p = new DaoAuthenticationProvider();
+        @Bean
+        DaoAuthenticationProvider authenticationProvider() {
+                DaoAuthenticationProvider p = new DaoAuthenticationProvider();
 
-        p.setUserDetailsService(userDetailsService);
-        p.setPasswordEncoder(passwordEncoder);
-        return p;
+                p.setUserDetailsService(userDetailsService);
+                p.setPasswordEncoder(passwordEncoder);
+                return p;
 
-    }
+        }
 
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        @Bean
+        SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.cors(Customizer.withDefaults());
-        http.sessionManagement((session) -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.exceptionHandling(excepz -> excepz
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler)
-        );
-        http.authorizeHttpRequests(authz -> authz
-                .requestMatchers(HttpMethod.POST,"/api/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT,"/api/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN")
+                http.csrf(AbstractHttpConfigurer::disable);
+                http.cors(Customizer.withDefaults());
+                http.sessionManagement((session) -> session
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                http.exceptionHandling(excepz -> excepz
+                                .authenticationEntryPoint(authenticationEntryPoint)
+                                .accessDeniedHandler(accessDeniedHandler));
+                http.authorizeHttpRequests(authz -> authz
+                                .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
 
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**")
+                                .permitAll()
 
-                .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login", "/auth/refresh/token").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/auth/user/verify").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login",
+                                                "/auth/refresh/token")
+                                .permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/auth/user/verify").permitAll()
 
-                .requestMatchers(HttpMethod.GET,"/api/paradas").permitAll()
-                .requestMatchers(HttpMethod.GET,"/api/paradas/{id}").permitAll()
-                .requestMatchers(HttpMethod.GET,"/api/paradas/buscar").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/paradas").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/paradas/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/paradas/buscar").hasAnyRole("USER", "ADMIN")
 
-                .requestMatchers(HttpMethod.GET,"/api/servicios/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/servicios/**").permitAll()// servicios
 
-                .requestMatchers(HttpMethod.POST,"/api/contactos").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.GET,"/api/contactos").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/contactos").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/contactos").permitAll()
 
-                .requestMatchers(HttpMethod.POST,"/api/valoraciones").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.GET,"/api/valoraciones").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/valoraciones").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/valoraciones").permitAll()
 
+                                .requestMatchers(HttpMethod.GET, "/api/cocheros").permitAll()
 
-                .requestMatchers(HttpMethod.GET,"/api/cocheros").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/usuarios").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/usuarios/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/usuarios/buscar").hasAnyRole("USER", "ADMIN")
 
-
-                .requestMatchers(HttpMethod.GET,"/api/usuarios").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT,"/api/usuarios/{id}").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET,"/api/usuarios/buscar").hasAnyRole("USER", "ADMIN")
-
-
-
-        );
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.headers(headers ->
-                headers.frameOptions(frameOptions -> frameOptions.disable()));
-        return http.build();
-    }
-
-
-
+                );
+                http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
+                return http.build();
+        }
 
 }
-
