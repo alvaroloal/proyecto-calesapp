@@ -1,0 +1,66 @@
+<div
+    class="flex justify-center items-center min-h-screen bg-gradient-to-br from-slate-700 to-slate-100 dark:bg-gray-900">
+    <div
+        class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-sm transition-all duration-300 animate-fade-in">
+        <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-4">Verificar Cuenta</h2>
+
+        <div *ngIf="usernameFromUrl; else loadingOrError">
+            <p class="text-center text-gray-600 dark:text-gray-300 mb-6">
+                Estás verificando la cuenta para: <strong class="font-semibold">{{ usernameFromUrl }}</strong>.
+                <br />
+                Por favor, ingresa tu contraseña para continuar.
+            </p>
+
+            <form #verifyForm="ngForm" (ngSubmit)="onSubmit(verifyForm)" class="space-y-6">
+                <div>
+                    <label for="passwordVerify"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Contraseña</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" id="passwordVerify" name="passwordVerify"
+                            [(ngModel)]="passwordForVerification" required #passwordVerifyInput="ngModel"
+                            [class.border-red-500]="passwordVerifyInput.invalid && (passwordVerifyInput.dirty || passwordVerifyInput.touched)"
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                            placeholder="Ingresa tu contraseña" />
+                    </div>
+                    <div *ngIf="passwordVerifyInput.invalid && (passwordVerifyInput.dirty || passwordVerifyInput.touched)"
+                        class="text-red-500 text-xs mt-1">
+                        <span *ngIf="passwordVerifyInput.errors?.['required']">La contraseña es requerida para
+                            verificar.</span>
+                    </div>
+                </div>
+
+                <button type="submit" [disabled]="isLoading || verifyForm.invalid"
+                    class="w-full py-3 px-4 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-75
+                 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-green-600 flex items-center justify-center transition-all duration-200 transform hover:-translate-y-0.5">
+                    <svg *ngIf="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                    <span *ngIf="!isLoading">Verificar cuenta</span>
+                    <span *ngIf="isLoading">Verificando...</span>
+                </button>
+            </form>
+        </div>
+
+        <ng-template #loadingOrError>
+            <div class="text-center py-8" *ngIf="!usernameFromUrl && !verificationTokenFromUrl && !isLoading">
+                <p class="text-red-500 dark:text-red-400">No se pudo cargar la información de verificación.</p>
+                <button (click)="router.navigate(['/register'])"
+                    class="mt-4 py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700">
+                    Ir a Registro
+                </button>
+            </div>
+            <div class="text-center py-8" *ngIf="isLoading && !usernameFromUrl">
+                <p class="text-gray-600 dark:text-gray-300">Cargando...</p>
+            </div>
+        </ng-template>
+
+    </div>
+</div>

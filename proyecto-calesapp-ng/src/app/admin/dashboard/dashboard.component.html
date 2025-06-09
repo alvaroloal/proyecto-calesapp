@@ -1,0 +1,399 @@
+<div class="bg-[var(--bg-color-gray)] rounded-md shadow-md p-4 mb-4 inline-block">
+    <h2 class="text-xl font-bold">Dashboard Administrador</h2>
+</div>
+<div class="p-4 sm:p-6 lg:p-8 bg-sky-700 min-h-screen">
+    <div class="grid grid-cols-1 gap-8">
+
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col h-full">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Paradas</h2>
+            <div *ngIf="paradas.length === 0"
+                class="text-center py-10 text-sm text-gray-500 bg-gray-50 rounded-lg flex-grow flex items-center justify-center">
+                No hay paradas disponibles.</div>
+            <div *ngIf="paradas.length > 0" class="flex-grow flex flex-col">
+                <div class="overflow-x-auto flex-grow">
+                    <table class="w-full text-sm table-fixed">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th
+                                    class="w-1/3 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Nombre</th>
+                                <th
+                                    class="w-2/3 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Descripción</th>
+                                <th
+                                    class="w-auto px-4 py-3 text-center font-semibold text-gray-600 uppercase tracking-wider">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @for (parada of paginatedParadas; track parada.id) {
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium text-gray-800 break-words">{{ parada.nombre }}</td>
+                                <td class="px-4 py-3 text-gray-600 break-words">{{ parada.descripcion }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center justify-center space-x-1">
+                                        <button (click)="verParada(parada)" title="Ver más"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-blue-100 hover:text-blue-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                                </path>
+                                            </svg></button>
+                                        <button (click)="editarParada(parada)" title="Editar"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-green-100 hover:text-green-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.5 6.5z">
+                                                </path>
+                                            </svg></button>
+                                        <button (click)="eliminarParada(parada.id)" title="Eliminar"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-red-100 hover:text-red-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                </path>
+                                            </svg></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center mt-auto pt-4 text-sm">
+                    <button (click)="prevPageParadas()" [disabled]="currentPageParadas === 1"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+                    <span>Página {{ currentPageParadas }} de {{ totalPagesParadas }}</span>
+                    <button (click)="nextPageParadas()" [disabled]="currentPageParadas === totalPagesParadas"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col h-full">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Valoraciones</h2>
+            <div *ngIf="valoraciones.length === 0"
+                class="text-center py-10 text-sm text-gray-500 bg-gray-50 rounded-lg flex-grow flex items-center justify-center">
+                No hay valoraciones disponibles.</div>
+            <div *ngIf="valoraciones.length > 0" class="flex-grow flex flex-col">
+                <div class="overflow-x-auto flex-grow">
+                    <table class="w-full text-sm table-fixed">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th
+                                    class="w-1/4 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Puntuación</th>
+                                <th
+                                    class="w-1/2 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Comentario</th>
+                                <th
+                                    class="w-auto px-4 py-3 text-center font-semibold text-gray-600 uppercase tracking-wider">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @for (valoracion of paginatedValoraciones; track valoracion.id) {
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center">{{ valoracion.puntuacion }} <svg
+                                            class="w-4 h-4 text-yellow-500 ml-1" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path
+                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                            </path>
+                                        </svg></div>
+                                </td>
+                                <td class="px-4 py-3 text-gray-600 break-words">{{ valoracion.comentario }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center justify-center space-x-1">
+                                        <button (click)="verValoracion(valoracion)" title="Ver más"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-blue-100 hover:text-blue-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg></button>
+                                        <button (click)="editarValoracion(valoracion)" title="Editar"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-green-100 hover:text-green-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.5 6.5z">
+                                                </path>
+                                            </svg></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center mt-auto pt-4 text-sm">
+                    <button (click)="prevPageValoraciones()" [disabled]="currentPageValoraciones === 1"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+                    <span>Página {{ currentPageValoraciones }} de {{ totalPagesValoraciones }}</span>
+                    <button (click)="nextPageValoraciones()"
+                        [disabled]="currentPageValoraciones === totalPagesValoraciones"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col h-full">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Contactos</h2>
+            <div *ngIf="contactos.length === 0"
+                class="text-center py-10 text-sm text-gray-500 bg-gray-50 rounded-lg flex-grow flex items-center justify-center">
+                No hay mensajes de contacto.</div>
+            <div *ngIf="contactos.length > 0" class="flex-grow flex flex-col">
+                <div class="overflow-x-auto flex-grow">
+                    <table class="w-full text-sm table-fixed">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th
+                                    class="w-3/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Mensaje</th>
+                                <th
+                                    class="w-1/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Fecha</th>
+                                <th
+                                    class="w-auto px-4 py-3 text-center font-semibold text-gray-600 uppercase tracking-wider">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @for (contacto of paginatedContactos; track contacto.id) {
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 text-gray-600 break-words">{{ contacto.mensaje }}</td>
+                                <td class="px-4 py-3 text-gray-600">{{ contacto.fecha | date: 'mediumDate' }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center justify-center space-x-1">
+                                        <button (click)="verContacto(contacto)" title="Ver más"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-blue-100 hover:text-blue-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg></button>
+                                        <button (click)="editarContacto(contacto)" title="Editar"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-green-100 hover:text-green-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.5 6.5z">
+                                                </path>
+                                            </svg></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center mt-auto pt-4 text-sm">
+                    <button (click)="prevPageContactos()" [disabled]="currentPageContactos === 1"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+                    <span>Página {{ currentPageContactos }} de {{ totalPagesContactos }}</span>
+                    <button (click)="nextPageContactos()" [disabled]="currentPageContactos === totalPagesContactos"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col h-full">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Cocheros</h2>
+            <div *ngIf="cocheros.length === 0"
+                class="text-center py-10 text-sm text-gray-500 bg-gray-50 rounded-lg flex-grow flex items-center justify-center">
+                No hay cocheros disponibles.</div>
+            <div *ngIf="cocheros.length > 0" class="flex-grow flex flex-col">
+                <div class="overflow-x-auto flex-grow">
+                    <table class="w-full text-sm table-fixed">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th
+                                    class="w-2/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Nombre</th>
+                                <th
+                                    class="w-2/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Experiencia</th>
+                                <th
+                                    class="w-auto px-4 py-3 text-center font-semibold text-gray-600 uppercase tracking-wider">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @for (cochero of paginatedCocheros; track cochero.id) {
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium text-gray-800 break-words">{{ cochero.nombre }} {{
+                                    cochero.apellidos }}</td>
+                                <td class="px-4 py-3 text-gray-600 break-words">{{ cochero.experiencia }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center justify-center space-x-1">
+                                        <button (click)="verCochero(cochero)" title="Ver más"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-blue-100 hover:text-blue-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                                </path>
+                                            </svg></button>
+                                        <button (click)="editarCochero(cochero)" title="Editar"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-green-100 hover:text-green-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.5 6.5z">
+                                                </path>
+                                            </svg></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center mt-auto pt-4 text-sm">
+                    <button (click)="prevPageCocheros()" [disabled]="currentPageCocheros === 1"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+                    <span>Página {{ currentPageCocheros }} de {{ totalPagesCocheros }}</span>
+                    <button (click)="nextPageCocheros()" [disabled]="currentPageCocheros === totalPagesCocheros"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col h-full">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Servicios</h2>
+            <div *ngIf="servicios.length === 0"
+                class="text-center py-10 text-sm text-gray-500 bg-gray-50 rounded-lg flex-grow flex items-center justify-center">
+                No hay servicios disponibles.</div>
+            <div *ngIf="servicios.length > 0" class="flex-grow flex flex-col">
+                <div class="overflow-x-auto flex-grow">
+                    <table class="w-full text-sm table-fixed">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th
+                                    class="w-2/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Tipo</th>
+                                <th
+                                    class="w-2/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Tarifa</th>
+                                <th
+                                    class="w-2/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Duracion</th>
+                                <th
+                                    class="w-2/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Descripción</th>
+                                <th
+                                    class="w-2/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Disponibilidad</th>
+                                <th
+                                    class="w-auto px-4 py-3 text-center font-semibold text-gray-600 uppercase tracking-wider">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @for (servicio of paginatedServicios; track servicio.id) {
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium text-gray-800 break-words">{{ servicio.tipoServicio }}
+                                </td>
+                                <td class="px-4 py-3 text-gray-600 break-words">{{ servicio.tarifa }}</td>
+                                <td class="px-4 py-3 text-gray-600 break-words">{{ servicio.duracion }}</td>
+                                <td class="px-4 py-3 text-gray-600 break-words">{{ servicio.descripcion }}</td>
+                                <td class="px-4 py-3 text-gray-600 break-words">{{ servicio.disponibilidad }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center justify-center space-x-1">
+                                        <button (click)="verServicio(servicio)" title="Ver más"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-blue-100 hover:text-blue-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                                </path>
+                                            </svg></button>
+                                        <button (click)="editarServicio(servicio)" title="Editar"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-green-100 hover:text-green-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.5 6.5z">
+                                                </path>
+                                            </svg></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center mt-auto pt-4 text-sm">
+                    <button (click)="prevPageServicios()" [disabled]="currentPageServicios === 1"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+                    <span>Página {{ currentPageServicios }} de {{ totalPagesServicios }}</span>
+                    <button (click)="nextPageServicios()" [disabled]="currentPageServicios === totalPagesServicios"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col h-full">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Usuarios</h2>
+            <div *ngIf="usuarios.length === 0"
+                class="text-center py-10 text-sm text-gray-500 bg-gray-50 rounded-lg flex-grow flex items-center justify-center">
+                No hay usuarios disponibles.</div>
+            <div *ngIf="usuarios.length > 0" class="flex-grow flex flex-col">
+                <div class="overflow-x-auto flex-grow">
+                    <table class="w-full text-sm table-fixed">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th
+                                    class="w-2/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    Username</th>
+                                <th
+                                    class="w-2/5 px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                    ID</th>
+                                <th
+                                    class="w-auto px-4 py-3 text-center font-semibold text-gray-600 uppercase tracking-wider">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @for (usuario of paginatedUsuarios; track usuario.id) {
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium text-gray-800 break-words">{{ usuario.username }}</td>
+                                <td class="px-4 py-3 text-gray-600 break-words">{{ usuario.id }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center justify-center space-x-1">
+                                        <button (click)="verUsuario(usuario)" title="Ver más"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-blue-100 hover:text-blue-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                                </path>
+                                            </svg></button>
+                                        <button (click)="editarUsuario(usuario)" title="Editar"
+                                            class="p-1.5 text-gray-500 rounded-full hover:bg-green-100 hover:text-green-600 transition-colors"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.5 6.5z">
+                                                </path>
+                                            </svg></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center mt-auto pt-4 text-sm">
+                    <button (click)="prevPageUsuarios()" [disabled]="currentPageUsuarios === 1"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+                    <span>Página {{ currentPageUsuarios }} de {{ totalPagesUsuarios }}</span>
+                    <button (click)="nextPageUsuarios()" [disabled]="currentPageUsuarios === totalPagesUsuarios"
+                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

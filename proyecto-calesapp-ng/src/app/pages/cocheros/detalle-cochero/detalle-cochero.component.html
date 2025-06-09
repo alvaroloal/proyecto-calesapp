@@ -1,0 +1,30 @@
+<section class="container mx-auto p-6">
+    <div *ngIf="loading" class="text-center text-gray-500">Cargando cochero...</div>
+
+    <div *ngIf="!loading && cochero" class="bg-white shadow-md rounded-md p-6">
+        <h1 class="text-2xl font-bold mb-4">Detalle de cochero</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+                <strong>Nombre:</strong>
+                <p>{{ cochero.nombre }}</p>
+            </div>
+            <div>
+                <strong>Apellidos:</strong>
+                <p>{{ cochero.apellidos }}</p>
+            </div>
+            <div>
+                <strong>Experiencia:</strong>
+                <p>{{ cochero.experiencia }}</p>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <a routerLink="/" class="text-blue-600 hover:underline">← Volver</a>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && !cochero" class="text-center text-red-500">
+        No se pudo cargar la información del cochero.
+    </div>
+</section>

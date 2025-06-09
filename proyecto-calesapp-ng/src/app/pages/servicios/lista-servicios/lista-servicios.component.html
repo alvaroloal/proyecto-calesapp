@@ -1,0 +1,103 @@
+<div class="bg-gray-100 min-h-screen p-4 sm:p-6 lg:p-8">
+    <div class="container mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-2xl font-bold text-center text-gray-800 mb-12">
+                Nuestros Servicios
+            </h1>
+            <p class="text-lg text-gray-600 mt-2">Ofrecemos una variedad de paseos y experiencias en
+                coche de caballos para adaptarnos a tus necesidades.</p>
+        </div>
+
+        <div *ngIf="!servicios || servicios.length === 0" class="text-center py-16 bg-white rounded-lg shadow-md">
+            <svg class="mx-auto h-16 w-16 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+            <h3 class="mt-4 text-xl font-medium text-gray-800">No hay servicios disponibles</h3>
+            <p class="mt-2 text-sm text-gray-500">
+                Por favor, vuelve a intentarlo más tarde.
+            </p>
+        </div>
+
+        <div *ngIf="servicios && servicios.length > 0" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+            @for (servicio of servicios; track servicio.id) {
+            <div
+                class="bg-white rounded-2xl shadow-lg border border-gray-200 flex flex-col transform hover:scale-105 transition-transform duration-300">
+
+                <div class="p-8">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 mx-auto mb-6">
+                        <svg *ngIf="servicio.tipoServicio === 'TRANSPORTE'" class="h-8 w-8 text-indigo-600"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
+                        <svg *ngIf="servicio.tipoServicio === 'EVENTO'" class="h-8 w-8 text-indigo-600"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0h18M12 15.75h.008v.008H12v-.008z" />
+                        </svg>
+                        <svg *ngIf="servicio.tipoServicio === 'PASEO'" class="h-8 w-8 text-indigo-600"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0h18M12 15.75h.008v.008H12v-.008z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-center text-gray-800">{{ servicio.tipoServicio }}</h2>
+
+                    <p class="text-center mt-4">
+                        <span class="text-5xl font-extrabold text-gray-900">{{ servicio.tarifa | currency:'EUR'
+                            }}</span>
+                    </p>
+                </div>
+
+                <div class="px-8 pb-8 flex-grow">
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-indigo-500 mr-3 mt-1 flex-shrink-0" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Duración: <strong>{{ servicio.duracion }} minutos</strong></span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-indigo-500 mr-3 mt-1 flex-shrink-0" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>{{ servicio.descripcion }}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 mr-3 mt-1 flex-shrink-0"
+                                [ngClass]="servicio.disponibilidad ? 'text-green-500' : 'text-gray-400'" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span
+                                [ngClass]="servicio.disponibilidad ? 'font-semibold text-green-600' : 'text-gray-500'">
+                                {{ servicio.disponibilidad ? 'Disponible' : 'No Disponible' }}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-8 bg-gray-50 rounded-b-2xl mt-auto">
+                    <a [routerLink]="['/servicios', servicio.id]"
+                        [ngClass]="servicio.disponibilidad ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
+                        class="w-full inline-block text-center px-6 py-4 font-semibold rounded-lg shadow-md transition-all duration-200">
+                        {{ servicio.disponibilidad ? 'Solicitar Servicio' : 'No disponible' }}
+                    </a>
+                </div>
+            </div>
+            }
+        </div>
+
+    </div>
+</div>

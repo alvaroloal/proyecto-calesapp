@@ -1,0 +1,54 @@
+<header class="bg-[var(--bg-color-yellow)] text-white shadow-lg">
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+            <a routerLink="/" class="text-2xl font-bold tracking-tight">
+                Calesapp
+            </a>
+
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6 items-center">
+                    <li><a routerLink="/paradas"
+                            class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Paradas</a>
+                    </li>
+                    <li><a routerLink="/cocheros"
+                            class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Cocheros</a>
+                    </li>
+                    <li><a routerLink="/servicios"
+                            class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Servicios</a>
+                    </li>
+                    <li><a routerLink="/valoraciones"
+                            class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Valoraciones</a>
+                    </li>
+
+                    <ng-container *ngIf="!(authService.currentUser | async); else authenticatedUser">
+                        <li><a routerLink="/login"
+                                class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">Log
+                                in</a> </li>
+                        <li><a routerLink="/register"
+                                class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">Registrarse</a>
+                        </li>
+                    </ng-container>
+
+                    <ng-template #authenticatedUser>
+                        <ng-container *ngIf="authService.currentUser | async as user">
+                            <li class="font-medium"> Hola, {{ user.username }}
+                            </li>
+                            <li>
+                                <button (click)="callLogout()"
+                                    class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold transition-colors duration-200 rounded-md">
+                                    Cerrar Sesión
+                                </button>
+                            </li>
+                        </ng-container>
+                    </ng-template>
+
+                    <li><a routerLink="/admin"
+                            class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">ADMIN</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+
+    </div>
+</header>
