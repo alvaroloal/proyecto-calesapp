@@ -7,7 +7,7 @@ import { Cochero } from '../../models/cochero.model';
   providedIn: 'root'
 })
 export class CocherosService {
-  private apiUrl = 'http://localhost:8080/api/cocheros';
+  private apiUrl = '/api/cocheros';
 
   constructor(private http: HttpClient) { }
 

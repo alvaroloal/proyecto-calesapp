@@ -7,7 +7,7 @@ import { Valoracion } from '../../models/valoracion.model';
   providedIn: 'root'
 })
 export class ValoracionesService {
-  private apiUrl = 'http://localhost:8080/api/valoraciones';
+  private apiUrl = '/api/valoraciones';
 
   constructor(private http: HttpClient) { }
 

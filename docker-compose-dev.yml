@@ -1,0 +1,83 @@
+services:
+  # servicio PostgreSQL
+  db:
+    image: postgres:16-alpine
+    container_name: postgresql-spring-dev
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=calesappdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata-dev:/var/lib/postgresql/data
+    networks:
+      - calesapp-network
+    restart: on-failure
+
+
+  # servicio pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-spring-dev
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: 1
+      PGADMIN_CONFIG_WTF_CSRF_CHECK_DEFAULT: 'False'
+      PGADMIN_CONFIG_WTF_CSRF_ENABLED: 'False'
+    volumes:
+      - pgadmin-data-dev:/var/lib/pgadmin
+    depends_on:
+      db:
+        condition: service_started
+    networks:
+      - calesapp-network
+    restart: on-failure
+
+
+  # servicio api Spring Boot
+  spring-boot-api:
+    build: 
+      context: ./calesapp
+      dockerfile: Dockerfile
+    container_name: calesapp
+    restart: always      
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/calesappdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+    ports:
+      - "8080:8080"
+  
+    networks:
+      - calesapp-network
+
+  nginx:
+    build:
+      context: ./proyecto-calesapp-ng
+      dockerfile: Dockerfile
+    container_name: calesapp-frontend
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - ./proyecto-calesapp-ng/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./proyecto-calesapp-ng:/app
+    depends_on:
+      - spring-boot-api
+      - pgadmin
+    networks:
+      - calesapp-network
+
+  
+networks:
+  calesapp-network:
+    driver: bridge
+
+volumes:
+  pgdata-dev:
+  pgadmin-data-dev:

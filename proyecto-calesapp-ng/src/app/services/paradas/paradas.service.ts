@@ -7,7 +7,7 @@ import { Parada } from '../../models/parada.model';
   providedIn: 'root'
 })
 export class ParadasService {
-  private apiUrl = 'http://localhost:8080/api/paradas';
+  private apiUrl = '/api/paradas';
 
   constructor(private http: HttpClient) { }
 
