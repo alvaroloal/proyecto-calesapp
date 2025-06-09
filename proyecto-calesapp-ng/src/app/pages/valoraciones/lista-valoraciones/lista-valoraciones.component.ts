@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { Valoracion } from '../../../models/valoracion.model';
 import { ValoracionesService } from '../../../services/valoraciones/valoraciones.service';
 
