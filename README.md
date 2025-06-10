@@ -45,8 +45,12 @@ La aplicación dispone de distintos perfiles de configuración que se adaptan al
   ```
   Ejecuta la aplicación en un contenedor Docker con acceso a PGAdmin, y muestra mensajes de consultas SQL en consola.
 
+   Ejecutar docker-compose desde la raiz del repositorio:
+  ```bash
+  docker-compose -f docker-compose-dev.yml up -d --build
+  ```
    ```bash
-     docker-compose -f docker-compose-dev.yml down --remove-orphans
+   docker-compose -f docker-compose-dev.yml down --remove-orphans
   ```
 - **Producción**
   ```bash
