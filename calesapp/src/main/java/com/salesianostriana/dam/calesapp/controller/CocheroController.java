@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class CocheroController {
                         @ApiResponse(responseCode = "204", description = "No se encontraron cocheros")
         })
         public ResponseEntity<CocheroListDTO> getAllCocheros(
-                        @Parameter(hidden = true) @PageableDefault(size = 10, page = 0) Pageable pageable) {
+                        @Parameter(hidden = true) @PageableDefault(size = 15, page = 0) Pageable pageable) {
 
                 Page<Cochero> cocheroPage = cocheroService.findAll(pageable);
 
@@ -89,7 +91,7 @@ public class CocheroController {
                         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
         })
         public ResponseEntity<CocheroDTO> createCochero(
-                        @Parameter(description = "Datos del cochero a crear", required = true) @RequestBody CreateUpdateCocheroDTO cocheroDTO) {
+                        @Parameter(description = "Datos del cochero a crear", required = true) @RequestBody @Valid CreateUpdateCocheroDTO cocheroDTO) {
                 Cochero createdCochero = cocheroService.create(cocheroDTO);
                 return ResponseEntity.ok(CocheroDTO.fromEntity(createdCochero));
         }

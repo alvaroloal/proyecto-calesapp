@@ -5,7 +5,6 @@ import com.salesianostriana.dam.calesapp.error.CustomException;
 import com.salesianostriana.dam.calesapp.model.Parada;
 import com.salesianostriana.dam.calesapp.repository.CiudadRepository;
 import com.salesianostriana.dam.calesapp.repository.ParadaRepository;
-import com.salesianostriana.dam.calesapp.user.query.ParadaSpecificationBuilder;
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.domain.Specification;
@@ -101,29 +100,12 @@ public class ParadaService {
         return paradaRepository.save(parada);
     }
 
-    // search sin paginacion
-    // public List<Parada> search(List<SearchCriteria> searchCriteriaList) {
-    // ParadaSpecificationBuilder paradaSpecificationBuilder = new
-    // ParadaSpecificationBuilder(searchCriteriaList);
-    // Specification<Parada> where = paradaSpecificationBuilder.build();
-    // return paradaRepository.findAll(where);
-    // }
-
-    // public Page<Parada> search(List<SearchCriteria> searchCriteriaList, Pageable
-    // pageable) {
-    // ParadaSpecificationBuilder paradaSpecificationBuilder = new
-    // ParadaSpecificationBuilder(searchCriteriaList);
-    // Specification<Parada> where = paradaSpecificationBuilder.build();
-    // return paradaRepository.findAll(where, pageable);
-    // }
-
-    public List<Parada> searchByNombre(String nombre) {
-        return paradaRepository.findByNombre(nombre);
-    }
-
     public Page<Parada> search(List<SearchCriteria> criteria, Pageable pageable) {
         Specification<Parada> spec = ParadaSpecification.withCriteria(criteria);
         return paradaRepository.findAll(spec, pageable);
     }
 
+    public List<Parada> buscarPorNombre(String nombre) {
+        return paradaRepository.findByNombre(nombre);
+    }
 }

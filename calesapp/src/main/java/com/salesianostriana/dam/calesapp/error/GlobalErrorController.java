@@ -2,6 +2,7 @@ package com.salesianostriana.dam.calesapp.error;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.tomcat.websocket.AuthenticationException;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.net.URI;
 
 @RestControllerAdvice
+@Order(2)
 public class GlobalErrorController
         extends ResponseEntityExceptionHandler {
 
@@ -24,13 +26,12 @@ public class GlobalErrorController
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ProblemDetail handleAuthenticationError(AuthenticationException ex){
+    public ProblemDetail handleAuthenticationError(AuthenticationException ex) {
         ProblemDetail result = ProblemDetail
                 .forStatusAndDetail(HttpStatus.UNAUTHORIZED,
                         ex.getMessage());
         result.setTitle("Operación no permitida");
         return result;
     }
-
 
 }
