@@ -4,11 +4,16 @@ import com.salesianostriana.dam.calesapp.dto.cochero.CreateUpdateCocheroDTO;
 import com.salesianostriana.dam.calesapp.error.CustomException;
 import com.salesianostriana.dam.calesapp.model.Cochero;
 import com.salesianostriana.dam.calesapp.repository.CocheroRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
+import com.salesianostriana.dam.calesapp.specification.SearchCriteria;
+import com.salesianostriana.dam.calesapp.specification.cochero.CocheroSpecification;
 
+import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.domain.Specification;
 
 @Service
 @Transactional
@@ -18,6 +23,14 @@ public class CocheroService {
 
     public CocheroService(CocheroRepository cocheroRepository) {
         this.cocheroRepository = cocheroRepository;
+    }
+
+    public Page<Cochero> findAll(Pageable pageable) {
+        try {
+            return cocheroRepository.findAll(pageable);
+        } catch (Exception e) {
+            throw new CustomException("Error al buscar cocheros paginados");
+        }
     }
 
     public List<Cochero> findAll() {
@@ -79,4 +92,21 @@ public class CocheroService {
         cochero.setExperiencia(cocheroDTO.experiencia());
         return cocheroRepository.save(cochero);
     }
+
+    public Page<Cochero> search(List<SearchCriteria> params, Pageable pageable) {
+        Specification<Cochero> spec = Specification.where(null);
+        for (SearchCriteria param : params) {
+            spec = spec.and(new CocheroSpecification(param));
+        }
+        return cocheroRepository.findAll(spec, pageable);
+    }
+
+    public List<Cochero> searchByNombre(String nombre) {
+        try {
+            return cocheroRepository.findByNombre(nombre);
+        } catch (Exception e) {
+            throw new CustomException("Error al buscar cocheros por nombre");
+        }
+    }
+
 }
