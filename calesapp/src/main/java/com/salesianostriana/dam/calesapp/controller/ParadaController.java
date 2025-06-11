@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -75,7 +76,7 @@ public class ParadaController {
                         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
         })
         public ResponseEntity<ParadaDTO> createParada(
-                        @Parameter(description = "Datos de la parada a crear", required = true) @RequestBody CreateUpdateParadaDTO paradaDTO) {
+                        @Parameter(description = "Datos de la parada a crear", required = true) @RequestBody @Valid CreateUpdateParadaDTO paradaDTO) {
                 Parada createdParada = paradaService.create(paradaDTO);
                 return ResponseEntity.ok(ParadaDTO.fromEntity(createdParada));
         }
@@ -112,11 +113,11 @@ public class ParadaController {
 
         @GetMapping("/buscar-nombre")
         public ResponseEntity<List<ParadaDTO>> buscarPorNombre(@RequestParam("nombre") String nombre) {
-                List<Parada> resultado = paradaService.searchByNombre(nombre);
-                List<ParadaDTO> dtoList = resultado.stream()
+                List<Parada> resultados = paradaService.buscarPorNombre(nombre);
+                List<ParadaDTO> resultadoDTO = resultados.stream()
                                 .map(ParadaDTO::fromEntity)
                                 .toList();
-                return ResponseEntity.ok(dtoList);
+                return ResponseEntity.ok(resultadoDTO);
         }
 
 }

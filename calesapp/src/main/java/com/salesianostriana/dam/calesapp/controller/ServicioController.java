@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +61,7 @@ public class ServicioController {
                         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
         })
         public ResponseEntity<ServicioDTO> createServicio(
-                        @Parameter(description = "Datos del servicio a crear", required = true) @RequestBody CreateUpdateServicioDTO servicioDTO) {
+                        @Parameter(description = "Datos del servicio a crear", required = true) @RequestBody @Valid CreateUpdateServicioDTO servicioDTO) {
                 Servicio createdServicio = servicioService.create(servicioDTO);
                 return ResponseEntity.ok(ServicioDTO.fromEntity(createdServicio));
         }
