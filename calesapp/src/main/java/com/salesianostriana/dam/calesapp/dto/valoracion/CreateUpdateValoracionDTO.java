@@ -1,6 +1,8 @@
 package com.salesianostriana.dam.calesapp.dto.valoracion;
 
 import com.salesianostriana.dam.calesapp.model.Valoracion;
+import com.salesianostriana.dam.calesapp.validation.annotations.FechaPasada;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.validation.constraints.*;
@@ -14,7 +16,7 @@ public record CreateUpdateValoracionDTO(
 
         @NotBlank(message = "El comentario no puede estar vacío") @Size(max = 500, message = "El comentario no puede superar los 500 caracteres") @Schema(description = "Comentario de la valoración", example = "Todo perfecto, repetiré sin duda") String comentario,
 
-        @NotNull(message = "La fecha es obligatoria") @PastOrPresent(message = "La fecha no puede ser futura") @Schema(description = "Fecha de la valoracion", example = "2024-01-15") LocalDate fecha,
+        @NotNull(message = "La fecha es obligatoria") @PastOrPresent(message = "La fecha no puede ser futura") @Schema(description = "Fecha de la valoracion", example = "2024-01-15") @FechaPasada(message = "La fecha de la valoración no puede ser futura") LocalDate fecha,
 
         @NotNull(message = "El id del usuario es obligatorio") @Schema(description = "ID del usuario", example = "550e8400-e29b-41d4-a716-446655440000") UUID usuarioId,
 

@@ -23,13 +23,10 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    // @NaturalId
-    // @Column(name = "nombre_usuario", unique = true, updatable = false)
     private String username;
 
     private String password;
 
-    // @ElementCollection(fetch = FetchType.EAGER)
     private UsuarioRole rol;
 
     private boolean enabled = true;
