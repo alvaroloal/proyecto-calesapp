@@ -12,7 +12,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,17 +23,15 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     public Usuario createUser(CreateUsuarioRequest createUsuarioRequest) {
         Usuario usuario = new Usuario();
-        /*VALIDAR QUE EXISTA Y QUE EL NOMBRE DE USUARIO NO EXISTA*/
-        if(createUsuarioRequest.rol().equals(UsuarioRole.USER))
+        if (createUsuarioRequest.rol().equals(UsuarioRole.USER))
             usuario.setRol(UsuarioRole.valueOf(UsuarioRole.USER.name()));
-            else{
-                usuario.setRol(UsuarioRole.valueOf(UsuarioRole.ADMIN.name()));
+        else {
+            usuario.setRol(UsuarioRole.valueOf(UsuarioRole.ADMIN.name()));
         }
-            usuario.setUsername(createUsuarioRequest.username());
-            usuario.setPassword(passwordEncoder.encode(createUsuarioRequest.password()));
+        usuario.setUsername(createUsuarioRequest.username());
+        usuario.setPassword(passwordEncoder.encode(createUsuarioRequest.password()));
         return usuarioRepository.save(usuario);
     }
 
@@ -88,14 +85,11 @@ public class UsuarioService {
 
     public List<Usuario> search(List<SearchCriteria> searchCriteriaList) {
 
-        UserSpecificationBuilder userSpecificationBuilder
-                = new UserSpecificationBuilder(searchCriteriaList);
+        UserSpecificationBuilder userSpecificationBuilder = new UserSpecificationBuilder(searchCriteriaList);
 
         Specification<Usuario> where = userSpecificationBuilder.build();
 
         return usuarioRepository.findAll(where);
     }
-
-
 
 }
