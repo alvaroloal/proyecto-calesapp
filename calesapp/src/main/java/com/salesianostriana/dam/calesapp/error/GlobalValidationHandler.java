@@ -16,7 +16,7 @@ import java.util.Map;
 public class GlobalValidationHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, Object>> handleValidationErrors(MethodArgumentNotValidException ex) {
 
         Map<String, String> errores = new HashMap<>();
 
@@ -26,6 +26,12 @@ public class GlobalValidationHandler {
             errores.put(campo, mensaje);
         });
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("status", HttpStatus.BAD_REQUEST.value());
+        respuesta.put("error", "Error de validación");
+        respuesta.put("mensajes", errores);
+        respuesta.put("ruta", ex.getBindingResult().getTarget().getClass().getSimpleName());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
     }
 }
