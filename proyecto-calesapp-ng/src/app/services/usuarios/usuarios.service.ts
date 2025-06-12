@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario } from '../../models/usuario.model';
+import { AuthService } from '../auth/auth.service';
 
 
 @Injectable({
@@ -9,11 +10,18 @@ import { Usuario } from '../../models/usuario.model';
 })
 export class UsuarioService {
 
-  private apiUrl = 'http://localhost:8080/api/usuarios';
+  private apiUrl = '/api/usuarios';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.apiUrl);
+    const token = this.authService.getJwtToken();
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<Usuario[]>(this.apiUrl, { headers });
+
   }
 }
