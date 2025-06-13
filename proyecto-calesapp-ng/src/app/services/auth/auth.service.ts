@@ -42,6 +42,8 @@ export interface LoginResponseData {
 export interface UserData {
   id: string;
   username: string;
+  rol: string;
+
 }
 
 interface DecodedToken {
@@ -49,6 +51,7 @@ interface DecodedToken {
   iat: number;
   sub?: string;
   username?: string;
+  rol?: string;
 }
 
 @Injectable({
@@ -79,7 +82,11 @@ export class AuthService {
       try {
         const decodedToken = jwtDecode<DecodedToken>(token);
         if (decodedToken.exp * 1000 > Date.now()) {
-          return { id: decodedToken.sub || '', username: decodedToken.username || '' };
+          return {
+            id: decodedToken.sub || '',
+            username: decodedToken.username || '',
+            rol: decodedToken.rol || ''
+          };
         } else {
           this.clearTokens();
         }
@@ -123,24 +130,33 @@ export class AuthService {
           if (response && response.token && response.refreshToken) {
             this.saveJwtToken(response.token);
             this.saveRefreshToken(response.refreshToken);
+
+            let userData: UserData;
+
             try {
               const decodedToken = jwtDecode<DecodedToken>(response.token);
-              const userData: UserData = {
-                id: response.id || decodedToken.sub || '',
-                username: response.username || decodedToken.username || ''
+              userData = {
+                id: response.id ?? decodedToken.sub ?? '',
+                username: response.username ?? decodedToken.username ?? '',
+                rol: decodedToken.rol ?? ''
               };
-              this.currentUserSubject.next(userData);
             } catch (error) {
               console.error("Error decodificando token tras login:", error);
-              this.currentUserSubject.next({ id: response.id, username: response.username });
+              userData = {
+                id: response.id ?? '',
+                username: response.username ?? '',
+                rol: ''
+              };
             }
+            this.currentUserSubject.next(userData);
           } else {
-            this.logout();
+            this.logout(); // manejo de error si no hay token
           }
         }),
         catchError(this.handleError)
       );
   }
+
 
   saveJwtToken(token: string): void {
     if (isPlatformBrowser(this.platformId)) {

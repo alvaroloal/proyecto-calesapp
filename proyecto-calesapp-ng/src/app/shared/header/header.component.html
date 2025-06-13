@@ -21,30 +21,37 @@
                     </li>
 
                     <ng-container *ngIf="!(authService.currentUser | async); else authenticatedUser">
-                        <li><a routerLink="/login"
-                                class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">Log
-                                in</a> </li>
-                        <li><a routerLink="/register"
-                                class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">Registrarse</a>
+                        <li>
+                            <a routerLink="/login"
+                                class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">
+                                Iniciar sesión
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/register"
+                                class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">
+                                Registrarse
+                            </a>
                         </li>
                     </ng-container>
 
                     <ng-template #authenticatedUser>
                         <ng-container *ngIf="authService.currentUser | async as user">
-                            <li class="font-medium"> Hola, {{ user.username }}
-                            </li>
+                            <li class="font-medium">Hola, {{ user.username }}</li>
                             <li>
                                 <button (click)="callLogout()"
                                     class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold transition-colors duration-200 rounded-md">
-                                    Cerrar Sesión
+                                    Cerrar sesión
                                 </button>
+                            </li>
+                            <li *ngIf="user.rol === 'ADMIN'">
+                                <a routerLink="/admin"
+                                    class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">
+                                    ADMIN
+                                </a>
                             </li>
                         </ng-container>
                     </ng-template>
-
-                    <li><a routerLink="/admin"
-                            class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">ADMIN</a>
-                    </li>
                 </ul>
             </nav>
         </div>

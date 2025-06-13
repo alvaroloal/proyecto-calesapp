@@ -44,14 +44,12 @@ public class JwtService {
 
     public String generateAccessToken(Usuario user) {
 
-        Date tokeExpirationDate =
-                Date.from(
-                        LocalDateTime
-                                .now()
-                                .plusMinutes(jwtLifeInMinutes)
-                                .atZone(ZoneId.systemDefault())
-                                .toInstant()
-                );
+        Date tokeExpirationDate = Date.from(
+                LocalDateTime
+                        .now()
+                        .plusMinutes(jwtLifeInMinutes)
+                        .atZone(ZoneId.systemDefault())
+                        .toInstant());
 
         return Jwts.builder()
                 .header().type(TOKEN_TYPE)
@@ -59,9 +57,11 @@ public class JwtService {
                 .subject(user.getId().toString())
                 .issuedAt(new Date())
                 .expiration(tokeExpirationDate)
+                .claim("username", user.getUsername())
+                // añadir al payload el rol del usuario
+                .claim("rol", user.getRol().name())
                 .signWith(secretKey)
                 .compact();
-
 
     }
 
@@ -70,15 +70,21 @@ public class JwtService {
         return UUID.fromString(sub);
     }
 
-
     public boolean validateAccessToken(String token) {
 
         try {
             jwtParser.parseClaimsJws(token);
             return true;
-        } catch(SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException
+                | IllegalArgumentException ex) {
             throw new JwtException(ex.getMessage());
         }
 
     }
+
+    // obtener el rol desde el token
+    public String getRolFromAccessToken(String token) {
+        return jwtParser.parseClaimsJws(token).getBody().get("rol", String.class);
+    }
+
 }
