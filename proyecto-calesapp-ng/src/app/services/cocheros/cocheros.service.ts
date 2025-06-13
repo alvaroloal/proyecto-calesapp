@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Cochero } from '../../models/cochero.model';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Cochero } from '../../models/cochero.model';
 export class CocherosService {
   private apiUrl = '/api/cocheros';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getCocheros(): Observable<Cochero[]> {
     return this.http.get<{ count: number; items: Cochero[] }>(this.apiUrl)
@@ -18,6 +19,15 @@ export class CocherosService {
 
   getCocheroById(id: number): Observable<Cochero> {
     return this.http.get<Cochero>(`${this.apiUrl}/${id}`);
+  }
+
+
+  eliminarCochero(id: number): Observable<void> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
 }
 
