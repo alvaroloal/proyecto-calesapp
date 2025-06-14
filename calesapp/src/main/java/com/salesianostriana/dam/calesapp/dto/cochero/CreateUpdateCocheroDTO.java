@@ -9,13 +9,13 @@ public record CreateUpdateCocheroDTO(
 
         @NotBlank(message = "Los apellidos no pueden estar vacíos") @Size(min = 2, max = 100, message = "Los apellidos deben tener entre 2 y 100 caracteres") String apellidos,
 
-        @NotNull(message = "La experiencia es obligatoria") @PositiveOrZero(message = "La experiencia debe ser un número positivo o cero") Double experiencia
+        @NotNull(message = "La mediaValoracion es obligatoria") @PositiveOrZero(message = "La mediaValoracion debe ser un número positivo o cero") Double mediaValoracion
 
 ) {
     public static CreateUpdateCocheroDTO fromEntity(Cochero cochero) {
         return new CreateUpdateCocheroDTO(
                 cochero.getNombre(),
                 cochero.getApellidos(),
-                cochero.getExperiencia());
+                cochero.getMediaValoracion());
     }
 }

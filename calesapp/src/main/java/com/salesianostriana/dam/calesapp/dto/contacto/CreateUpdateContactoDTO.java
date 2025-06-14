@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.salesianostriana.dam.calesapp.validation.annotations.SinPalabrasProhibidas;
 
@@ -15,12 +16,16 @@ public record CreateUpdateContactoDTO(
 
         @NotNull(message = "La fecha es obligatoria") @Schema(description = "Fecha del contacto", example = "2024-01-15") LocalDate fecha,
 
-        @NotNull(message = "El id del servicio es obligatorio") @Schema(description = "ID del servicio", example = "1") Long servicioId) {
+        @NotNull(message = "El id del servicio es obligatorio") @Schema(description = "ID del servicio", example = "1") Long servicioId,
+
+        @NotNull(message = "El id del usuario es obligatorio") @Schema(description = "ID del servicio", example = "1") UUID usuarioId) {
 
     public static CreateUpdateContactoDTO fromEntity(Contacto contacto) {
         return new CreateUpdateContactoDTO(
                 contacto.getMensaje(),
                 contacto.getFecha(),
-                contacto.getServicio().getId());
+                contacto.getServicio().getId(),
+                contacto.getUsuario().getId());
+
     }
 }

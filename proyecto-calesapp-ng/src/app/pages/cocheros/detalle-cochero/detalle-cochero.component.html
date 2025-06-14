@@ -14,10 +14,35 @@
                 <p>{{ cochero.apellidos }}</p>
             </div>
             <div>
-                <strong>Experiencia:</strong>
-                <p>{{ cochero.experiencia }}</p>
+                <strong>Valoración media:</strong>
+                <p>{{ cochero.mediaValoracion }}</p>
             </div>
         </div>
+
+        <form (ngSubmit)="contactar()" #formulario="ngForm">
+            <label for="parada">Parada:
+                <select id="parada" name="parada" [(ngModel)]="form.parada" required>
+                    <option *ngFor="let parada of paradas" [value]="parada.nombre">{{ parada.nombre }}</option>
+                </select>
+            </label>
+            <label for="tipoServicio">Servicio:
+                <select id="tipoServicio" name="tipoServicio" [(ngModel)]="form.tipoServicio" required>
+                    <option *ngFor="let servicio of servicios" [value]="servicio.id">{{ servicio.tipoServicio
+                        }}</option>
+                </select>
+            </label>
+            <label for="fecha">Fecha:
+                <input type="date" name="fecha" id="fecha" [(ngModel)]="form.fecha" required>
+            </label>
+
+            <label for="comentario">Comentario:
+                <input type="" name="comentario" id="comentario" [(ngModel)]="form.comentario" required>
+            </label>
+
+
+
+            <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Enviar solicitud</button>
+        </form>
 
         <div class="mt-6">
             <a routerLink="/" class="text-blue-600 hover:underline">← Volver</a>

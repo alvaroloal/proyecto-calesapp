@@ -52,7 +52,9 @@ services:
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
     ports:
       - "8080:8080"
-  
+    depends_on:
+      db:
+        condition: service_started
     networks:
       - calesapp-network
 

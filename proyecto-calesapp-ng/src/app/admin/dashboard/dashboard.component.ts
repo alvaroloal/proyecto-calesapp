@@ -678,7 +678,7 @@ export class DashboardComponent implements OnInit {
       html: `
       <input id="nombre" type="text" class="swal2-input" placeholder="Nombre">
       <input id="apellidos" type="text" class="swal2-input" placeholder="Apellidos">
-      <input id="experiencia" type="number" min="0" step="0.1" class="swal2-input" placeholder="Experiencia (años)">
+      <input id="mediaValoracion" type="number" min="0" step="0.1" class="swal2-input" placeholder="mediaValoracion (años)">
     `,
       showCancelButton: true,
       confirmButtonText: 'Crear',
@@ -686,17 +686,17 @@ export class DashboardComponent implements OnInit {
       preConfirm: () => {
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value.trim();
         const apellidos = (document.getElementById('apellidos') as HTMLInputElement).value.trim();
-        const experiencia = parseFloat((document.getElementById('experiencia') as HTMLInputElement).value);
+        const mediaValoracion = parseFloat((document.getElementById('mediaValoracion') as HTMLInputElement).value);
 
-        if (!nombre || !apellidos || isNaN(experiencia) || experiencia < 0) {
-          Swal.showValidationMessage('Todos los campos son obligatorios y la experiencia debe ser válida.');
+        if (!nombre || !apellidos || isNaN(mediaValoracion) || mediaValoracion < 0) {
+          Swal.showValidationMessage('Todos los campos son obligatorios y la mediaValoracion debe ser válida.');
           return;
         }
 
         return {
           nombre,
           apellidos,
-          experiencia
+          mediaValoracion
         };
       }
     }).then(result => {
@@ -737,7 +737,7 @@ export class DashboardComponent implements OnInit {
       html: `
       <input id="nombre" type="text" class="swal2-input" placeholder="Nombre" value="${cochero.nombre}">
       <input id="apellidos" type="text" class="swal2-input" placeholder="Apellidos" value="${cochero.apellidos}">
-      <input id="experiencia" type="number" min="0" step="0.1" class="swal2-input" placeholder="Experiencia (años)" value="${cochero.experiencia}">
+      <input id="mediaValoracion" type="number" min="0" step="0.1" class="swal2-input" placeholder="mediaValoracion (años)" value="${cochero.mediaValoracion}">
     `,
       showCancelButton: true,
       confirmButtonText: 'Actualizar',
@@ -745,10 +745,10 @@ export class DashboardComponent implements OnInit {
       preConfirm: () => {
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value.trim();
         const apellidos = (document.getElementById('apellidos') as HTMLInputElement).value.trim();
-        const experiencia = parseFloat((document.getElementById('experiencia') as HTMLInputElement).value);
+        const mediaValoracion = parseFloat((document.getElementById('mediaValoracion') as HTMLInputElement).value);
 
-        if (!nombre || !apellidos || isNaN(experiencia) || experiencia < 0) {
-          Swal.showValidationMessage('Todos los campos son obligatorios y la experiencia debe ser válida.');
+        if (!nombre || !apellidos || isNaN(mediaValoracion) || mediaValoracion < 0) {
+          Swal.showValidationMessage('Todos los campos son obligatorios y la mediaValoracion debe ser válida.');
           return;
         }
 
@@ -756,7 +756,7 @@ export class DashboardComponent implements OnInit {
           id: cochero.id,
           nombre,
           apellidos,
-          experiencia
+          mediaValoracion
         } as Cochero;
       }
     }).then(result => {

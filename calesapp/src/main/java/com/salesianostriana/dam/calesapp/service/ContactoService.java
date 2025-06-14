@@ -6,6 +6,9 @@ import com.salesianostriana.dam.calesapp.model.Contacto;
 import com.salesianostriana.dam.calesapp.model.Servicio;
 import com.salesianostriana.dam.calesapp.repository.ContactoRepository;
 import com.salesianostriana.dam.calesapp.repository.ServicioRepository;
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
+import com.salesianostriana.dam.calesapp.user.repository.UsuarioRepository;
+
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +21,13 @@ public class ContactoService {
 
     private final ContactoRepository contactoRepository;
     private final ServicioRepository servicioRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public ContactoService(ContactoRepository contactoRepository, ServicioRepository servicioRepository) {
+    public ContactoService(ContactoRepository contactoRepository, ServicioRepository servicioRepository,
+            UsuarioRepository usuarioRepository) {
         this.contactoRepository = contactoRepository;
         this.servicioRepository = servicioRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public List<Contacto> findAll() {
@@ -43,6 +49,7 @@ public class ContactoService {
     public Contacto create(CreateUpdateContactoDTO contactoDTO) {
         try {
             Contacto contacto = new Contacto();
+            System.out.println(contactoDTO);
             return updateContactoFromDTO(contacto, contactoDTO);
         } catch (Exception e) {
             throw new CustomException("Error al crear contacto");
@@ -89,6 +96,8 @@ public class ContactoService {
         contacto.setFecha(contactoDTO.fecha());
         Servicio servicio = servicioRepository.findById(contactoDTO.servicioId()).get();
         contacto.setServicio(servicio);
+        Usuario usuario = usuarioRepository.findById(contactoDTO.usuarioId()).get();
+        contacto.setUsuario(usuario);
         return contactoRepository.save(contacto);
     }
 

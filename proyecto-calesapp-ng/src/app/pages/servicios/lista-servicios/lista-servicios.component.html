@@ -1,9 +1,9 @@
-<div class="bg-gray-100 min-h-screen p-4 sm:p-6 lg:p-8">
+<div class="relative w-full max-w-7xl mx-auto rounded-xl shadow-lg overflow-hidden mb-10">
+    <h1 class="text-2xl font-bold text-left text-gray-800 mb-12">
+        Nuestros servicios
+    </h1>
     <div class="container mx-auto">
-        <div class="text-center mb-12">
-            <h1 class="text-2xl font-bold text-center text-gray-800 mb-12">
-                Nuestros Servicios
-            </h1>
+        <div class="text-left mb-12">
             <p class="text-lg text-gray-600 mt-2">Ofrecemos una variedad de paseos y experiencias en
                 coche de caballos para adaptarnos a tus necesidades.</p>
         </div>
@@ -89,10 +89,10 @@
                 </div>
 
                 <div class="p-8 bg-gray-50 rounded-b-2xl mt-auto">
-                    <a [routerLink]="['/servicios', servicio.id]"
+                    <a [routerLink]="['/cocheros']"
                         [ngClass]="servicio.disponibilidad ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
                         class="w-full inline-block text-center px-6 py-4 font-semibold rounded-lg shadow-md transition-all duration-200">
-                        {{ servicio.disponibilidad ? 'Solicitar Servicio' : 'No disponible' }}
+                        {{ servicio.disponibilidad ? 'Contratar' : 'No disponible' }}
                     </a>
                 </div>
             </div>

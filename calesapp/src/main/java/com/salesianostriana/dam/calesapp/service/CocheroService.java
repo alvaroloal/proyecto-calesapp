@@ -89,7 +89,7 @@ public class CocheroService {
 
         cochero.setNombre(cocheroDTO.nombre());
         cochero.setApellidos(cocheroDTO.apellidos());
-        cochero.setExperiencia(cocheroDTO.experiencia());
+        cochero.setMediaValoracion(cocheroDTO.mediaValoracion());
         return cocheroRepository.save(cochero);
     }
 
