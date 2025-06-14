@@ -43,7 +43,7 @@ export class ParadasService {
     return this.http.post<Parada>(this.apiUrl, parada, { headers });
   }
 
-  // PUT protegido con token
+
   actualizarParada(parada: Parada): Observable<Parada> {
     const token = this.authService.getJwtToken();
     const headers = new HttpHeaders({

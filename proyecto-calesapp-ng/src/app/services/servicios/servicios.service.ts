@@ -21,6 +21,26 @@ export class ServiciosService {
     return this.http.get<Servicio>(`${this.apiUrl}/${id}`);
   }
 
+  crearServicio(servicio: Servicio): Observable<Servicio> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post<Servicio>(this.apiUrl, servicio, { headers });
+  }
+
+
+  editarServicio(servicio: Servicio): Observable<Servicio> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.put<Servicio>(`${this.apiUrl}/${servicio.id}`, servicio, { headers });
+  }
+
+
   eliminarServicio(id: number): Observable<void> {
     const token = this.authService.getJwtToken();
     const headers = new HttpHeaders({

@@ -21,6 +21,25 @@ export class CocherosService {
     return this.http.get<Cochero>(`${this.apiUrl}/${id}`);
   }
 
+  crearCochero(cochero: Cochero): Observable<Cochero> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post<Cochero>(this.apiUrl, cochero, { headers });
+  }
+
+  editarCochero(cochero: Cochero): Observable<Cochero> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.put<Cochero>(`${this.apiUrl}/${cochero.id}`, cochero, { headers });
+  }
+
+
 
   eliminarCochero(id: number): Observable<void> {
     const token = this.authService.getJwtToken();
