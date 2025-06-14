@@ -29,4 +29,24 @@ export class ValoracionesService {
 
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
+
+  crearValoracion(valoracion: Valoracion): Observable<Valoracion> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<Valoracion>(this.apiUrl, valoracion, { headers });
+  }
+
+  editarValoracion(valoracion: Valoracion): Observable<Valoracion> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    return this.http.put<Valoracion>(`${this.apiUrl}/${valoracion.id}`, valoracion, { headers });
+  }
+
 }

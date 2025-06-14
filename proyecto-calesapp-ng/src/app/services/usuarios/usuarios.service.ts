@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario } from '../../models/usuario.model';
 import { AuthService } from '../auth/auth.service';
+
+import { UsuarioEdit } from '../../models/usuarioEdit.model';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +26,10 @@ export class UsuarioService {
 
   }
 
+  getUsuarioById(id: string): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.apiUrl}/${id}`);
+  }
+
   eliminarUsuario(id: string): Observable<void> {
     const token = this.authService.getJwtToken();
     const headers = new HttpHeaders({
@@ -32,7 +39,14 @@ export class UsuarioService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
 
-  getUsuarioById(id: string): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.apiUrl}/${id}`);
+
+  editarUsuario(id: string, usuario: UsuarioEdit): Observable<Usuario> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.put<Usuario>(`${this.apiUrl}/${id}`, usuario, { headers });
   }
+
 }

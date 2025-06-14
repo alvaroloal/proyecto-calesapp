@@ -20,6 +20,34 @@ export class ContactosService {
     return this.http.get<Contacto>(`${this.apiUrl}/${id}`);
   }
 
+  crearContacto(contacto: Partial<Contacto>): Observable<Contacto> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post<Contacto>(this.apiUrl, contacto, { headers });
+  }
+
+  //crearContacto(contacto: Contacto): Observable<Contacto> {
+  //  const token = this.authService.getJwtToken();
+  //  const headers = new HttpHeaders({
+  //    'Authorization': `Bearer ${token}`
+  //  });
+  //
+  //  return this.http.post<Contacto>(this.apiUrl, contacto, { headers });
+  //}
+
+
+  editarContacto(id: number, contacto: Contacto): Observable<Contacto> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.put<Contacto>(`${this.apiUrl}/${id}`, contacto, { headers });
+  }
+
 
   eliminarContacto(id: number): Observable<void> {
     const token = this.authService.getJwtToken();

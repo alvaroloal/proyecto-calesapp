@@ -14,6 +14,9 @@ import { UsuarioService } from '../../services/usuarios/usuarios.service';
 import { Servicio } from '../../models/servicio.model';
 import { ServiciosService } from '../../services/servicios/servicios.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth/auth.service';
+import { UsuarioEdit } from '../../models/usuarioEdit.model';
+
 
 
 @Component({
@@ -47,7 +50,8 @@ export class DashboardComponent implements OnInit {
     private valoracionesService: ValoracionesService,
     private contactosService: ContactosService,
     private usuariosService: UsuarioService,
-    private serviciosService: ServiciosService
+    private serviciosService: ServiciosService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -60,15 +64,7 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  // navegacion
-  crearValoracion() { this.router.navigate(['/valoraciones/crear']); }
-  crearContacto() { this.router.navigate(['/contactos/crear']); }
-  crearCochero() { this.router.navigate(['/cocheros/crear']); }
-  crearUsuario() { this.router.navigate(['/usuarios/crear']); }
-  crearServicio() { this.router.navigate(['/servicios/crear']); }
-
-
-
+  // CRUD paradas
   crearParadaModal(): void {
     Swal.fire({
       title: 'Crear nueva parada',
@@ -132,7 +128,71 @@ export class DashboardComponent implements OnInit {
     });
   }
   verParada(p: Parada) { this.router.navigate(['/paradas', p.id]); }
-  editarParada(p: Parada) { this.router.navigate(['/paradas/editar', p.id]); }
+  editarParada(parada: Parada): void {
+    Swal.fire({
+      title: 'Editar parada',
+      html: `
+      <input id="nombre" class="swal2-input" placeholder="Nombre" value="${parada.nombre}">
+      <input id="ubicacion" class="swal2-input" placeholder="Ubicación" value="${parada.ubicacion}">
+      <textarea id="descripcion" class="swal2-textarea" placeholder="Descripción">${parada.descripcion}</textarea>
+    `,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Actualizar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const nombre = (document.getElementById('nombre') as HTMLInputElement).value.trim();
+        const ubicacion = (document.getElementById('ubicacion') as HTMLInputElement).value.trim();
+        const descripcion = (document.getElementById('descripcion') as HTMLTextAreaElement).value.trim();
+
+        if (nombre.length < 3) {
+          Swal.showValidationMessage('El nombre debe tener al menos 3 caracteres.');
+          return false;
+        }
+
+        if (ubicacion.length < 3) {
+          Swal.showValidationMessage('La ubicación debe tener al menos 3 caracteres.');
+          return false;
+        }
+
+        if (descripcion.length < 10) {
+          Swal.showValidationMessage('La descripción debe tener al menos 10 caracteres.');
+          return false;
+        }
+
+        return { ...parada, nombre, ubicacion, descripcion };
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const paradaEditada = result.value;
+        this.paradasService.actualizarParada(paradaEditada).subscribe({
+          next: (actualizada) => {
+            // Reemplaza la parada en el array local
+            const index = this.paradas.findIndex(p => p.id === actualizada.id);
+            if (index !== -1) this.paradas[index] = actualizada;
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Parada actualizada',
+              text: 'Los datos se han actualizado correctamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error actualizando parada:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al actualizar',
+              text: err.error?.message || 'No se pudo actualizar la parada.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
+
   eliminarParada(id: number): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -169,9 +229,153 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // CRUD valoraciones
+  crearValoracionModal(): void {
+    Swal.fire({
+      title: 'Nueva Valoración',
+      html: `
+      <input id="puntuacion" type="number" min="1" max="10" class="swal2-input" placeholder="Puntuación (1-10)">
+      <textarea id="comentario" class="swal2-textarea" placeholder="Comentario"></textarea>
+      <input id="fecha" type="date" class="swal2-input">
+      <input id="usuarioId" class="swal2-input" placeholder="ID del Usuario">
+      <input id="servicioId" type="number" class="swal2-input" placeholder="ID del Servicio">
+    `,
+      showCancelButton: true,
+      confirmButtonText: 'Crear',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const puntuacion = parseInt((<HTMLInputElement>document.getElementById('puntuacion')).value);
+        const comentario = (<HTMLInputElement>document.getElementById('comentario')).value.trim();
+        const fecha = (<HTMLInputElement>document.getElementById('fecha')).value;
+        const usuarioId = (<HTMLInputElement>document.getElementById('usuarioId')).value.trim();
+        const servicioId = parseInt((<HTMLInputElement>document.getElementById('servicioId')).value);
 
+        if (!puntuacion || puntuacion < 1 || puntuacion > 10) {
+          Swal.showValidationMessage('La puntuación debe estar entre 1 y 10');
+          return false;
+        }
+        if (!comentario || comentario.length < 5) {
+          Swal.showValidationMessage('El comentario debe tener al menos 5 caracteres');
+          return false;
+        }
+        if (!fecha || !usuarioId || !servicioId) {
+          Swal.showValidationMessage('Todos los campos son obligatorios');
+          return false;
+        }
+
+        return {
+          puntuacion,
+          comentario,
+          fecha,
+          usuarioId,
+          servicioId
+        };
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const nuevaValoracion = result.value;
+
+        this.valoracionesService.crearValoracion(nuevaValoracion).subscribe({
+          next: (val) => {
+            this.valoraciones.push(val);
+            Swal.fire({
+              icon: 'success',
+              title: '¡Valoración creada!',
+              text: 'Se ha registrado correctamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al crear valoración:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo crear la valoración.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
   verValoracion(v: Valoracion) { this.router.navigate(['/valoraciones', v.id]); }
-  editarValoracion(v: Valoracion) { this.router.navigate(['/valoraciones/editar', v.id]); }
+
+  editarValoracion(valoracion: Valoracion): void {
+    if (!valoracion.id) {
+      console.error('ID de valoración no definido');
+      return;
+    }
+
+    Swal.fire({
+      title: 'Editar Valoración',
+      html: `
+      <input id="puntuacion" type="number" min="1" max="10" value="${valoracion.puntuacion}" class="swal2-input" placeholder="Puntuación (1-10)">
+      <textarea id="comentario" class="swal2-textarea" placeholder="Comentario">${valoracion.comentario}</textarea>
+      <input id="fecha" type="date" value="${valoracion.fecha}" class="swal2-input">
+    `,
+      showCancelButton: true,
+      confirmButtonText: 'Actualizar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const puntuacion = parseInt((document.getElementById('puntuacion') as HTMLInputElement).value);
+        const comentario = (document.getElementById('comentario') as HTMLInputElement).value.trim();
+        const fecha = (document.getElementById('fecha') as HTMLInputElement).value;
+
+        if (!puntuacion || puntuacion < 1 || puntuacion > 10) {
+          Swal.showValidationMessage('La puntuación debe estar entre 1 y 10');
+          return;
+        }
+        if (!comentario || comentario.length < 5) {
+          Swal.showValidationMessage('El comentario debe tener al menos 5 caracteres');
+          return;
+        }
+        if (!fecha) {
+          Swal.showValidationMessage('La fecha es obligatoria');
+          return;
+        }
+
+        return {
+          id: valoracion.id,
+          puntuacion,
+          comentario,
+          fecha,
+          usuarioId: valoracion.usuarioId,
+          servicioId: valoracion.servicioId
+        } as Valoracion;
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const updatedValoracion = result.value;
+
+        this.valoracionesService.editarValoracion(updatedValoracion).subscribe({
+          next: (updated) => {
+            const index = this.valoraciones.findIndex(v => v.id === updated.id);
+            if (index !== -1) {
+              this.valoraciones[index] = updated;
+            }
+
+            Swal.fire({
+              icon: 'success',
+              title: '¡Valoración actualizada!',
+              text: 'La valoración se ha actualizado correctamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al actualizar valoración:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo actualizar la valoración.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
   eliminarValoracion(id: number): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -209,8 +413,187 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  // CRUD contactos
+  crearContacto(): void {
+    if (this.servicios.length === 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Sin servicios disponibles',
+        text: 'No puedes crear un contacto sin servicios.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
+    const today = new Date().toISOString().split('T')[0]; // formato YYYY-MM-DD
+    const opcionesServicio = this.servicios.map(s => `<option value="${s.id}">${s.tipoServicio}</option>`).join('');
+
+    Swal.fire({
+      title: 'Nuevo Contacto',
+      html: `
+      <textarea id="mensaje" class="swal2-textarea" placeholder="Mensaje"></textarea>
+      <input id="fecha" type="date" class="swal2-input" min="${today}">
+      <select id="servicioId" class="swal2-select">
+        <option value="">Seleccione un servicio</option>
+        ${opcionesServicio}
+      </select>
+    `,
+      showCancelButton: true,
+      confirmButtonText: 'Crear',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const mensaje = (document.getElementById('mensaje') as HTMLTextAreaElement).value.trim();
+        const fecha = (document.getElementById('fecha') as HTMLInputElement).value;
+        const servicioId = parseInt((document.getElementById('servicioId') as HTMLSelectElement).value);
+
+        const hoy = new Date();
+        const fechaSeleccionada = new Date(fecha);
+
+        if (!mensaje || mensaje.length < 3) {
+          Swal.showValidationMessage('El mensaje debe tener al menos 3 caracteres.');
+          return;
+        }
+
+        if (!fecha) {
+          Swal.showValidationMessage('La fecha es obligatoria.');
+          return;
+        }
+
+        const hoySinHoras = new Date();
+        hoySinHoras.setHours(0, 0, 0, 0);
+
+        if (fechaSeleccionada < hoySinHoras) {
+          Swal.showValidationMessage('La fecha no puede ser anterior a hoy.');
+          return;
+        }
+
+        if (isNaN(servicioId) || servicioId <= 0) {
+          Swal.showValidationMessage('Debes seleccionar un servicio válido.');
+          return;
+        }
+
+        return { mensaje, fecha, servicioId };
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const nuevoContacto = result.value;
+
+        this.contactosService.crearContacto(nuevoContacto).subscribe({
+          next: (contactoCreado) => {
+            this.contactos.push(contactoCreado);
+            Swal.fire({
+              icon: 'success',
+              title: '¡Contacto creado!',
+              text: 'El contacto se ha registrado correctamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al crear contacto:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo crear el contacto.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
   verContacto(c: Contacto) { this.router.navigate(['/contactos', c.id]); }
-  editarContacto(c: Contacto) { this.router.navigate(['/contactos/editar', c.id]); }
+
+  editarContacto(contacto: Contacto): void {
+    if (!contacto.id) {
+      console.error('ID de contacto no definido');
+      return;
+    }
+    const opcionesServicios = this.servicios.map(s =>
+      `<option value="${s.id}" ${s.id === contacto.servicioId ? 'selected' : ''}>
+      ${s.tipoServicio}
+    </option>`
+    ).join('');
+
+    Swal.fire({
+      title: 'Editar Contacto',
+      html: `
+      <textarea id="mensaje" class="swal2-textarea" placeholder="Mensaje">${contacto.mensaje}</textarea>
+      <input id="fecha" type="date" value="${contacto.fecha}" class="swal2-input">
+      <select id="servicioId" class="swal2-select">
+        <option value="">-- Selecciona un servicio --</option>
+        ${opcionesServicios}
+      </select>
+    `,
+      showCancelButton: true,
+      confirmButtonText: 'Actualizar',
+      cancelButtonText: 'Cancelar',
+      focusConfirm: false,
+      preConfirm: () => {
+        const mensaje = (document.getElementById('mensaje') as HTMLTextAreaElement).value.trim();
+        const fecha = (document.getElementById('fecha') as HTMLInputElement).value;
+        const servicioId = parseInt((document.getElementById('servicioId') as HTMLSelectElement).value);
+
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+        const fechaSeleccionada = new Date(fecha);
+
+        if (!mensaje || mensaje.length < 5) {
+          Swal.showValidationMessage('El mensaje debe tener al menos 5 caracteres');
+          return;
+        }
+        if (!fecha) {
+          Swal.showValidationMessage('La fecha es obligatoria');
+          return;
+        }
+        if (fechaSeleccionada < hoy) {
+          Swal.showValidationMessage('La fecha no puede ser anterior a hoy');
+          return;
+        }
+        if (!servicioId || isNaN(servicioId)) {
+          Swal.showValidationMessage('Debes seleccionar un servicio válido');
+          return;
+        }
+
+        return {
+          mensaje,
+          fecha,
+          servicioId
+        } as Contacto;
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const contactoActualizado = result.value as Contacto;
+
+        this.contactosService.editarContacto(contacto.id!, contactoActualizado).subscribe({
+          next: (actualizado) => {
+            const index = this.contactos.findIndex(c => c.id === actualizado.id);
+            if (index !== -1) {
+              this.contactos[index] = actualizado;
+            }
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Contacto actualizado',
+              text: 'El contacto se actualizó correctamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al actualizar contacto:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo actualizar el contacto.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
+
   eliminarContacto(id: number): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -248,8 +631,127 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  // CRUD cocheros
+  crearCochero(): void {
+    Swal.fire({
+      title: 'Crear Cochero',
+      html: `
+      <input id="nombre" type="text" class="swal2-input" placeholder="Nombre">
+      <input id="apellidos" type="text" class="swal2-input" placeholder="Apellidos">
+      <input id="experiencia" type="number" min="0" step="0.1" class="swal2-input" placeholder="Experiencia (años)">
+    `,
+      showCancelButton: true,
+      confirmButtonText: 'Crear',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const nombre = (document.getElementById('nombre') as HTMLInputElement).value.trim();
+        const apellidos = (document.getElementById('apellidos') as HTMLInputElement).value.trim();
+        const experiencia = parseFloat((document.getElementById('experiencia') as HTMLInputElement).value);
+
+        if (!nombre || !apellidos || isNaN(experiencia) || experiencia < 0) {
+          Swal.showValidationMessage('Todos los campos son obligatorios y la experiencia debe ser válida.');
+          return;
+        }
+
+        return {
+          nombre,
+          apellidos,
+          experiencia
+        };
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        this.cocherosService.crearCochero(result.value).subscribe({
+          next: (nuevo) => {
+            this.cocheros.push(nuevo);
+            Swal.fire({
+              icon: 'success',
+              title: 'Cochero creado',
+              text: `${nuevo.nombre} ha sido añadido correctamente.`,
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al crear cochero:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo crear el cochero.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
   verCochero(c: Cochero) { this.router.navigate(['/cocheros', c.id]); }
-  editarCochero(c: Cochero) { this.router.navigate(['/cocheros/editar', c.id]); }
+  editarCochero(cochero: Cochero): void {
+    if (!cochero.id) {
+      console.error('ID del cochero no definido');
+      return;
+    }
+
+    Swal.fire({
+      title: 'Editar Cochero',
+      html: `
+      <input id="nombre" type="text" class="swal2-input" placeholder="Nombre" value="${cochero.nombre}">
+      <input id="apellidos" type="text" class="swal2-input" placeholder="Apellidos" value="${cochero.apellidos}">
+      <input id="experiencia" type="number" min="0" step="0.1" class="swal2-input" placeholder="Experiencia (años)" value="${cochero.experiencia}">
+    `,
+      showCancelButton: true,
+      confirmButtonText: 'Actualizar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const nombre = (document.getElementById('nombre') as HTMLInputElement).value.trim();
+        const apellidos = (document.getElementById('apellidos') as HTMLInputElement).value.trim();
+        const experiencia = parseFloat((document.getElementById('experiencia') as HTMLInputElement).value);
+
+        if (!nombre || !apellidos || isNaN(experiencia) || experiencia < 0) {
+          Swal.showValidationMessage('Todos los campos son obligatorios y la experiencia debe ser válida.');
+          return;
+        }
+
+        return {
+          id: cochero.id,
+          nombre,
+          apellidos,
+          experiencia
+        } as Cochero;
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const updatedCochero = result.value as Cochero;
+
+        this.cocherosService.editarCochero(updatedCochero).subscribe({
+          next: (actualizado) => {
+            const index = this.cocheros.findIndex(c => c.id === actualizado.id);
+            if (index !== -1) {
+              this.cocheros[index] = actualizado;
+            }
+
+            Swal.fire({
+              icon: 'success',
+              title: '¡Cochero actualizado!',
+              text: 'Los datos del cochero se han actualizado correctamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al actualizar cochero:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo actualizar el cochero.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
+
   eliminarCochero(id: number): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -286,18 +788,341 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // CRUD usuarios
+  crearUsuario(): void {
+    Swal.fire({
+      title: 'Crear Usuario',
+      html: `
+      <input id="username" class="swal2-input" placeholder="Usuario">
+      <input id="email" class="swal2-input" placeholder="Email">
+      <input id="password" type="password" class="swal2-input" placeholder="Contraseña">
+      <select id="rol" class="swal2-select">
+        <option value="USER" selected>USER</option>
+        <option value="ADMIN">ADMIN</option>
+      </select>
+    `,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Registrar',
+      preConfirm: () => {
+        const username = (document.getElementById('username') as HTMLInputElement).value.trim();
+        const email = (document.getElementById('email') as HTMLInputElement).value.trim();
+        const password = (document.getElementById('password') as HTMLInputElement).value;
+        const rol = (document.getElementById('rol') as HTMLSelectElement).value;
 
+        if (!username || username.length < 3) {
+          Swal.showValidationMessage('El nombre de usuario debe tener al menos 3 caracteres');
+          return;
+        }
+        if (!email.includes('@')) {
+          Swal.showValidationMessage('Introduce un email válido');
+          return;
+        }
+        if (!password || password.length < 6) {
+          Swal.showValidationMessage('La contraseña debe tener al menos 6 caracteres');
+          return;
+        }
+
+        return { username, email, password, rol };
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const nuevoUsuario = result.value;
+
+        this.authService.register(nuevoUsuario).subscribe({
+          next: (res) => {
+            Swal.fire({
+              icon: 'info',
+              title: 'Usuario registrado',
+              html: `
+              <p>Ahora debes verificar el usuario <b>${res.username}</b></p>
+              <p><code>${res.verificationToken}</code></p>
+            `,
+              confirmButtonText: 'Verificar ahora'
+            }).then(() => {
+              this.verificarUsuario(res.username, nuevoUsuario.password, res.verificationToken);
+            });
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al registrar',
+              text: err.message || 'No se pudo registrar el usuario.'
+            });
+          }
+        });
+      }
+    });
+  }
+  verificarUsuario(username: string, password: string, token: string): void {
+    this.authService.verifyAccount(token, { username, password }).subscribe({
+      next: (res) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Cuenta verificada',
+          text: `El usuario ${res.username} ya puede iniciar sesión.`,
+          confirmButtonText: 'Aceptar'
+        });
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de verificación',
+          text: err.message || 'No se pudo verificar la cuenta.'
+        });
+      }
+    });
+  }
   verUsuario(u: Usuario) { this.router.navigate(['/usuarios', u.id]); }
-  editarUsuario(u: Usuario) { this.router.navigate(['/usuarios/editar', u.id]); }
-  eliminarUsuario(id: string) {
-    if (confirm('¿Eliminar usuario?')) {
-      this.usuariosService.eliminarUsuario(id).subscribe(() => this.usuarios = this.usuarios.filter(u => u.id !== id));
-    }
+  editarUsuario(usuario: Usuario): void {
+    Swal.fire({
+      title: 'Editar Usuario',
+      html: `
+      <input id="username" class="swal2-input" placeholder="Username" value="${usuario.username}">
+      <input id="email" class="swal2-input" placeholder="Email" value="${usuario.email}">
+      <input id="password" type="password" class="swal2-input" placeholder="Nueva contraseña (opcional)">
+      <select id="rol" class="swal2-select">
+        <option value="USER" ${usuario.rol === 'USER' ? 'selected' : ''}>USER</option>
+        <option value="ADMIN" ${usuario.rol === 'ADMIN' ? 'selected' : ''}>ADMIN</option>
+      </select>
+    `,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Actualizar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const username = (document.getElementById('username') as HTMLInputElement).value.trim();
+        const email = (document.getElementById('email') as HTMLInputElement).value.trim();
+        const password = (document.getElementById('password') as HTMLInputElement).value;
+        const rol = (document.getElementById('rol') as HTMLSelectElement).value as 'USER' | 'ADMIN';
+
+        if (!username || username.length < 3) {
+          Swal.showValidationMessage('El nombre de usuario debe tener al menos 3 caracteres');
+          return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          Swal.showValidationMessage('El correo electrónico no es válido');
+          return;
+        }
+
+        if (!rol) {
+          Swal.showValidationMessage('Debes seleccionar un rol');
+          return;
+        }
+
+        const updatedUsuario: UsuarioEdit = {
+          username,
+          email,
+          rol
+        };
+
+        if (password) {
+          updatedUsuario.password = password;
+        }
+
+        return updatedUsuario;
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const updatedData: UsuarioEdit = result.value;
+
+        this.usuariosService.editarUsuario(usuario.id!, updatedData).subscribe({
+          next: (updatedUsuario) => {
+            const index = this.usuarios.findIndex(u => u.id === updatedUsuario.id);
+            if (index !== -1) {
+              this.usuarios[index] = updatedUsuario;
+            }
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Usuario actualizado',
+              text: 'Los datos del usuario han sido actualizados correctamente',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al actualizar el usuario:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo actualizar el usuario. Verifica los datos e inténtalo de nuevo.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
+
+  eliminarUsuario(id: string): void {
+    Swal.fire({
+      title: '¿Eliminar usuario?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.usuariosService.eliminarUsuario(id).subscribe({
+          next: () => {
+            this.usuarios = this.usuarios.filter(u => u.id !== id);
+            Swal.fire({
+              icon: 'success',
+              title: 'Eliminado',
+              text: 'El usuario ha sido eliminado correctamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al eliminar usuario:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo eliminar el usuario.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
   }
 
 
+  // CRUD servicios PORHACER
+  crearServicio(): void {
+    Swal.fire({
+      title: 'Crear Servicio',
+      html: `
+      <input id="tipoServicio" class="swal2-input" placeholder="Tipo de servicio (ej: OTRO)">
+      <input id="tarifa" type="number" class="swal2-input" placeholder="Tarifa (ej: 150.75)">
+      <input id="duracion" type="number" class="swal2-input" placeholder="Duración (en minutos)">
+      <textarea id="descripcion" class="swal2-textarea" placeholder="Descripción"></textarea>
+      <select id="disponibilidad" class="swal2-select">
+        <option value="true">Disponible</option>
+        <option value="false">No disponible</option>
+      </select>
+    `,
+      showCancelButton: true,
+      confirmButtonText: 'Crear',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const tipoServicio = (document.getElementById('tipoServicio') as HTMLInputElement).value.trim();
+        const tarifa = parseFloat((document.getElementById('tarifa') as HTMLInputElement).value);
+        const duracion = parseInt((document.getElementById('duracion') as HTMLInputElement).value);
+        const descripcion = (document.getElementById('descripcion') as HTMLTextAreaElement).value.trim();
+        const disponibilidad = (document.getElementById('disponibilidad') as HTMLSelectElement).value === 'true';
+
+        if (!tipoServicio || !descripcion || isNaN(tarifa) || isNaN(duracion)) {
+          Swal.showValidationMessage('Todos los campos son obligatorios y deben tener valores válidos.');
+          return;
+        }
+
+        return { tipoServicio, tarifa, duracion, descripcion, disponibilidad } as Servicio;
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const nuevoServicio = result.value as Servicio;
+
+        this.serviciosService.crearServicio(nuevoServicio).subscribe({
+          next: (servicioCreado) => {
+            this.servicios.push(servicioCreado);
+            Swal.fire({
+              icon: 'success',
+              title: 'Servicio creado',
+              text: 'El servicio se ha creado correctamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al crear servicio:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo crear el servicio.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
   verServicio(s: Servicio) { this.router.navigate(['/servicios', s.id]); }
-  editarServicio(s: Servicio) { this.router.navigate(['/servicios/editar', s.id]); }
+  editarServicio(servicio: Servicio): void {
+    Swal.fire({
+      title: 'Editar Servicio',
+      html: `
+      <select id="tipoServicio" class="swal2-select">
+        <option value="BODAS" ${servicio.tipoServicio === 'BODAS' ? 'selected' : ''}>Bodas</option>
+        <option value="TOURS" ${servicio.tipoServicio === 'TOURS' ? 'selected' : ''}>Tours</option>
+        <option value="EVENTOS" ${servicio.tipoServicio === 'EVENTOS' ? 'selected' : ''}>Eventos</option>
+        <option value="OTRO" ${servicio.tipoServicio === 'OTRO' ? 'selected' : ''}>Otro</option>
+      </select>
+      <input id="tarifa" type="number" class="swal2-input" placeholder="Tarifa (€)" value="${servicio.tarifa}">
+      <input id="duracion" type="number" class="swal2-input" placeholder="Duración (min)" value="${servicio.duracion}">
+      <textarea id="descripcion" class="swal2-textarea" placeholder="Descripción">${servicio.descripcion}</textarea>
+      <select id="disponibilidad" class="swal2-select">
+        <option value="true" ${servicio.disponibilidad ? 'selected' : ''}>Disponible</option>
+        <option value="false" ${!servicio.disponibilidad ? 'selected' : ''}>No disponible</option>
+      </select>
+    `,
+      showCancelButton: true,
+      confirmButtonText: 'Actualizar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const tipoServicio = (document.getElementById('tipoServicio') as HTMLSelectElement).value;
+        const tarifa = parseFloat((document.getElementById('tarifa') as HTMLInputElement).value);
+        const duracion = parseInt((document.getElementById('duracion') as HTMLInputElement).value);
+        const descripcion = (document.getElementById('descripcion') as HTMLTextAreaElement).value.trim();
+        const disponibilidad = (document.getElementById('disponibilidad') as HTMLSelectElement).value === 'true';
+
+        if (!descripcion || isNaN(tarifa) || isNaN(duracion)) {
+          Swal.showValidationMessage('Todos los campos son obligatorios y deben ser válidos.');
+          return;
+        }
+
+        return { id: servicio.id, tipoServicio, tarifa, duracion, descripcion, disponibilidad } as Servicio;
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const servicioActualizado = result.value as Servicio;
+
+        this.serviciosService.editarServicio(servicioActualizado).subscribe({
+          next: (actualizado) => {
+            const index = this.servicios.findIndex(s => s.id === actualizado.id);
+            if (index !== -1) {
+              this.servicios[index] = actualizado;
+            }
+            Swal.fire({
+              icon: 'success',
+              title: 'Servicio actualizado',
+              text: 'El servicio ha sido actualizado correctamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al actualizar servicio:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo actualizar el servicio.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
+
+
   eliminarServicio(id: number): void {
     Swal.fire({
       title: '¿Estás seguro?',
