@@ -1,7 +1,23 @@
 <div class="w-full max-w-7xl mx-auto h-[500px] rounded-xl shadow-lg overflow-hidden mb-10">
-    <google-map [height]="'100%'" [width]="'100%'" [center]="center" [zoom]="zoom">
-        <map-marker *ngFor="let parada of paradas" [position]="{ lat: parada.lat, lng: parada.lng }"
-            [label]="parada.nombre" [options]="markerOptions">
+    <google-map [height]="'100%'" [width]="'100%'" [center]="center" [zoom]="zoom" (mapClick)="cerrarInfoWindow()">
+
+        <map-marker *ngFor="let parada of paradas" #marker="mapMarker" [position]="{ lat: parada.lat, lng: parada.lng }"
+            [label]="parada.nombre" [options]="markerOptions" (mapClick)="abrirInfoWindow(parada, marker)">
         </map-marker>
+
+        <map-info-window #infoWindow>
+            <div class="text-sm max-w-xs">
+                <h3 class="text-base font-semibold mb-1">{{ paradaSeleccionada?.nombre }}</h3>
+                <p class="text-gray-600 mb-1">{{ paradaSeleccionada?.descripcion }}</p>
+                <p class="text-xs text-gray-500 mb-2">
+                    Lat: {{ paradaSeleccionada?.lat }}, Lng: {{ paradaSeleccionada?.lng }}
+                </p>
+                <button (click)="verDetallesParada()"
+                    class="bg-[var(--bg-color-yellow)] hover:bg-[var(--bg-color-yellow-oscuro)] text-white text-xs font-medium py-1 px-2 rounded">
+                    Ver detalles
+                </button>
+            </div>
+        </map-info-window>
+
     </google-map>
 </div>
