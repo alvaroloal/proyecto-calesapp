@@ -1,23 +1,23 @@
 INSERT INTO ciudad (id, nombre, descripcion) VALUES
 (1, 'Sevilla', 'Ciudad en el sur de España conocida por su cultura, historia y gastronomia.');
 
-INSERT INTO parada (nombre, ubicacion, descripcion, ciudad_id) VALUES
-('Plaza de Toros', '37.3893, -5.9961', 'Parada junto a la emblematica Plaza de Toros de la Maestranza.', 1),
-('Torre del Oro', '37.3829, -5.9966', 'Parada al lado del histórico monumento junto al río Guadalquivir.', 1),
-('Plaza Virgen de los Reyes', '37.3862, -5.9927', 'Parada cerca de la Catedral y la Giralda.', 1),
-('Parque Maria Luisa', '37.3764, -5.9869', 'Parada en el pulmon verde de Sevilla, cerca de la Plaza de America.', 1),
-('Plaza de España', '37.3772, -5.9869', 'Parada en el icónico conjunto arquitectónico de Sevilla.', 1),
-('Plaza de America', 'Parque Maria Luisa', 'Parada ubicada en el Parque María Luisa, cerca del Museo Arqueológico.', 1),
-('Giralda', '37.3860, -5.9924', 'Parada junto al famoso campanario de la Catedral de Sevilla.', 1),
-('Altozano', '37.3910, -5.9998', 'Parada en la Plaza del Altozano, en pleno barrio de Triana.', 1),
-('Todogoma', '37.3860, -5.9924', 'Parada en la esquina de la calle Adriano con Paseo Colon', 1),
-('Estatua Becquer', 'Parque Maria Luisa', 'Parada en la entrada del parque junto al restaurante La Raza', 1),
-('Monte Gurugu', 'Parque Maria Luisa', 'Parada en el interior del parque Maria Luisa', 1),
-('Archivo General de Indias', '37.3860, -5.9924', 'Parada en la Plaza del Altozano, junto al Archivo General de Indias', 1),
-('Plaza de la Encarnacion', '37.3880, -5.9930', 'Parada en la Plaza de la Encarnacion, junto a las Setas de Sevilla', 1),
-('Puente de Triana', '37.3893, -5.9961', 'Parada en el Puente de Isabel II, conocido como Puente de Triana', 1),
-('Calle Sierpes', '37.3860, -5.9924', 'Parada en la famosa calle comercial del centro de Sevilla', 1)
-;
+
+INSERT INTO parada (nombre, descripcion, lat, lng, ciudad_id) VALUES
+('Plaza de Toros', 'Parada junto a la emblemática Plaza de Toros de la Maestranza.', 37.3866, -5.9981, 1),
+('Torre del Oro', 'Parada al lado del histórico monumento junto al río Guadalquivir.', 37.3826, -5.9961, 1),
+('Plaza Virgen de los Reyes', 'Parada cerca de la Catedral y la Giralda.', 37.3862, -5.9927, 1),
+('Parque María Luisa', 'Parada en el pulmón verde de Sevilla, cerca de la Plaza de América.', 37.3764, -5.9869, 1),
+('Plaza de España', 'Parada en el icónico conjunto arquitectónico de Sevilla.', 37.3772, -5.9869, 1),
+('Plaza de América', 'Parada ubicada en el Parque María Luisa, cerca del Museo Arqueológico.', 37.3737, -5.9869, 1),
+('Giralda', 'Parada junto al famoso campanario de la Catedral de Sevilla.', 37.3860, -5.9924, 1),
+('Altozano', 'Parada en la Plaza del Altozano, en pleno barrio de Triana.', 37.385, -6.0033, 1),
+('Todogoma', 'Parada en la esquina de la calle Adriano con Paseo Colón.', 37.3860, -5.9949, 1),
+('Estatua Bécquer', 'Parada en la entrada del parque junto al restaurante La Raza.', 37.3785, -5.9880, 1),
+('Monte Gurugú', 'Parada en el interior del parque María Luisa.', 37.3755, -5.9855, 1),
+('Archivo General de Indias', 'Parada junto al Archivo General de Indias.', 37.3845, -5.9934, 1),
+('Plaza de la Encarnación', 'Parada en la Plaza de la Encarnación, junto a las Setas de Sevilla.', 37.3925, -5.9904, 1),
+('Puente de Triana', 'Parada en el Puente de Isabel II, conocido como Puente de Triana.', 37.3893, -5.9961, 1),
+('Calle Sierpes', 'Parada en la famosa calle comercial del centro de Sevilla.', 37.3898, -5.9937, 1);
 
 INSERT INTO cochero (nombre, apellidos, experiencia) VALUES
 ('Jesus', 'Lorente Gaviño',7),

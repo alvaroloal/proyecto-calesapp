@@ -94,7 +94,9 @@ public class ParadaService {
     private Parada updateParadaFromDTO(Parada parada, CreateUpdateParadaDTO paradaDTO) {
         parada.setNombre(paradaDTO.nombre());
         parada.setDescripcion(paradaDTO.descripcion());
-        parada.setUbicacion(paradaDTO.ubicacion());
+        parada.setLat(paradaDTO.lat());
+        parada.setLng(paradaDTO.lng());
+
         parada.setCiudad(this.ciudadRepository.findByNombre("Sevilla"));
         System.out.println(parada.toString());
         return paradaRepository.save(parada);

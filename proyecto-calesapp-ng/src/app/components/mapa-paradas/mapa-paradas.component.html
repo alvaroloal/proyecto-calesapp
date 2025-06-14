@@ -1,0 +1,7 @@
+<div class="w-full max-w-7xl mx-auto h-[500px] rounded-xl shadow-lg overflow-hidden mb-10">
+    <google-map [height]="'100%'" [width]="'100%'" [center]="center" [zoom]="zoom">
+        <map-marker *ngFor="let parada of paradas" [position]="{ lat: parada.lat, lng: parada.lng }"
+            [label]="parada.nombre" [options]="markerOptions">
+        </map-marker>
+    </google-map>
+</div>
