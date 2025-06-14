@@ -85,28 +85,6 @@
                     <span>Las contraseñas no coinciden.</span>
                 </div>
             </div>
-
-            <div>
-                <label for="rol" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                    Rol
-                </label>
-                <div class="relative">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                        <i class="fas fa-tag"></i>
-                    </span>
-                    <select id="rol" name="rol" [(ngModel)]="registrationData.rol" required #rolInput="ngModel"
-                        class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 appearance-none">
-                        <option value="" disabled selected>Selecciona un rol</option>
-                        <option value="USER">USER</option>
-                        <option value="ADMIN">ADMIN</option>
-                    </select>
-                </div>
-                <div *ngIf="rolInput.invalid && (rolInput.dirty || rolInput.touched)" class="text-red-500 text-xs mt-1">
-                    <span *ngIf="rolInput.errors?.['required']">El rol es requerido.</span>
-                </div>
-            </div>
-
-
             <button type="submit"
                 [disabled]="isLoading || registerForm.invalid || (registrationData.password !== passwordConfirm && passwordConfirmInput.dirty)"
                 class="w-full mt-6 py-3 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75
