@@ -70,7 +70,8 @@ export class DashboardComponent implements OnInit {
       title: 'Crear nueva parada',
       html: `
       <input id="nombre" class="swal2-input" placeholder="Nombre (mín. 3 caracteres)">
-      <input id="ubicacion" class="swal2-input" placeholder="Ubicación (lat,long)">
+      <input id="lat" type="number" step="any" class="swal2-input" placeholder="Latitud (ej: 37.3828)">
+      <input id="lng" type="number" step="any" class="swal2-input" placeholder="Longitud (ej: -5.9731)">
       <textarea id="descripcion" class="swal2-textarea" placeholder="Descripción (mín. 10 caracteres)"></textarea>
     `,
       focusConfirm: false,
@@ -79,7 +80,8 @@ export class DashboardComponent implements OnInit {
       cancelButtonText: 'Cancelar',
       preConfirm: () => {
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value.trim();
-        const ubicacion = (document.getElementById('ubicacion') as HTMLInputElement).value.trim();
+        const latStr = (document.getElementById('lat') as HTMLInputElement).value.trim();
+        const lngStr = (document.getElementById('lng') as HTMLInputElement).value.trim();
         const descripcion = (document.getElementById('descripcion') as HTMLTextAreaElement).value.trim();
 
         if (nombre.length < 3) {
@@ -87,9 +89,31 @@ export class DashboardComponent implements OnInit {
           return false;
         }
 
-        const ubicacionRegex = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/;
-        if (!ubicacionRegex.test(ubicacion)) {
-          Swal.showValidationMessage('La ubicación debe tener el formato "latitud,longitud", por ejemplo: 40.4168,-3.7038');
+        if (!latStr) {
+          Swal.showValidationMessage('Debe introducir una latitud.');
+          return false;
+        }
+        const lat = parseFloat(latStr);
+        if (isNaN(lat)) {
+          Swal.showValidationMessage('La latitud debe ser un número válido.');
+          return false;
+        }
+        if (lat < -90 || lat > 90) {
+          Swal.showValidationMessage('La latitud debe estar entre -90 y 90.');
+          return false;
+        }
+
+        if (!lngStr) {
+          Swal.showValidationMessage('Debe introducir una longitud.');
+          return false;
+        }
+        const lng = parseFloat(lngStr);
+        if (isNaN(lng)) {
+          Swal.showValidationMessage('La longitud debe ser un número válido.');
+          return false;
+        }
+        if (lng < -180 || lng > 180) {
+          Swal.showValidationMessage('La longitud debe estar entre -180 y 180.');
           return false;
         }
 
@@ -98,11 +122,12 @@ export class DashboardComponent implements OnInit {
           return false;
         }
 
-        return { nombre, ubicacion, descripcion };
+        return { nombre, lat, lng, descripcion };
       }
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const parada: Parada = result.value;
+        const parada: Parada = result.value as unknown as Parada;
+
         this.paradasService.crearParada(parada).subscribe({
           next: (nuevaParada) => {
             this.paradas.push(nuevaParada);
@@ -127,13 +152,15 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
   verParada(p: Parada) { this.router.navigate(['/paradas', p.id]); }
   editarParada(parada: Parada): void {
     Swal.fire({
       title: 'Editar parada',
       html: `
       <input id="nombre" class="swal2-input" placeholder="Nombre" value="${parada.nombre}">
-      <input id="ubicacion" class="swal2-input" placeholder="Ubicación" value="${parada.ubicacion}">
+      <input id="lat" type="number" step="any" class="swal2-input" placeholder="Latitud (ej: 37.3828)" value="${parada.lat}">
+      <input id="lng" type="number" step="any" class="swal2-input" placeholder="Longitud (ej: -5.9731)" value="${parada.lng}">
       <textarea id="descripcion" class="swal2-textarea" placeholder="Descripción">${parada.descripcion}</textarea>
     `,
       focusConfirm: false,
@@ -142,7 +169,8 @@ export class DashboardComponent implements OnInit {
       cancelButtonText: 'Cancelar',
       preConfirm: () => {
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value.trim();
-        const ubicacion = (document.getElementById('ubicacion') as HTMLInputElement).value.trim();
+        const latStr = (document.getElementById('lat') as HTMLInputElement).value.trim();
+        const lngStr = (document.getElementById('lng') as HTMLInputElement).value.trim();
         const descripcion = (document.getElementById('descripcion') as HTMLTextAreaElement).value.trim();
 
         if (nombre.length < 3) {
@@ -150,8 +178,15 @@ export class DashboardComponent implements OnInit {
           return false;
         }
 
-        if (ubicacion.length < 3) {
-          Swal.showValidationMessage('La ubicación debe tener al menos 3 caracteres.');
+        const lat = parseFloat(latStr);
+        if (!latStr || isNaN(lat) || lat < -90 || lat > 90) {
+          Swal.showValidationMessage('La latitud debe ser un número entre -90 y 90.');
+          return false;
+        }
+
+        const lng = parseFloat(lngStr);
+        if (!lngStr || isNaN(lng) || lng < -180 || lng > 180) {
+          Swal.showValidationMessage('La longitud debe ser un número entre -180 y 180.');
           return false;
         }
 
@@ -160,14 +195,19 @@ export class DashboardComponent implements OnInit {
           return false;
         }
 
-        return { ...parada, nombre, ubicacion, descripcion };
+        return {
+          id: parada.id,
+          nombre,
+          lat,
+          lng,
+          descripcion
+        } as Parada;
       }
     }).then(result => {
       if (result.isConfirmed && result.value) {
-        const paradaEditada = result.value;
+        const paradaEditada = result.value as Parada;
         this.paradasService.actualizarParada(paradaEditada).subscribe({
           next: (actualizada) => {
-            // Reemplaza la parada en el array local
             const index = this.paradas.findIndex(p => p.id === actualizada.id);
             if (index !== -1) this.paradas[index] = actualizada;
 

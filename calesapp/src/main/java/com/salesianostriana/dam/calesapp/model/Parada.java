@@ -21,10 +21,12 @@ public class Parada {
     private Long id;
 
     private String nombre;
-    private String ubicacion;
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
+
+    private Double lat;
+    private Double lng;
 
     @ManyToOne
     @JoinColumn(name = "ciudad_id", foreignKey = @ForeignKey(name = "fk_parada_ciudad"))
