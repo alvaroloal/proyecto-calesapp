@@ -212,6 +212,10 @@ export class AuthService {
     return params.get(paramName);
   }
 
+  getUserId(): string | null {
+    return this.currentUserSubject.value?.id || null;
+  }
+
   private handleError = (error: HttpErrorResponse) => {
     let errorMessage = 'Error desconocido.';
     if (error.error instanceof ErrorEvent) {
@@ -230,6 +234,19 @@ export class AuthService {
     console.error(errorMessage, error);
     return throwError(() => new Error(errorMessage));
   }
+
+  getUserRole(): string | null {
+    const token = this.getJwtToken();
+    if (!token) return null;
+
+    try {
+      const decoded = jwtDecode<{ rol?: string }>(token);
+      return decoded.rol || null;
+    } catch {
+      return null;
+    }
+  }
+
 
 
 

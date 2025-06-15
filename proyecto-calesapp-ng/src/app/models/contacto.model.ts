@@ -3,4 +3,7 @@ export interface Contacto {
     mensaje: string;
     fecha: string;
     servicioId: number;
+    paradaId: number;
+    cocheroId: number;
+    usuarioId: number;
 }

@@ -15,9 +15,6 @@
                     <li><a routerLink="/cocheros"
                             class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Cocheros</a>
                     </li>
-                    <li><a routerLink="/servicios"
-                            class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Servicios</a>
-                    </li>
                     <li><a routerLink="/valoraciones"
                             class="px-3 py-2 rounded-md hover:bg-[var(--bg-color-yellow-oscuro)] hover:text-white transition-colors duration-200 font-medium">Valoraciones</a>
                     </li>
@@ -46,7 +43,7 @@
                                     Cerrar sesión
                                 </button>
                             </li>
-                            <li *ngIf="user.rol === 'ADMIN'">
+                            <li *ngIf="user.rol === 'ROLE_ADMIN'">
                                 <a routerLink="/admin"
                                     class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">
                                     ADMIN

@@ -16,6 +16,8 @@ import { ServiciosService } from '../../services/servicios/servicios.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth/auth.service';
 import { UsuarioEdit } from '../../models/usuarioEdit.model';
+import { forkJoin } from 'rxjs';
+
 
 
 
@@ -452,7 +454,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-
   // CRUD contactos
   crearContacto(): void {
     if (this.servicios.length === 0) {
@@ -468,6 +469,15 @@ export class DashboardComponent implements OnInit {
     const today = new Date().toISOString().split('T')[0]; // formato YYYY-MM-DD
     const opcionesServicio = this.servicios.map(s => `<option value="${s.id}">${s.tipoServicio}</option>`).join('');
 
+    const opcionesParadas = this.paradas
+      .map(p => `<option value="${p.id}">${p.nombre}</option>`)
+      .join('');
+
+    const opcionesCocheros = this.cocheros
+      .map(c => `<option value="${c.id}">${c.nombre}</option>`)
+      .join('');
+
+
     Swal.fire({
       title: 'Nuevo Contacto',
       html: `
@@ -477,6 +487,14 @@ export class DashboardComponent implements OnInit {
         <option value="">Seleccione un servicio</option>
         ${opcionesServicio}
       </select>
+      <select id="paradaId" class="swal2-select">
+        <option value="">Seleccione una parada</option>
+        ${opcionesParadas}
+      </select>
+      <select id="cocheroId" class="swal2-select">
+        <option value="">Seleccione un cochero</option>
+        ${opcionesCocheros}
+      </select>
     `,
       showCancelButton: true,
       confirmButtonText: 'Crear',
@@ -485,6 +503,9 @@ export class DashboardComponent implements OnInit {
         const mensaje = (document.getElementById('mensaje') as HTMLTextAreaElement).value.trim();
         const fecha = (document.getElementById('fecha') as HTMLInputElement).value;
         const servicioId = parseInt((document.getElementById('servicioId') as HTMLSelectElement).value);
+        const paradaId = parseInt((document.getElementById('paradaId') as HTMLSelectElement).value);
+        const cocheroId = parseInt((document.getElementById('cocheroId') as HTMLSelectElement).value);
+        const usuarioId = this.authService.getUserId();
 
         const hoy = new Date();
         const fechaSeleccionada = new Date(fecha);
@@ -512,7 +533,17 @@ export class DashboardComponent implements OnInit {
           return;
         }
 
-        return { mensaje, fecha, servicioId };
+        if (isNaN(paradaId) || paradaId <= 0) {
+          Swal.showValidationMessage('Debes seleccionar una parada válida.');
+          return;
+        }
+
+        if (isNaN(cocheroId) || cocheroId <= 0) {
+          Swal.showValidationMessage('Debes seleccionar un cochero válido.');
+          return;
+        }
+
+        return { mensaje, fecha, servicioId, paradaId, cocheroId, usuarioId };
       }
     }).then(result => {
       if (result.isConfirmed && result.value) {
@@ -542,17 +573,54 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  verContacto(c: Contacto) { this.router.navigate(['/contactos', c.id]); }
+
+  verContacto(contacto: Contacto): void {
+
+    forkJoin({
+
+      cochero: this.cocherosService.getCocheroById(contacto.cocheroId),
+
+      servicio: this.serviciosService.getServicioById(contacto.servicioId),
+
+      parada: this.paradasService.getParadaById(contacto.paradaId)
+
+    }).subscribe({
+
+      next: ({ cochero, servicio, parada }) => {
+
+        Swal.fire({
+
+          title: 'Detalles del contacto',
+
+          html: `
+                <p><strong>Cochero: </strong> ${cochero.nombre}</p>
+                <p><strong>Servicio: </strong> ${servicio.tipoServicio}</p>
+                <p><strong>Fecha: </strong> ${contacto.fecha}</p>
+                <p><strong>Parada: </strong> ${parada.nombre}</p>
+        `,
+          confirmButtonText: 'Cerrar'
+        });
+      },
+      error: () => {
+        Swal.fire('Error', 'No se pudo cargar alguno de los datos relacionados', 'error');
+      }
+    });
+
+  }
+
 
   editarContacto(contacto: Contacto): void {
     if (!contacto.id) {
       console.error('ID de contacto no definido');
       return;
     }
+
     const opcionesServicios = this.servicios.map(s =>
-      `<option value="${s.id}" ${s.id === contacto.servicioId ? 'selected' : ''}>
-      ${s.tipoServicio}
-    </option>`
+      `<option value="${s.id}" ${s.id === contacto.servicioId ? 'selected' : ''}>${s.tipoServicio}</option>`
+    ).join('');
+
+    const opcionesParadas = this.paradas.map(p =>
+      `<option value="${p.id}" ${p.id === contacto.paradaId ? 'selected' : ''}>${p.nombre}</option>`
     ).join('');
 
     Swal.fire({
@@ -564,6 +632,10 @@ export class DashboardComponent implements OnInit {
         <option value="">-- Selecciona un servicio --</option>
         ${opcionesServicios}
       </select>
+      <select id="paradaId" class="swal2-select">
+        <option value="">-- Selecciona una parada --</option>
+        ${opcionesParadas}
+      </select>
     `,
       showCancelButton: true,
       confirmButtonText: 'Actualizar',
@@ -573,6 +645,10 @@ export class DashboardComponent implements OnInit {
         const mensaje = (document.getElementById('mensaje') as HTMLTextAreaElement).value.trim();
         const fecha = (document.getElementById('fecha') as HTMLInputElement).value;
         const servicioId = parseInt((document.getElementById('servicioId') as HTMLSelectElement).value);
+        const paradaId = parseInt((document.getElementById('paradaId') as HTMLSelectElement).value);
+        const usuarioId = this.authService.getUserId();
+        const cocheroId = contacto.cocheroId;
+
 
         const hoy = new Date();
         hoy.setHours(0, 0, 0, 0);
@@ -594,12 +670,19 @@ export class DashboardComponent implements OnInit {
           Swal.showValidationMessage('Debes seleccionar un servicio válido');
           return;
         }
+        if (!paradaId || isNaN(paradaId)) {
+          Swal.showValidationMessage('Debes seleccionar una parada válida');
+          return;
+        }
 
         return {
           mensaje,
           fecha,
-          servicioId
-        } as Contacto;
+          servicioId,
+          paradaId,
+          usuarioId,
+          cocheroId
+        }
       }
     }).then(result => {
       if (result.isConfirmed && result.value) {
@@ -678,7 +761,7 @@ export class DashboardComponent implements OnInit {
       html: `
       <input id="nombre" type="text" class="swal2-input" placeholder="Nombre">
       <input id="apellidos" type="text" class="swal2-input" placeholder="Apellidos">
-      <input id="experiencia" type="number" min="0" step="0.1" class="swal2-input" placeholder="Experiencia (años)">
+      <input id="mediaValoracion" type="number" min="0" step="0.1" class="swal2-input" placeholder="mediaValoracion (años)">
     `,
       showCancelButton: true,
       confirmButtonText: 'Crear',
@@ -686,17 +769,17 @@ export class DashboardComponent implements OnInit {
       preConfirm: () => {
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value.trim();
         const apellidos = (document.getElementById('apellidos') as HTMLInputElement).value.trim();
-        const experiencia = parseFloat((document.getElementById('experiencia') as HTMLInputElement).value);
+        const mediaValoracion = parseFloat((document.getElementById('mediaValoracion') as HTMLInputElement).value);
 
-        if (!nombre || !apellidos || isNaN(experiencia) || experiencia < 0) {
-          Swal.showValidationMessage('Todos los campos son obligatorios y la experiencia debe ser válida.');
+        if (!nombre || !apellidos || isNaN(mediaValoracion) || mediaValoracion < 0) {
+          Swal.showValidationMessage('Todos los campos son obligatorios y la mediaValoracion debe ser válida.');
           return;
         }
 
         return {
           nombre,
           apellidos,
-          experiencia
+          mediaValoracion
         };
       }
     }).then(result => {
@@ -737,7 +820,7 @@ export class DashboardComponent implements OnInit {
       html: `
       <input id="nombre" type="text" class="swal2-input" placeholder="Nombre" value="${cochero.nombre}">
       <input id="apellidos" type="text" class="swal2-input" placeholder="Apellidos" value="${cochero.apellidos}">
-      <input id="experiencia" type="number" min="0" step="0.1" class="swal2-input" placeholder="Experiencia (años)" value="${cochero.experiencia}">
+      <input id="mediaValoracion" type="number" min="0" step="0.1" class="swal2-input" placeholder="mediaValoracion (años)" value="${cochero.mediaValoracion}">
     `,
       showCancelButton: true,
       confirmButtonText: 'Actualizar',
@@ -745,10 +828,10 @@ export class DashboardComponent implements OnInit {
       preConfirm: () => {
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value.trim();
         const apellidos = (document.getElementById('apellidos') as HTMLInputElement).value.trim();
-        const experiencia = parseFloat((document.getElementById('experiencia') as HTMLInputElement).value);
+        const mediaValoracion = parseFloat((document.getElementById('mediaValoracion') as HTMLInputElement).value);
 
-        if (!nombre || !apellidos || isNaN(experiencia) || experiencia < 0) {
-          Swal.showValidationMessage('Todos los campos son obligatorios y la experiencia debe ser válida.');
+        if (!nombre || !apellidos || isNaN(mediaValoracion) || mediaValoracion < 0) {
+          Swal.showValidationMessage('Todos los campos son obligatorios y la mediaValoracion debe ser válida.');
           return;
         }
 
@@ -756,7 +839,7 @@ export class DashboardComponent implements OnInit {
           id: cochero.id,
           nombre,
           apellidos,
-          experiencia
+          mediaValoracion
         } as Cochero;
       }
     }).then(result => {
@@ -837,8 +920,8 @@ export class DashboardComponent implements OnInit {
       <input id="email" class="swal2-input" placeholder="Email">
       <input id="password" type="password" class="swal2-input" placeholder="Contraseña">
       <select id="rol" class="swal2-select">
-        <option value="USER" selected>USER</option>
-        <option value="ADMIN">ADMIN</option>
+        <option value="ROLE_USER" selected>USER</option>
+        <option value="ROLE_ADMIN">ADMIN</option>
       </select>
     `,
       focusConfirm: false,
@@ -922,8 +1005,8 @@ export class DashboardComponent implements OnInit {
       <input id="email" class="swal2-input" placeholder="Email" value="${usuario.email}">
       <input id="password" type="password" class="swal2-input" placeholder="Nueva contraseña (opcional)">
       <select id="rol" class="swal2-select">
-        <option value="USER" ${usuario.rol === 'USER' ? 'selected' : ''}>USER</option>
-        <option value="ADMIN" ${usuario.rol === 'ADMIN' ? 'selected' : ''}>ADMIN</option>
+        <option value="ROLE_USER" ${usuario.rol === 'ROLE_USER' ? 'selected' : ''}>USER</option>
+        <option value="ROLE_ADMIN" ${usuario.rol === 'ROLE_ADMIN' ? 'selected' : ''}>ADMIN</option>
       </select>
     `,
       focusConfirm: false,
@@ -934,7 +1017,7 @@ export class DashboardComponent implements OnInit {
         const username = (document.getElementById('username') as HTMLInputElement).value.trim();
         const email = (document.getElementById('email') as HTMLInputElement).value.trim();
         const password = (document.getElementById('password') as HTMLInputElement).value;
-        const rol = (document.getElementById('rol') as HTMLSelectElement).value as 'USER' | 'ADMIN';
+        const rol = (document.getElementById('rol') as HTMLSelectElement).value as 'ROLE_USER' | 'ROLE_ADMIN';
 
         if (!username || username.length < 3) {
           Swal.showValidationMessage('El nombre de usuario debe tener al menos 3 caracteres');

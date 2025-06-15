@@ -70,10 +70,10 @@ public class UsuarioController {
                 Usuario user = (Usuario) authentication.getPrincipal();
 
                 if (user.getUsername().equals("admin")) {
-                        user.setRol(UsuarioRole.ADMIN);
+                        user.setRol(UsuarioRole.ROLE_ADMIN);
 
                 } else {
-                        user.setRol(UsuarioRole.USER);
+                        user.setRol(UsuarioRole.ROLE_USER);
                 }
                 System.out.println(user.toString());
                 String accessToken = jwtService.generateAccessToken(user);

@@ -28,5 +28,13 @@ public class Contacto {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "servicio_id", foreignKey = @ForeignKey(name = "fk_contacto_servicio"))
     private Servicio servicio;
-}
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parada_id", foreignKey = @ForeignKey(name = "fk_contacto_parada"))
+    private Parada parada;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cochero_id", foreignKey = @ForeignKey(name = "fk_contacto_cochero"))
+    private Cochero cochero;
+
+}

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/contactos")
 public class ContactoController {
@@ -63,6 +62,7 @@ public class ContactoController {
         })
         public ResponseEntity<ContactoDTO> createContacto(
                         @Parameter(description = "Datos del contacto a crear", required = true) @RequestBody @Valid CreateUpdateContactoDTO contactoDTO) {
+                System.out.println(contactoDTO);
                 Contacto contacto = contactoService.create(contactoDTO);
                 return ResponseEntity.ok(ContactoDTO.fromEntity(contacto));
         }

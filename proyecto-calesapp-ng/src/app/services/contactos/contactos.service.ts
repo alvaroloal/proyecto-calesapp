@@ -25,7 +25,6 @@ export class ContactosService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-
     return this.http.post<Contacto>(this.apiUrl, contacto, { headers });
   }
 

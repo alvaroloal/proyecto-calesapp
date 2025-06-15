@@ -39,14 +39,21 @@ export class CocherosService {
     return this.http.put<Cochero>(`${this.apiUrl}/${cochero.id}`, cochero, { headers });
   }
 
-
-
   eliminarCochero(id: number): Observable<void> {
     const token = this.authService.getJwtToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
+  }
+
+  contactarCochero(cocheroId: number, paradaId: number, servicioId: number, fecha: string, mensaje: string) {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const usuarioId = this.authService.getUserId();
+    return this.http.post(`/api/contactos`, { cocheroId, paradaId, servicioId, fecha, mensaje, usuarioId }, { headers });
   }
 }
 

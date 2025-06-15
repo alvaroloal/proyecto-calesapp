@@ -26,7 +26,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    //private final UserService userService;
+    // private final UserService userService;
     private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
 
@@ -35,8 +35,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private HandlerExceptionResolver resolver;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
+        System.out.println("filtro ejecutandose");
         String token = getJwtAccessTokenFromRequest(request);
 
         // Validar el token
@@ -44,6 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             if (StringUtils.hasText(token) && jwtService.validateAccessToken(token)) {
 
+                System.out.println("token recibido: " + token);
+                System.out.println("token validado:" + jwtService.validateAccessToken(token));
                 // Obtener el sub del token, que es el ID del usuario
                 // Buscar el usuario por id
                 // Colocar el usuario autenticado en el contexto de seguridad
@@ -54,26 +58,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 if (result.isPresent()) {
                     Usuario user = result.get();
-                    UsernamePasswordAuthenticationToken
-                            authenticationToken = new UsernamePasswordAuthenticationToken(
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                             user,
                             null,
-                            user.getAuthorities()
-                    );
+                            user.getAuthorities());
 
                     authenticationToken.setDetails(new WebAuthenticationDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
+                    System.out.println("autenticado como" + user.getUsername() + user.getAuthorities());
 
                 }
-
 
             }
         } catch (JwtException ex) {
             resolver.resolveException(request, response, null, ex);
         }
-
 
         filterChain.doFilter(request, response);
 

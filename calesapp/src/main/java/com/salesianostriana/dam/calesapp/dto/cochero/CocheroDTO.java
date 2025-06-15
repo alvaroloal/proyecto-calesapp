@@ -5,17 +5,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Datos del cochero")
 public record CocheroDTO(
-        @Schema(description = "ID del cochero", example = "1")
-        Long id,
+        @Schema(description = "ID del cochero", example = "1") Long id,
 
-        @Schema(description = "Nombre del cochero", example = "Manuel")
-        String nombre,
+        @Schema(description = "Nombre del cochero", example = "Manuel") String nombre,
 
-        @Schema(description = "Apellidos del cochero", example = "Lorente Cala")
-        String apellidos,
+        @Schema(description = "Apellidos del cochero", example = "Lorente Cala") String apellidos,
 
-        @Schema(description = "Experiencia en el sector", example = "10.0")
-        Double experiencia
+        @Schema(description = "mediaValoracion en el sector", example = "10.0") Double mediaValoracion
 
 ) {
 
@@ -24,11 +20,11 @@ public record CocheroDTO(
                 cochero.getId(),
                 cochero.getNombre(),
                 cochero.getApellidos(),
-                cochero.getExperiencia()
-        );
+                cochero.getMediaValoracion());
     }
 
     public static CocheroDTO of(Cochero cochero) {
-        return new CocheroDTO(cochero.getId(), cochero.getNombre(), cochero.getApellidos(), cochero.getExperiencia());
+        return new CocheroDTO(cochero.getId(), cochero.getNombre(), cochero.getApellidos(),
+                cochero.getMediaValoracion());
     }
 }

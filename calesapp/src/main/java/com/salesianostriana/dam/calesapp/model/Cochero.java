@@ -20,7 +20,7 @@ public class Cochero {
 
     private String nombre;
     private String apellidos;
-    private Double experiencia;
+    private Double mediaValoracion;
 
     @OneToMany(mappedBy = "cochero", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Servicio> servicios = new ArrayList<>();

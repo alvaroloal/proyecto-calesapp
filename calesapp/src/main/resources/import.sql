@@ -19,7 +19,7 @@ INSERT INTO parada (nombre, descripcion, lat, lng, ciudad_id) VALUES
 ('Puente de Triana', 'Parada en el Puente de Isabel II, conocido como Puente de Triana.', 37.3893, -5.9961, 1),
 ('Calle Sierpes', 'Parada en la famosa calle comercial del centro de Sevilla.', 37.3898, -5.9937, 1);
 
-INSERT INTO cochero (nombre, apellidos, experiencia) VALUES
+INSERT INTO cochero (nombre, apellidos, media_valoracion) VALUES
 ('Jesus', 'Lorente Gaviño',7),
 ('Carlos', 'Lorente Gaviño',8),
 ('Jose', 'Lorente Cala',9),
@@ -34,7 +34,7 @@ INSERT INTO cochero (nombre, apellidos, experiencia) VALUES
 
 INSERT INTO servicio (tipo_servicio, tarifa, duracion, descripcion, disponibilidad, cochero_id) VALUES
 ('TRANSPORTE', 25.50, 60, 'Servicio de transporte a cualquier punto de la ciudad', true, 1),
-('EVENTO', 40.00, 120, 'Alquiler para eventos especiales', false, 2),
+('EVENTO', 40.00, 120, 'Alquiler para eventos especiales', true, 2),
 ('PASEO', 30.00, 90, 'Paseo guiado por el centro historico de Sevilla y sus monumentos mas emblematicos', true, 3);
 
 INSERT INTO user_entity (id, username, password, enabled, verification_token, rol) VALUES
@@ -51,18 +51,18 @@ INSERT INTO valoracion (puntuacion, comentario, fecha, usuario_id, servicio_id) 
 (5, 'Todo perfecto, repetiré sin duda.', '2025-02-05', 'a8a31f2b-7dd6-4b56-86d8-5b49730a2cb1', 3),
 (2, 'No cumplio con mis expectativas.', '2025-01-20', '3b6e27bc-8fcd-41c3-a6f2-265e677aa9f6', 3),
 (4, 'Buen servicio, aunque el tiempo de espera fue largo.', '2025-02-12', '550e8400-e29b-41d4-a716-446655440000', 2),
-(5, 'Excelente experiencia, muy profesional.', '2025-02-01', '7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0', 2),
+(5, 'Excelente mediaValoracion, muy profesional.', '2025-02-01', '7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0', 2),
 (3, 'Servicio regular, podría mejorar.', '2025-01-30', 'a58e25bb-4c08-4f91-b45f-3cb8fd50c6a9', 1),
 (4, 'Muy buen servicio, lo recomiendo.', '2025-02-03', 'a8a31f2b-7dd6-4b56-86d8-5b49730a2cb1', 1),
-(1, 'Muy mala experiencia, no volveré a usar este servicio.', '2025-01-15', '3b6e27bc-8fcd-41c3-a6f2-265e677aa9f6', 2);
+(1, 'Muy mala mediaValoracion, no volveré a usar este servicio.', '2025-01-15', '3b6e27bc-8fcd-41c3-a6f2-265e677aa9f6', 2);
 
-INSERT INTO contacto (mensaje, fecha, usuario_id, servicio_id) VALUES
-('Consulta sobre disponibilidad de plazas', '2025-02-01', '550e8400-e29b-41d4-a716-446655440000', 2),
-('Solicitud de información adicional', '2025-02-05', '7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0', 1),
-('Problemas con la plataforma', '2025-02-10', 'a58e25bb-4c08-4f91-b45f-3cb8fd50c6a9', 3),
-('Revisión de documentos enviados', '2025-02-12', 'a8a31f2b-7dd6-4b56-86d8-5b49730a2cb1', 2),
-('Cambio en los datos de inscripción', '2025-02-15', '3b6e27bc-8fcd-41c3-a6f2-265e677aa9f6', 1),
-('Consulta sobre disponibilidad en la época de feria', '2025-02-01', '550e8400-e29b-41d4-a716-446655440000', 2);
+INSERT INTO contacto (mensaje, fecha, usuario_id, servicio_id, parada_id, cochero_id) VALUES
+('Consulta sobre disponibilidad de plazas', '2025-02-01', '550e8400-e29b-41d4-a716-446655440000', 2, 1, 1),
+('Solicitud de información adicional', '2025-02-05', '7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0', 1, 1, 1),
+('Problemas con la plataforma', '2025-02-10', 'a58e25bb-4c08-4f91-b45f-3cb8fd50c6a9', 3, 1, 1),
+('Revisión de documentos enviados', '2025-02-12', 'a8a31f2b-7dd6-4b56-86d8-5b49730a2cb1', 2, 1, 1),
+('Cambio en los datos de inscripción', '2025-02-15', '3b6e27bc-8fcd-41c3-a6f2-265e677aa9f6', 1, 1, 1),
+('Consulta sobre disponibilidad en la época de feria', '2025-02-01', '550e8400-e29b-41d4-a716-446655440000', 2, 1, 1);
 
 
 

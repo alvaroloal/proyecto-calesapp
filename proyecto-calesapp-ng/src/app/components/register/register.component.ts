@@ -17,7 +17,7 @@ export class RegisterComponent {
     username: '',
     password: '',
     email: '',
-    rol: 'USER'
+    rol: 'ROLE_USER'
   };
   isLoading: boolean = false;
   passwordConfirm: string = '';

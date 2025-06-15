@@ -65,10 +65,6 @@ public class SecurityConfig {
                                 .authenticationEntryPoint(authenticationEntryPoint)
                                 .accessDeniedHandler(accessDeniedHandler));
                 http.authorizeHttpRequests(authz -> authz
-                                .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**")
                                 .permitAll()
 
@@ -84,6 +80,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/servicios/**").permitAll()// servicios
 
                                 .requestMatchers(HttpMethod.POST, "/api/contactos").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/contactos/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/contactos").permitAll()
 
                                 .requestMatchers(HttpMethod.POST, "/api/valoraciones").hasAnyRole("USER", "ADMIN")
@@ -94,6 +91,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/usuarios").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/api/usuarios/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/usuarios/buscar").hasAnyRole("USER", "ADMIN")
+
+                                .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
 
                 );
                 http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

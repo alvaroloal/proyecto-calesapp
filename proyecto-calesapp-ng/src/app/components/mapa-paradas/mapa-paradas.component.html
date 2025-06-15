@@ -1,4 +1,7 @@
 <div class="w-full max-w-7xl mx-auto h-[500px] rounded-xl shadow-lg overflow-hidden mb-10">
+    <h1 class="text-4xl font-black text-black border-b-2 border-gray-200 pb-3 tracking-tight mb-4">
+        ¿Dónde estamos?
+    </h1>
     <google-map [height]="'100%'" [width]="'100%'" [center]="center" [zoom]="zoom" (mapClick)="cerrarInfoWindow()">
 
         <map-marker *ngFor="let parada of paradas" #marker="mapMarker" [position]="{ lat: parada.lat, lng: parada.lng }"
