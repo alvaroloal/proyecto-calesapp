@@ -18,14 +18,22 @@ public record CreateUpdateContactoDTO(
 
         @NotNull(message = "El id del servicio es obligatorio") @Schema(description = "ID del servicio", example = "1") Long servicioId,
 
-        @NotNull(message = "El id del usuario es obligatorio") @Schema(description = "ID del servicio", example = "1") UUID usuarioId) {
+        @NotNull(message = "El id del usuario es obligatorio") @Schema(description = "ID del servicio", example = "1") UUID usuarioId,
+
+        @NotNull(message = "El id de la parada es obligatorio") @Schema(description = "ID de la parada", example = "1") Long paradaId,
+
+        @NotNull(message = "El id del cochero es obligatorio") @Schema(description = "ID del cochero", example = "1") Long cocheroId
+
+) {
 
     public static CreateUpdateContactoDTO fromEntity(Contacto contacto) {
         return new CreateUpdateContactoDTO(
                 contacto.getMensaje(),
                 contacto.getFecha(),
                 contacto.getServicio().getId(),
-                contacto.getUsuario().getId());
+                contacto.getUsuario().getId(),
+                contacto.getParada().getId(),
+                contacto.getCochero().getId());
 
     }
 }

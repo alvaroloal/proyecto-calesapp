@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"ukii\",\r\n  \"password\": \"123\",\r\n  \"email\": \"uki@gmail.com\",\r\n  \"rol\": \"USER\"\r\n}",
+							"raw": "{\r\n  \"username\": \"lolo\",\r\n  \"password\": \"123123\",\r\n  \"email\": \"lolo@gmail.com\",\r\n  \"rol\": \"ROLE_USER\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -51,7 +51,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/auth/user/verify?token=711084e6-30e0-4e54-a572-4d87eb14eb56",
+							"raw": "{{base_url}}/auth/user/verify?token=1064561e-be6a-4479-9181-8e08a3c880a9",
 							"host": [
 								"{{base_url}}"
 							],
@@ -63,7 +63,7 @@
 							"query": [
 								{
 									"key": "token",
-									"value": "711084e6-30e0-4e54-a572-4d87eb14eb56"
+									"value": "1064561e-be6a-4479-9181-8e08a3c880a9"
 								}
 							]
 						}
@@ -77,7 +77,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"ukii\",\r\n  \"password\": \"123\"\r\n}",
+							"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -105,7 +105,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMmEwYTcyOS1iNGM2LTQyYzMtODU0Ni1kOTQ4ZTdjOTRhOWEiLCJpYXQiOjE3NDA1MjQ0MjMsImV4cCI6MTc0MDU5MTA4M30.LNO_aePRi-oIU17s87TsGDQ9ycTXqu075Xf08L8n0pU",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwNmExM2E4MS05YjEwLTRkNmMtOGJhNC01ZDY4MjQ5ZDYxMDYiLCJpYXQiOjE3NDkxMjU4MTAsImV4cCI6MTc0OTEzNzgxMH0.MlUjzCXDCPQM4CoFdeLaNtd-qsKMnWLcoPWwzL8oiW4",
 									"type": "string"
 								}
 							]
@@ -157,7 +157,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjNTI4NTVmMC0yZWNiLTQ4NzEtODg0Zi05NWU0OGEyZDVlOWMiLCJpYXQiOjE3NDA1MzAwNTUsImV4cCI6MTc0MDU5NjcxNX0.jYCsJKDlv660QH0g-kLdeXdjlpHc9M5Mua2GAH2Ztx0",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5M2E3YTUzZC1kNmY0LTRkZWUtYjUzNS1iNWFkYjY4NjFhNzkiLCJpYXQiOjE3NDk3NTg5MzAsImV4cCI6MTc0OTc3MDkzMH0.1pPvbHeAwno4TtkPml8fBN4mGLbq8p3TO75YGp1SBeY",
 									"type": "string"
 								}
 							]
@@ -212,11 +212,14 @@
 				{
 					"name": "registrarUsuarioAdmin",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"uki\",\r\n  \"password\": \"123\",\r\n  \"email\": \"uki@gmail.com\",\r\n  \"rol\": \"ADMIN\"\r\n}",
+							"raw": "{\r\n  \"username\": \"uki\",\r\n  \"password\": \"123\",\r\n  \"email\": \"uki@gmail.com\",\r\n  \"rol\": \"ROLE_ADMIN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -251,7 +254,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/auth/user/verify?token=e92c17be-9f64-4bff-b235-478e5a7d9cd7",
+							"raw": "{{base_url}}/auth/user/verify?token=d8728f53-865f-4556-ade0-9e04ea0e5383",
 							"host": [
 								"{{base_url}}"
 							],
@@ -263,7 +266,7 @@
 							"query": [
 								{
 									"key": "token",
-									"value": "e92c17be-9f64-4bff-b235-478e5a7d9cd7"
+									"value": "d8728f53-865f-4556-ade0-9e04ea0e5383"
 								}
 							]
 						}
@@ -385,7 +388,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3ZWM2MWU0OS0xMDIyLTRjODktOGVhMC0xMzQ3Y2MyNTIxMDEiLCJpYXQiOjE3NDA1MzM4MzYsImV4cCI6MTc0MDYwMDQ5Nn0.zyetW3dbahoo3w-OXC78gztOqNFAYelwvJGSr5uqGQA",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMTc5NmFkOS0yNWZlLTQ3ZTgtYjU2OC04NmExNGYwY2Y4MDUiLCJpYXQiOjE3NDk4ODk4NzYsImV4cCI6MTc0OTkwMTg3NiwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.WSMGOrCKmIMj-e_hIYemBRb7_nYhZgu7ttXR8WFlT8A",
 									"type": "string"
 								}
 							]
@@ -480,7 +483,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOWYyZGRkNi0wNzQyLTQ3YjktOWQ1OC1kZjg2ZGFlMjE3MDAiLCJpYXQiOjE3NDA0NzU1MDUsImV4cCI6MTc0MDU0MjE2NX0.i79eYdiIRE8hXrrP2lazkGBAa1k3Nm1w-y5YfZgAj6M",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMTc5NmFkOS0yNWZlLTQ3ZTgtYjU2OC04NmExNGYwY2Y4MDUiLCJpYXQiOjE3NDk4ODk4NzYsImV4cCI6MTc0OTkwMTg3NiwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.WSMGOrCKmIMj-e_hIYemBRb7_nYhZgu7ttXR8WFlT8A",
 									"type": "string"
 								}
 							]
@@ -488,12 +491,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/550e8400-e29b-41d4-a716-446655440000",
+							"raw": "{{base_url}}/7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"550e8400-e29b-41d4-a716-446655440000"
+								"7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0"
 							]
 						}
 					},
@@ -543,14 +546,7 @@
 					"name": "listarTodas",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OTdlNThhMC0wYTQ2LTQxYTYtOGI3My1iNmE2YmZiMDRiZDkiLCJpYXQiOjE3NDA1MDkzOTYsImV4cCI6MTc0MDU3NjA1Nn0.dHHlQalsSk7yO2OumYoJ92LmbjrmS3GuWdV35JqJ_O0",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -562,6 +558,55 @@
 							"path": [
 								"api",
 								"paradas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarPaginadas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyY2JiZmE2Yy1mNDJhLTQ0NmMtYWJlZi05ZjBkZDcyYTEzZmMiLCJpYXQiOjE3NDA1MzQ0MjcsImV4cCI6MTc0MDYwMTA4N30.RK1wMvj6Bc7007zM81M3lW8UCysNY2hEp-Owjra7Yuk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Parada Banco de España\",\r\n    \"ubicacion\": \"Plaza de San Francisco\",\r\n    \"descripcion\": \"Parada en la puerta del Ayuntamiento de Sevilla\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paradas?page=1&size=10&sort=nombre,desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paradas"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "nombre,desc"
+								}
 							]
 						}
 					},
@@ -583,14 +628,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/paradas/2",
+							"raw": "{{base_url}}/api/paradas/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
 								"paradas",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -604,7 +649,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyY2JiZmE2Yy1mNDJhLTQ0NmMtYWJlZi05ZjBkZDcyYTEzZmMiLCJpYXQiOjE3NDA1MzQ0MjcsImV4cCI6MTc0MDYwMTA4N30.RK1wMvj6Bc7007zM81M3lW8UCysNY2hEp-Owjra7Yuk",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGU1OTNmMy04MWQ3LTQ2YzMtYTgwNi0wZjYwNTJjOWZmMmIiLCJpYXQiOjE3NDk5MDU1ODYsImV4cCI6MTc0OTkxNzU4NiwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.z0Qx0v8jBctdN2yjCM_XUffZA8H4CXcCTsP5nJdPOTc",
 									"type": "string"
 								}
 							]
@@ -613,7 +658,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Parada Banco de España\",\r\n    \"ubicacion\": \"Plaza de San Francisco\",\r\n    \"descripcion\": \"Parada en la puerta del Ayuntamiento de Sevilla\"\r\n}\r\n",
+							"raw": "{\r\n    \"nombre\": \"Banco España\",\r\n    \"descripcion\": \"Parada en la puerta del Ayuntamiento de Sevilla\",\r\n    \"lat\": 37.3884,\r\n    \"lng\": -5.9949\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -641,7 +686,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OTdlNThhMC0wYTQ2LTQxYTYtOGI3My1iNmE2YmZiMDRiZDkiLCJpYXQiOjE3NDA1MDkzOTYsImV4cCI6MTc0MDU3NjA1Nn0.dHHlQalsSk7yO2OumYoJ92LmbjrmS3GuWdV35JqJ_O0",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGU1OTNmMy04MWQ3LTQ2YzMtYTgwNi0wZjYwNTJjOWZmMmIiLCJpYXQiOjE3NDk5MDU1ODYsImV4cCI6MTc0OTkxNzU4NiwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.z0Qx0v8jBctdN2yjCM_XUffZA8H4CXcCTsP5nJdPOTc",
 									"type": "string"
 								}
 							]
@@ -650,7 +695,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Parada Banco de España\",\r\n    \"ubicacion\": \"Plaza de San Francisco\",\r\n    \"descripcion\": \"Parada en la puerta del Ayuntamiento de Sevilla\"\r\n}\r\n\r\n",
+							"raw": "{\r\n    \"nombre\": \"Parada Banco de España\",\r\n    \"descripcion\": \"Parada en la puerta del Ayuntamiento de Sevilla\",\r\n    \"lat\": 37.3884,\r\n    \"lng\": -5.9949\r\n}\r\n\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -728,54 +773,21 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/api/paradas/buscar?search=nombre:'Plaza Virgen de los Reyes'",
+							"raw": "http://localhost:8080/api/paradas/buscar-nombre?nombre=Plaza",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
 								"api",
 								"paradas",
-								"buscar"
+								"buscar-nombre"
 							],
 							"query": [
 								{
-									"key": "search",
-									"value": "nombre:'Plaza Virgen de los Reyes'"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Buscar por ubicacion",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxYjFlMjAxMS0xNmMwLTRiOTEtYmFiMC0xNWNlMjZhNDRhODAiLCJpYXQiOjE3NDA0ODg4MzAsImV4cCI6MTc0MDU1NTQ5MH0.1j2mC9XJnO7x4x2SbhMV2hztLMr-6BxWBZBuApy4_70",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/paradas/buscar?search=ubicacion:'Parque Maria Luisa'",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"paradas",
-								"buscar"
-							],
-							"query": [
-								{
-									"key": "search",
-									"value": "ubicacion:'Parque Maria Luisa'"
+									"key": "nombre",
+									"value": "Plaza"
 								}
 							]
 						}
@@ -852,7 +864,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyY2JiZmE2Yy1mNDJhLTQ0NmMtYWJlZi05ZjBkZDcyYTEzZmMiLCJpYXQiOjE3NDA1MzQ0MjcsImV4cCI6MTc0MDYwMTA4N30.RK1wMvj6Bc7007zM81M3lW8UCysNY2hEp-Owjra7Yuk",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMTc5NmFkOS0yNWZlLTQ3ZTgtYjU2OC04NmExNGYwY2Y4MDUiLCJpYXQiOjE3NDk4OTAyNjgsImV4cCI6MTc0OTkwMjI2OCwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.HT8iKyJllD9GRDnS8Y-T4cC6HyOcqyr3Qyun8dqf1uY",
 									"type": "string"
 								}
 							]
@@ -861,7 +873,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"tipoServicio\": \"TRANSPORTE\",\r\n    \"tarifa\": 150.75,\r\n    \"duracion\": 120,\r\n    \"descripcion\": \"Transporte de pasajeros en carruaje\",\r\n    \"disponibilidad\": true\r\n}\r\n",
+							"raw": "{\r\n    \"tipoServicio\": \"OTRO\",\r\n    \"tarifa\": 150.75,\r\n    \"duracion\": 120,\r\n    \"descripcion\": \"Transporte de pasajeros en carruaje\",\r\n    \"disponibilidad\": true\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -957,14 +969,7 @@
 					"name": "listarTodos",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjMDAyMzVhOS01NWYyLTQ4MzAtOTY1Ny03MmM2ZDkwYzBjMDQiLCJpYXQiOjE3NDA1MTc3MzksImV4cCI6MTc0MDU4NDM5OX0.dlAUmF9WTtsosgAR00Qoz_hq5eBfhL5kRa11lBuCHho",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -976,6 +981,64 @@
 							"path": [
 								"api",
 								"cocheros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar Cochero por nombre y experiencia Paginados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cocheros/buscar?search=nombre:Jesus,experiencia>2,&page=0&size=5\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cocheros",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "nombre:Jesus,experiencia>2,"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar Cochero por nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cocheros/buscar-nombre?nombre=carlos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cocheros",
+								"buscar-nombre"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "carlos"
+								}
 							]
 						}
 					},
@@ -1018,7 +1081,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkNWE3ZTk5OS1lYjMxLTRiOGUtOWIwNy05YjA1ZTgyOTY5NGYiLCJpYXQiOjE3NDA1MTc5NzAsImV4cCI6MTc0MDU4NDYzMH0.8afvOnFd1L26C8mgDEzvTZcgJ1-5oXeBb2V-tjBlgzc",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYmJjMGUxNS0zMTNkLTRlYzQtYTdjNi1kMjI5MmEwZThhNDIiLCJpYXQiOjE3NDk3MTQ2NDUsImV4cCI6MTc0OTcyNjY0NX0.Qj2ZvrwjWjujxHoAWBkun637aY5Shmx4MdsVrgC2AqE",
 									"type": "string"
 								}
 							]
@@ -1027,7 +1090,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"apellidos\": \"Pérez Gómez\",\r\n    \"experiencia\": 5.5\r\n}\r\n",
+							"raw": "{\r\n    \"nombre\": \"Pepe\",\r\n    \"apellidos\": \"Perez Alonso\",\r\n    \"experiencia\": 5.5\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1123,14 +1186,7 @@
 					"name": "listarTodas",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmNjUwMjViYS02NDUxLTQwNzUtOGI1MC0zMTYxZTE3MDBjY2MiLCJpYXQiOjE3NDA0MTc4NzIsImV4cCI6MTc0MDQ4NDUzMX0.Q1TFBPFl5BpWy9_dMOI2WWwestzJCa4Ul2EKNjOUg7E",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -1184,7 +1240,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmY2NlNDM3Mi1mYmRkLTQ1ZjMtYTkyMS1lNmUyOTczNjAyMmEiLCJpYXQiOjE3NDA0MjAwMDgsImV4cCI6MTc0MDQ4NjY2OH0.dDOF3rpvtgrSCF2rPbvHSlsalJ8jUMPDjPefX8kHLEI",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlYTkxMTE3Zi1jYWRmLTRiZmMtYWRhOC05MDAyMjMyNjc0NzkiLCJpYXQiOjE3NDk4Mzg0NzgsImV4cCI6MTc0OTg1MDQ3OCwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.GnfaOpBRAcEKq4szZfjFChJb9AX9XhFl6enxmjwFSiY",
 									"type": "string"
 								}
 							]
@@ -1193,7 +1249,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"puntuacion\": 8,\r\n  \"comentario\": \"Buen servicio\",\r\n  \"fecha\": \"2024-01-15\",\r\n  \"usuarioId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n  \"servicioId\": 1\r\n}\r\n\r\n",
+							"raw": "{\r\n  \"puntuacion\": 8,\r\n  \"comentario\": \"Buen servicio\",\r\n  \"fecha\": \"2020-01-01\",\r\n  \"usuarioId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n  \"servicioId\": 1\r\n}\r\n\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1292,14 +1348,7 @@
 					},
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5ZDM5Y2VjYS1hM2JlLTQ5NjItOTIyNy1mMzU4MTFmOThlMmMiLCJpYXQiOjE3NDAzMzcxMDUsImV4cCI6MTc0MDQwMzc2NX0.N-SQZZjgE2obfHN_Gy6xD85rLGd8F8WHKCoc5O7Vz-Y",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -1374,7 +1423,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmMjgxZDUwYS03MTJmLTQ5MGMtOTA4YS1iNjJiZDgxY2MzMGMiLCJpYXQiOjE3NDA1MTg2NjgsImV4cCI6MTc0MDU4NTMyOH0.DJbqNR3rMntlaxvTCvZu6qI3NaxI5mnuW6yMDhxwQ7o",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NTBlODQwMC1lMjliLTQxZDQtYTcxNi00NDY2NTU0NDAwMDAiLCJpYXQiOjE3NTAwMjUwNzEsImV4cCI6MTc1MDAzNzA3MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbCI6IlJPTEVfQURNSU4ifQ.Eo9UCQFrfwDDXZ6sYYXawNSYq94Hkte250YP4_rYs08",
 									"type": "string"
 								}
 							]
@@ -1383,7 +1432,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"mensaje\": \"Estoy interesado en más información sobre el servicio\",\r\n  \"fecha\": \"2025-02-23\",\r\n  \"servicioId\": 1\r\n}\r\n",
+							"raw": "{\r\n    \"usuarioId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"mensaje\": \"Esta bien\",\r\n    \"fecha\": \"2025-02-05\",\r\n    \"servicioId\": 1,\r\n    \"paradaId\": 1,\r\n    \"cocheroId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1411,7 +1460,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5ZDM5Y2VjYS1hM2JlLTQ5NjItOTIyNy1mMzU4MTFmOThlMmMiLCJpYXQiOjE3NDAzMzcxMDUsImV4cCI6MTc0MDQwMzc2NX0.N-SQZZjgE2obfHN_Gy6xD85rLGd8F8WHKCoc5O7Vz-Y",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NTBlODQwMC1lMjliLTQxZDQtYTcxNi00NDY2NTU0NDAwMDAiLCJpYXQiOjE3NTAwMTg5MDksImV4cCI6MTc1MDAzMDkwOSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbCI6IlJPTEVfQURNSU4ifQ.-SJWyI-Xy39B7u1ezE4trGNhBrKyvwko0Yd33A6j5SA",
 									"type": "string"
 								}
 							]
@@ -1420,7 +1469,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"mensaje\": \"Cambio de fecha para la consulta\",\r\n  \"fecha\": \"2025-02-24\",\r\n  \"servicioId\": 2\r\n}\r\n",
+							"raw": "{\r\n  \"mensaje\": \"Cambio de fecha para la consulta\",\r\n  \"fecha\": \"2025-02-24\",\r\n  \"servicioId\": 2,\r\n  \"usuarioId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n  \"paradaId\": 1\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"

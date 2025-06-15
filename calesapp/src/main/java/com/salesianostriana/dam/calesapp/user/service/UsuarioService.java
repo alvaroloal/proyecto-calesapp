@@ -25,10 +25,10 @@ public class UsuarioService {
 
     public Usuario createUser(CreateUsuarioRequest createUsuarioRequest) {
         Usuario usuario = new Usuario();
-        if (createUsuarioRequest.rol().equals(UsuarioRole.USER))
-            usuario.setRol(UsuarioRole.valueOf(UsuarioRole.USER.name()));
+        if (createUsuarioRequest.rol().equals(UsuarioRole.ROLE_USER))
+            usuario.setRol(UsuarioRole.valueOf(UsuarioRole.ROLE_USER.name()));
         else {
-            usuario.setRol(UsuarioRole.valueOf(UsuarioRole.ADMIN.name()));
+            usuario.setRol(UsuarioRole.valueOf(UsuarioRole.ROLE_ADMIN.name()));
         }
         usuario.setUsername(createUsuarioRequest.username());
         usuario.setPassword(passwordEncoder.encode(createUsuarioRequest.password()));

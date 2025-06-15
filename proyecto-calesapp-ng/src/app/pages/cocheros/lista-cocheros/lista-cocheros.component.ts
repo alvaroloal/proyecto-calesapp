@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
 import { Cochero } from '../../../models/cochero.model';
 import { CocherosService } from '../../../services/cocheros/cocheros.service';
+import { AuthService } from '../../../services/auth/auth.service';
+import { ViewportScroller } from '@angular/common';
+
 
 @Component({
   selector: 'app-lista-cocheros',
@@ -14,10 +17,15 @@ import { CocherosService } from '../../../services/cocheros/cocheros.service';
 export class ListaCocherosComponent implements OnInit {
   cocheros: Cochero[] = [];
   loading = true;
+  userRole: string | null = null;
+  isAuthenticated: boolean = false;
 
-  constructor(private cocherosService: CocherosService) { }
+  constructor(private cocherosService: CocherosService, private authService: AuthService, private viewportScroller: ViewportScroller) { }
 
   ngOnInit() {
+    this.viewportScroller.scrollToPosition([0, 0]);
+    this.isAuthenticated = this.authService.isAuthenticated();
+    this.userRole = this.authService.getUserRole();
     this.cocherosService.getCocheros().subscribe({
       next: (data) => {
         this.cocheros = data;
@@ -29,4 +37,5 @@ export class ListaCocherosComponent implements OnInit {
       }
     });
   }
+
 }

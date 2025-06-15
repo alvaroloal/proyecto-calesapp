@@ -235,4 +235,19 @@ export class AuthService {
     return throwError(() => new Error(errorMessage));
   }
 
+  getUserRole(): string | null {
+    const token = this.getJwtToken();
+    if (!token) return null;
+
+    try {
+      const decoded = jwtDecode<{ rol?: string }>(token);
+      return decoded.rol || null;
+    } catch {
+      return null;
+    }
+  }
+
+
+
+
 }

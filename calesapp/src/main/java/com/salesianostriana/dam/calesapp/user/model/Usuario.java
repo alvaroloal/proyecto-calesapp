@@ -42,9 +42,7 @@ public class Usuario implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-
-        list.add(new SimpleGrantedAuthority("ROLE_" + rol));
-
+        list.add(new SimpleGrantedAuthority(rol.toString()));
         return list;
     }
 

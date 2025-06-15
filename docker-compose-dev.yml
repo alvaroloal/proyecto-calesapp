@@ -67,11 +67,12 @@ services:
       - "80:80"
     restart: always
     volumes:
-      - ./proyecto-calesapp-ng/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./proyecto-calesapp-ng/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./proyecto-calesapp-ng/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./proyecto-calesapp-ng:/app
     depends_on:
       - spring-boot-api
-      - pgadmin
+    ##- pgadmin
     networks:
       - calesapp-network
 

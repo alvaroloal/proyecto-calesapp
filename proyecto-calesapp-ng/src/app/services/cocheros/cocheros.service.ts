@@ -39,8 +39,6 @@ export class CocherosService {
     return this.http.put<Cochero>(`${this.apiUrl}/${cochero.id}`, cochero, { headers });
   }
 
-
-
   eliminarCochero(id: number): Observable<void> {
     const token = this.authService.getJwtToken();
     const headers = new HttpHeaders({
@@ -49,14 +47,13 @@ export class CocherosService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
 
-  contactarCochero(id: number, parada: string, servicioId: number, fecha: string, mensaje: string) {
+  contactarCochero(cocheroId: number, paradaId: number, servicioId: number, fecha: string, mensaje: string) {
     const token = this.authService.getJwtToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     const usuarioId = this.authService.getUserId();
-    console.log({ parada, servicioId, fecha, mensaje, usuarioId });
-    return this.http.post(`/api/contactos`, { servicioId, fecha, mensaje, usuarioId }, { headers });
+    return this.http.post(`/api/contactos`, { cocheroId, paradaId, servicioId, fecha, mensaje, usuarioId }, { headers });
   }
 }
 

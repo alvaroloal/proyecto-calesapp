@@ -48,22 +48,33 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5" />
                         </svg>
                         <p class="text-3xl font-bold text-gray-800">{{ cochero.mediaValoracion }}</p>
-                        <span class="text-gray-500 font-medium">/5</span>
+                        <span class="text-gray-500 font-medium">/10</span>
                     </div>
+                    <ng-container
+                        *ngIf="isAuthenticated && (userRole === 'ROLE_USER' || userRole === 'ROLE_ADMIN'); else mensajeIniciarSesion">
+                        <div class="mt-auto pt-6">
+                            <a [routerLink]="['/cocheros', cochero.id]"
+                                class="w-full inline-block px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-150 ease-in-out">
+                                Contactar
+                            </a>
+                        </div>
+                        <div class="mt-4">
+                            <a [routerLink]="['/detalle-valoracion', cochero.id]"
+                                class="w-full inline-block px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-150 ease-in-out">
+                                Valorar
+                            </a>
+                        </div>
+                    </ng-container>
+                    <ng-template #mensajeIniciarSesion>
+                        <div class="mt-6 text-center text-sm text-gray-600 italic">
+                            Inicia sesión como usuario registrado para contactar o valorar al cochero.
+                        </div>
+                        <a routerLink="/login" class="text-blue-600 hover:underline font-medium ml-1">Iniciar sesión</a>
+                        <a routerLink="/register" class="text-blue-600 hover:underline font-medium ml-1">Registrarse</a>
+                    </ng-template>
 
-                    <div class="mt-auto pt-6">
-                        <a [routerLink]="['/cocheros', cochero.id]"
-                            class="w-full inline-block px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-150 ease-in-out">
-                            Contactar
-                        </a>
-                    </div>
-                    <div class="mt-auto pt-6">
-                        <a [routerLink]="['/detalle-valoracion', cochero.id]"
-                            class="w-full inline-block px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-150 ease-in-out">
-                            Valorar
-                        </a>
-                    </div>
                 </div>
+
             </div>
             }
         </div>
