@@ -7,25 +7,27 @@ import java.time.LocalDate;
 
 @Schema(description = "Datos de un contacto")
 public record ContactoDTO(
+
         @Schema(description = "ID del contacto", example = "1") Long id,
 
-        @Schema(description = "Mensaje de contacto", example = "Email") String mensaje,
+        @Schema(description = "Mensaje de contacto", example = "Mensaje de ejemplo") String mensaje,
 
         @Schema(description = "Fecha del contacto", example = "2024-01-15") LocalDate fecha,
 
-        @Schema(description = "ID del servicio asociado", example = "1") Long servicioId,
+        @Schema(description = "Nombre del servicio") String servicioNombre,
 
-        @Schema(description = "ID de la parada asociada", example = "1") Long paradaId,
+        @Schema(description = "Nombre de la parada") String paradaNombre,
 
-        @Schema(description = "ID del cochero contactado", example = "1") Long cocheroId) {
+        @Schema(description = "Nombre del cochero") String cocheroNombre
 
+) {
     public static ContactoDTO fromEntity(Contacto contacto) {
         return new ContactoDTO(
                 contacto.getId(),
                 contacto.getMensaje(),
                 contacto.getFecha(),
-                contacto.getServicio().getId(),
-                contacto.getParada().getId(),
-                contacto.getCochero().getId());
+                contacto.getServicio().getTipoServicio().name(),
+                contacto.getParada().getNombre(),
+                contacto.getCochero().getNombre() + " " + contacto.getCochero().getApellidos());
     }
 }

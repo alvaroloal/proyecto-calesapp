@@ -6,4 +6,7 @@ export interface Contacto {
     paradaId: number;
     cocheroId: number;
     usuarioId: number;
+    servicioNombre: string;
+    paradaNombre: string;
+    cocheroNombre: string;
 }
