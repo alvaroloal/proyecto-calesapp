@@ -49,6 +49,11 @@
                                     ADMIN
                                 </a>
                             </li>
+                            <li *ngIf="user.rol === 'ROLE_USER'">
+                                <a routerLink="/mis-contactos"
+                                    class="px-3 py-2 bg-sky-700 hover:bg-yellow-900 text-white font-semibold transition-colors duration-200 rounded-md">Mis
+                                    contactos</a>
+                            </li>
                         </ng-container>
                     </ng-template>
                 </ul>

@@ -7,3 +7,9 @@
     --primary-color: #ffffff;
     --secondary-color: #0000;
 }
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}

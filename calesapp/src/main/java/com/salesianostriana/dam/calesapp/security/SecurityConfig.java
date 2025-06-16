@@ -116,6 +116,13 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/api/usuarios/**").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.PATCH, "/api/usuarios/**").hasAuthority("ROLE_ADMIN")
+                                //
+                                .requestMatchers(HttpMethod.GET, "/api/contactos/mis-contactos")
+                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/contactos")
+                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/contactos")
+                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 // .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
                 // .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ROLE_ADMIN")
                 // .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ROLE_ADMIN")

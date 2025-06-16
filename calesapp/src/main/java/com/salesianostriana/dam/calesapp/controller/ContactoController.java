@@ -4,6 +4,8 @@ import com.salesianostriana.dam.calesapp.dto.contacto.ContactoDTO;
 import com.salesianostriana.dam.calesapp.dto.contacto.CreateUpdateContactoDTO;
 import com.salesianostriana.dam.calesapp.model.Contacto;
 import com.salesianostriana.dam.calesapp.service.ContactoService;
+import com.salesianostriana.dam.calesapp.user.model.Usuario;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,6 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -105,6 +109,12 @@ public class ContactoController {
                                 .map(ContactoDTO::fromEntity)
                                 .collect(Collectors.toList());
                 return ResponseEntity.ok(contactosDTO);
+        }
+
+        @GetMapping("/mis-contactos")
+        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+        public List<ContactoDTO> getMisContactos(@AuthenticationPrincipal Usuario usuarioAutenticado) {
+                return contactoService.findContactosDelUsuario(usuarioAutenticado.getId());
         }
 
 }

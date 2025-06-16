@@ -44,4 +44,17 @@ export class ContactosService {
     });
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
+
+
+  getMisContactos(): Observable<Contacto[]> {
+    const token = this.authService.getJwtToken();
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<Contacto[]>('/api/contactos/mis-contactos', { headers });
+  }
+
+
 }

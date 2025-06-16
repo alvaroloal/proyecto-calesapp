@@ -15,6 +15,7 @@ import { VerifyAccountComponent } from './app/components/verify-account/verify-a
 import { DetalleCocheroComponent } from './app/pages/cocheros/detalle-cochero/detalle-cochero.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { MapaParadasComponent } from './app/components/mapa-paradas/mapa-paradas.component';
+import { MisContactosComponent } from './app/pages/contactos/mis-contactos/mis-contactos.component';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -33,6 +34,7 @@ bootstrapApplication(AppComponent, {
       { path: 'register', component: RegisterComponent },
       { path: 'verify-account', component: VerifyAccountComponent },
       { path: 'mapa', component: MapaParadasComponent },
+      { path: 'mis-contactos', component: MisContactosComponent },
       { path: '**', redirectTo: '', pathMatch: 'full' }
     ]),
     //{ provide: LocationStrategy, useClass: HashLocationStrategy }

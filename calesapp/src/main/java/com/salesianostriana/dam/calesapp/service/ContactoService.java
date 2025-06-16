@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.calesapp.service;
 
+import com.salesianostriana.dam.calesapp.dto.contacto.ContactoDTO;
 import com.salesianostriana.dam.calesapp.dto.contacto.CreateUpdateContactoDTO;
 import com.salesianostriana.dam.calesapp.error.CustomException;
 import com.salesianostriana.dam.calesapp.model.Cochero;
@@ -16,6 +17,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -114,4 +116,12 @@ public class ContactoService {
         contacto.setCochero(cochero);
         return contactoRepository.save(contacto);
     }
+
+    public List<ContactoDTO> findContactosDelUsuario(UUID usuarioId) {
+        return contactoRepository.findByUsuario_Id(usuarioId)
+                .stream()
+                .map(ContactoDTO::fromEntity)
+                .toList();
+    }
+
 }
