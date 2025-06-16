@@ -20,7 +20,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +30,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.salesianostriana.dam.calesapp.user.model.UsuarioRole;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,7 +42,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 public class UsuarioController {
-
         private final UsuarioService usuarioService;
         private final AuthenticationManager authenticationManager;
         private final JwtService jwtService;
@@ -53,9 +51,7 @@ public class UsuarioController {
         @PostMapping("/auth/register")
         public ResponseEntity<UsuarioResponse> register(@RequestBody CreateUsuarioRequest createUsuarioRequest) {
                 Usuario user = usuarioService.createUser(createUsuarioRequest);
-
                 VerificationToken verificationToken = verificationTokenService.createToken(user);
-
                 return ResponseEntity.status(HttpStatus.CREATED)
                                 .body(UsuarioResponse.of(user, verificationToken.getToken()));
         }
@@ -68,17 +64,14 @@ public class UsuarioController {
                                                 loginRequest.password()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 Usuario user = (Usuario) authentication.getPrincipal();
-
                 if (user.getUsername().equals("admin")) {
                         user.setRol(UsuarioRole.ROLE_ADMIN);
-
                 } else {
                         user.setRol(UsuarioRole.ROLE_USER);
                 }
                 System.out.println(user.toString());
                 String accessToken = jwtService.generateAccessToken(user);
                 RefreshToken refreshToken = refreshTokenService.create(user);
-
                 return ResponseEntity.status(HttpStatus.CREATED)
                                 .body(UsuarioResponse.of(user, accessToken, refreshToken.getToken()));
         }
@@ -86,10 +79,8 @@ public class UsuarioController {
         @PostMapping("/auth/refresh/token")
         public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest req) {
                 String token = req.refreshToken();
-
                 return ResponseEntity.status(HttpStatus.CREATED)
                                 .body(refreshTokenService.refreshToken(token));
-
         }
 
         @GetMapping("/me")
@@ -154,7 +145,7 @@ public class UsuarioController {
                                 .orElse(ResponseEntity.notFound().build());
         }
 
-        @DeleteMapping("/{id}")
+        @DeleteMapping("/api/usuarios/{id}")
         @Operation(summary = "Eliminar un usuario", description = "Elimina un usuario basado en su ID")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "204", description = "Usuario eliminado con éxito"),
@@ -186,4 +177,18 @@ public class UsuarioController {
                 return usuarioService.search(params);
         }
 
+        @PatchMapping("/api/usuarios/{id}/bloqueo")
+        public ResponseEntity<UsuarioResponse> bloquearUsuario(@PathVariable UUID id) {
+                Optional<Usuario> usuario = usuarioService.bloquearUsuario(id);
+                return usuario
+                                .map(u -> ResponseEntity.ok(UsuarioResponse.of(u)))
+                                .orElse(ResponseEntity.notFound().build());
+        }
+
+        @PatchMapping("/api/usuarios/{id}/desbloqueo")
+        public ResponseEntity<UsuarioResponse> desbloquearUsuario(@PathVariable UUID id) {
+                Optional<Usuario> usuario = usuarioService.desbloquearUsuario(id);
+                return usuario.map(u -> ResponseEntity.ok(UsuarioResponse.of(u)))
+                                .orElse(ResponseEntity.notFound().build());
+        }
 }

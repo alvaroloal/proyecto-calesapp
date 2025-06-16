@@ -3,7 +3,8 @@ package com.salesianostriana.dam.calesapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -15,22 +16,19 @@ import java.util.Objects;
 @Entity
 @Table(name = "parada")
 public class Parada {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
-
     @Column(columnDefinition = "TEXT")
     private String descripcion;
-
     private Double lat;
     private Double lng;
-
     @ManyToOne
     @JoinColumn(name = "ciudad_id", foreignKey = @ForeignKey(name = "fk_parada_ciudad"))
     private Ciudad ciudad;
+    @OneToMany(mappedBy = "parada", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Contacto> contactos = new ArrayList<>();
 
     @Override
     public final boolean equals(Object o) {
@@ -56,5 +54,4 @@ public class Parada {
                 ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
                 : getClass().hashCode();
     }
-
 }

@@ -5,25 +5,20 @@ import com.salesianostriana.dam.calesapp.error.CustomException;
 import com.salesianostriana.dam.calesapp.model.Parada;
 import com.salesianostriana.dam.calesapp.repository.CiudadRepository;
 import com.salesianostriana.dam.calesapp.repository.ParadaRepository;
-
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import com.salesianostriana.dam.calesapp.specification.SearchCriteria;
 import com.salesianostriana.dam.calesapp.specification.parada.ParadaSpecification;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class ParadaService {
-
     private final ParadaRepository paradaRepository;
-
     private final CiudadRepository ciudadRepository;
 
     public ParadaService(ParadaRepository paradaRepository, CiudadRepository ciudadRepository) {
@@ -84,8 +79,14 @@ public class ParadaService {
             throw new CustomException("Parada no encontrada");
         }
         try {
-            paradaRepository.deleteById(id);
-            return true;
+            Optional<Parada> paradaOpt = paradaRepository.findById(id);
+            if (paradaOpt.isPresent()) {
+                Parada parada = paradaOpt.get();
+                parada.getContactos().clear();
+                paradaRepository.delete(parada);
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             throw new CustomException("Error al eliminar parada");
         }
@@ -96,7 +97,6 @@ public class ParadaService {
         parada.setDescripcion(paradaDTO.descripcion());
         parada.setLat(paradaDTO.lat());
         parada.setLng(paradaDTO.lng());
-
         parada.setCiudad(this.ciudadRepository.findByNombre("Sevilla"));
         System.out.println(parada.toString());
         return paradaRepository.save(parada);

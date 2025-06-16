@@ -7,7 +7,6 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.*;
 
 @Getter
@@ -18,24 +17,16 @@ import java.util.*;
 @Entity
 @Table(name = "user_entity")
 public class Usuario implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
     private String username;
-
     private String password;
-
     private UsuarioRole rol;
-
     private boolean enabled = true;
-
     private String verificationToken;
-
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contacto> contactos = new ArrayList<>();
-
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Valoracion> valoraciones = new ArrayList<>();
 
@@ -50,5 +41,4 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
-
 }

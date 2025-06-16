@@ -1,20 +1,17 @@
 package com.salesianostriana.dam.calesapp.service;
 
-
 import com.salesianostriana.dam.calesapp.dto.servicio.CreateUpdateServicioDTO;
 import com.salesianostriana.dam.calesapp.error.CustomException;
 import com.salesianostriana.dam.calesapp.model.Servicio;
 import com.salesianostriana.dam.calesapp.repository.ServicioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class ServicioService {
-
     private final ServicioRepository servicioRepository;
 
     public ServicioService(ServicioRepository servicioRepository) {
@@ -66,16 +63,21 @@ public class ServicioService {
             throw new CustomException("Servicio no encontrada");
         }
         try {
-            servicioRepository.deleteById(id);
-            return true;
+            Optional<Servicio> servicioOpt = servicioRepository.findById(id);
+            if (servicioOpt.isPresent()) {
+                Servicio servicio = servicioOpt.get();
+                servicio.getValoraciones().clear();
+                servicio.getContactos().clear();
+                servicioRepository.delete(servicio);
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             throw new CustomException("Error al eliminar servicio");
         }
     }
 
     private Servicio updateServicioFromDTO(Servicio servicio, CreateUpdateServicioDTO servicioDTO) {
-
-
         servicio.setTipoServicio(servicioDTO.tipoServicio());
         servicio.setTarifa(servicioDTO.tarifa());
         servicio.setDuracion(servicioDTO.duracion());

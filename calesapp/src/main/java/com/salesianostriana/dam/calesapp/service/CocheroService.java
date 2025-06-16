@@ -6,7 +6,6 @@ import com.salesianostriana.dam.calesapp.model.Cochero;
 import com.salesianostriana.dam.calesapp.repository.CocheroRepository;
 import com.salesianostriana.dam.calesapp.specification.SearchCriteria;
 import com.salesianostriana.dam.calesapp.specification.cochero.CocheroSpecification;
-
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +17,6 @@ import org.springframework.data.jpa.domain.Specification;
 @Service
 @Transactional
 public class CocheroService {
-
     private final CocheroRepository cocheroRepository;
 
     public CocheroService(CocheroRepository cocheroRepository) {
@@ -75,18 +73,24 @@ public class CocheroService {
 
     public Boolean delete(Long id) {
         if (!cocheroRepository.existsById(id)) {
-            throw new CustomException("Cochero no encontrada");
+            throw new CustomException("Cochero no encontrado");
         }
         try {
-            cocheroRepository.deleteById(id);
-            return true;
+            Optional<Cochero> cocheroOpt = cocheroRepository.findById(id);
+            if (cocheroOpt.isPresent()) {
+                Cochero cochero = cocheroOpt.get();
+                cochero.getServicios().clear();
+                cochero.getContactos().clear();
+                cocheroRepository.delete(cochero);
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             throw new CustomException("Error al eliminar cochero");
         }
     }
 
     private Cochero updateCocheroFromDTO(Cochero cochero, CreateUpdateCocheroDTO cocheroDTO) {
-
         cochero.setNombre(cocheroDTO.nombre());
         cochero.setApellidos(cocheroDTO.apellidos());
         cochero.setMediaValoracion(cocheroDTO.mediaValoracion());
@@ -108,5 +112,4 @@ public class CocheroService {
             throw new CustomException("Error al buscar cocheros por nombre");
         }
     }
-
 }

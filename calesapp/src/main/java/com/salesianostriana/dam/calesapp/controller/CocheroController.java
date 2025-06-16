@@ -7,7 +7,6 @@ import com.salesianostriana.dam.calesapp.model.Cochero;
 import com.salesianostriana.dam.calesapp.service.CocheroService;
 import com.salesianostriana.dam.calesapp.specification.SearchCriteria;
 import com.salesianostriana.dam.calesapp.util.PageResponseDTO;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,7 +14,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -26,29 +24,14 @@ import org.springframework.data.web.PageableDefault;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/cocheros")
 public class CocheroController {
-
         private final CocheroService cocheroService;
 
         public CocheroController(CocheroService cocheroService) {
                 this.cocheroService = cocheroService;
         }
-
-        // @Operation(summary = "Obtener la lista de cocheros")
-        // @ApiResponses(value = {
-        // @ApiResponse(responseCode = "200", description = "Lista de cocheros obtenida
-        // con éxito", content = @Content(mediaType = "application/json", schema =
-        // @Schema(implementation = CocheroDTO.class))),
-        // @ApiResponse(responseCode = "204", description = "No se encontraron
-        // cocheros")
-        // })
-        // @GetMapping
-        // public CocheroListDTO getAllCocheros() {
-        // return CocheroListDTO.of(cocheroService.findAll());
-        // }
 
         @GetMapping
         @Operation(summary = "Obtener la lista paginada de cocheros")
@@ -58,17 +41,13 @@ public class CocheroController {
         })
         public ResponseEntity<CocheroListDTO> getAllCocheros(
                         @Parameter(hidden = true) @PageableDefault(size = 15, page = 0) Pageable pageable) {
-
                 Page<Cochero> cocheroPage = cocheroService.findAll(pageable);
-
                 if (cocheroPage.isEmpty()) {
                         return ResponseEntity.noContent().build();
                 }
-
                 List<CocheroDTO> cocheroDTOs = cocheroPage.getContent().stream()
                                 .map(CocheroDTO::of)
                                 .toList();
-
                 return ResponseEntity.ok(new CocheroListDTO(cocheroPage.getTotalElements(), cocheroDTOs));
         }
 
@@ -130,9 +109,7 @@ public class CocheroController {
         public ResponseEntity<PageResponseDTO<CocheroDTO>> buscar(
                         @RequestParam(value = "search", required = false) String search,
                         @PageableDefault(size = 10, page = 0) Pageable pageable) {
-
                 List<SearchCriteria> params = new ArrayList<>();
-
                 if (search != null) {
                         Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
                         Matcher matcher = pattern.matcher(search + ",");
@@ -140,23 +117,18 @@ public class CocheroController {
                                 params.add(new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3)));
                         }
                 }
-
                 Page<CocheroDTO> resultado = cocheroService.search(params, pageable)
                                 .map(CocheroDTO::fromEntity);
-
                 return ResponseEntity.ok(PageResponseDTO.fromPage(resultado));
         }
 
         @GetMapping("/buscar-nombre")
         public ResponseEntity<List<CocheroDTO>> buscarPorNombre(
                         @RequestParam("nombre") String nombre) {
-
                 List<Cochero> resultado = cocheroService.searchByNombre(nombre);
                 List<CocheroDTO> dtoList = resultado.stream()
                                 .map(CocheroDTO::fromEntity)
                                 .toList();
-
                 return ResponseEntity.ok(dtoList);
         }
-
 }

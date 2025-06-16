@@ -12,17 +12,14 @@ import com.salesianostriana.dam.calesapp.repository.ParadaRepository;
 import com.salesianostriana.dam.calesapp.repository.ServicioRepository;
 import com.salesianostriana.dam.calesapp.user.model.Usuario;
 import com.salesianostriana.dam.calesapp.user.repository.UsuarioRepository;
-
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class ContactoService {
-
     private final ContactoRepository contactoRepository;
     private final ServicioRepository servicioRepository;
     private final UsuarioRepository usuarioRepository;
@@ -37,7 +34,6 @@ public class ContactoService {
         this.usuarioRepository = usuarioRepository;
         this.paradaRepository = paradaRepository;
         this.cocheroRepository = cocheroRepository;
-
     }
 
     public List<Contacto> findAll() {
@@ -83,7 +79,11 @@ public class ContactoService {
             throw new CustomException("Contacto no encontrado");
         }
         try {
-            contactoRepository.deleteById(id);
+            Contacto contacto = contactoRepository.findById(id).get();
+            if (contacto.getParada() != null) {
+                contacto.getParada().getContactos().remove(contacto);
+            }
+            contactoRepository.delete(contacto);
             return true;
         } catch (Exception e) {
             throw new CustomException("Error al eliminar contacto");
@@ -108,14 +108,10 @@ public class ContactoService {
         contacto.setServicio(servicio);
         Usuario usuario = usuarioRepository.findById(contactoDTO.usuarioId()).get();
         contacto.setUsuario(usuario);
-
         Parada parada = paradaRepository.findById(contactoDTO.paradaId()).get();
         contacto.setParada(parada);
-
         Cochero cochero = cocheroRepository.findById(contactoDTO.cocheroId()).get();
         contacto.setCochero(cochero);
-
         return contactoRepository.save(contacto);
     }
-
 }
