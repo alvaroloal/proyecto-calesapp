@@ -273,14 +273,18 @@ export class DashboardComponent implements OnInit {
 
   // CRUD valoraciones
   crearValoracionModal(): void {
+    const opcionesServicio = this.servicios.map(s => `<option value="${s.id}">${s.tipoServicio}</option>`).join('');
+
     Swal.fire({
       title: 'Nueva Valoración',
       html: `
       <input id="puntuacion" type="number" min="1" max="10" class="swal2-input" placeholder="Puntuación (1-10)">
       <textarea id="comentario" class="swal2-textarea" placeholder="Comentario"></textarea>
       <input id="fecha" type="date" class="swal2-input">
-      <input id="usuarioId" class="swal2-input" placeholder="ID del Usuario">
-      <input id="servicioId" type="number" class="swal2-input" placeholder="ID del Servicio">
+      <select id="servicioId" class="swal2-select">
+        <option value="">Seleccione un servicio</option>
+        ${opcionesServicio}
+      </select>
     `,
       showCancelButton: true,
       confirmButtonText: 'Crear',
@@ -289,8 +293,8 @@ export class DashboardComponent implements OnInit {
         const puntuacion = parseInt((<HTMLInputElement>document.getElementById('puntuacion')).value);
         const comentario = (<HTMLInputElement>document.getElementById('comentario')).value.trim();
         const fecha = (<HTMLInputElement>document.getElementById('fecha')).value;
-        const usuarioId = (<HTMLInputElement>document.getElementById('usuarioId')).value.trim();
         const servicioId = parseInt((<HTMLInputElement>document.getElementById('servicioId')).value);
+        const usuarioId = this.authService.getUserId();
 
         if (!puntuacion || puntuacion < 1 || puntuacion > 10) {
           Swal.showValidationMessage('La puntuación debe estar entre 1 y 10');
@@ -1117,6 +1121,35 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  toggleBloqueo(usuario: Usuario) {
+    if (!usuario.enabled) {
+      this.bloqueoUsuario(usuario);
+    } else {
+      this.desbloqueoUsuario(usuario);
+    }
+  }
+  bloqueoUsuario(usuario: any): void {
+    const nuevoEstado = !usuario.enabled;
+    this.usuariosService.bloqueoUsuario(usuario.id, nuevoEstado).subscribe({
+      next: () => {
+        usuario.enabled = nuevoEstado;
+      },
+      error: (err) => {
+        console.error('Error al bloquear usuario:', err);
+      }
+    });
+  }
+  desbloqueoUsuario(usuario: any): void {
+    const nuevoEstado = !usuario.enabled;
+    this.usuariosService.desbloqueoUsuario(usuario.id, nuevoEstado).subscribe({
+      next: () => {
+        usuario.enabled = nuevoEstado;
+      },
+      error: (err) => {
+        console.error('Error al desbloquear usuario:', err);
+      }
+    });
+  }
 
   // CRUD servicios PORHACER
   crearServicio(): void {

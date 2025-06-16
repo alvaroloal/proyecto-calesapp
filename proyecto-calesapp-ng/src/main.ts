@@ -35,6 +35,6 @@ bootstrapApplication(AppComponent, {
       { path: 'mapa', component: MapaParadasComponent },
       { path: '**', redirectTo: '', pathMatch: 'full' }
     ]),
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    //{ provide: LocationStrategy, useClass: HashLocationStrategy }
   ]
 });

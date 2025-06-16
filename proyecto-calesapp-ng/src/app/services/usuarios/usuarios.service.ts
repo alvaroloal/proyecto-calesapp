@@ -49,4 +49,19 @@ export class UsuarioService {
     return this.http.put<Usuario>(`${this.apiUrl}/${id}`, usuario, { headers });
   }
 
+  bloqueoUsuario(id: string, enabled: boolean): Observable<Usuario> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.patch<Usuario>(`${this.apiUrl}/${id}/bloqueo`, { enabled }, { headers });
+  }
+  desbloqueoUsuario(id: string, enabled: boolean): Observable<Usuario> {
+    const token = this.authService.getJwtToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.patch<Usuario>(`${this.apiUrl}/${id}/desbloqueo`, { enabled }, { headers });
+  }
+
 }

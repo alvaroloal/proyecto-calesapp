@@ -6,6 +6,7 @@ import com.salesianostriana.dam.calesapp.security.jwt.access.JwtAuthenticationFi
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -55,8 +56,20 @@ public class SecurityConfig {
         }
 
         @Bean
-        SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        @Order(1)
+        public SecurityFilterChain swaggerSecurity(HttpSecurity http) throws Exception {
+                http
+                                .securityMatcher("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**")
+                                .csrf(AbstractHttpConfigurer::disable)
+                                .authorizeHttpRequests(authz -> authz
+                                                .anyRequest().hasAnyAuthority("ROLE_ADMIN"))
+                                .httpBasic(Customizer.withDefaults());
+                return http.build();
+        }
 
+        @Bean
+        @Order(2)
+        SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http.csrf(AbstractHttpConfigurer::disable);
                 http.cors(Customizer.withDefaults());
                 http.sessionManagement((session) -> session
@@ -65,37 +78,47 @@ public class SecurityConfig {
                                 .authenticationEntryPoint(authenticationEntryPoint)
                                 .accessDeniedHandler(accessDeniedHandler));
                 http.authorizeHttpRequests(authz -> authz
-                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**")
-                                .permitAll()
-
                                 .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login",
                                                 "/auth/refresh/token")
                                 .permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/auth/user/verify").permitAll()
-
                                 .requestMatchers(HttpMethod.GET, "/api/paradas").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/paradas/{id}").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/paradas/buscar").hasAnyRole("USER", "ADMIN")
-
-                                .requestMatchers(HttpMethod.GET, "/api/servicios/**").permitAll()// servicios
-
-                                .requestMatchers(HttpMethod.POST, "/api/contactos").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/contactos/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/contactos").permitAll()
-
-                                .requestMatchers(HttpMethod.POST, "/api/valoraciones").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/paradas/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/paradas/buscar")
+                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/paradas").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/paradas/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/paradas/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/servicios/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/servicios").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/servicios/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/servicios/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/contactos/buscar")
+                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/contactos")
+                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/contactos/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/contactos/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/contactos")
+                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/valoraciones").permitAll()
-
+                                .requestMatchers(HttpMethod.POST, "/api/valoraciones")
+                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/valoraciones/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/valoraciones/**").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/cocheros/**").permitAll()
-
-                                .requestMatchers(HttpMethod.GET, "/api/usuarios").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/usuarios/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/usuarios/buscar").hasAnyRole("USER", "ADMIN")
-
-                                .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-
+                                .requestMatchers(HttpMethod.POST, "/api/cocheros").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/cocheros/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/cocheros/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/usuarios/buscar")
+                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/usuarios").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/usuarios/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PATCH, "/api/usuarios/**").hasAuthority("ROLE_ADMIN")
+                // .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
+                // .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ROLE_ADMIN")
+                // .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ROLE_ADMIN")
                 );
                 http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
                 http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));

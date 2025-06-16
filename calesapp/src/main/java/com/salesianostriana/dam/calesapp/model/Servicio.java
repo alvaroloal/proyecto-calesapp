@@ -2,8 +2,9 @@ package com.salesianostriana.dam.calesapp.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,25 +16,22 @@ import java.util.Set;
 @Entity
 @Table(name = "servicio")
 public class Servicio {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Enumerated(EnumType.STRING)
     private TipoServicio tipoServicio;
-
     private Double tarifa;
     private Integer duracion;
     private String descripcion;
     private Boolean disponibilidad;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cochero_id", foreignKey = @ForeignKey(name = "fk_servicio_cochero"))
     private Cochero cochero;
-
     @OneToMany(mappedBy = "servicio", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Contacto> contactos = new HashSet<>();
+    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Valoracion> valoraciones = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

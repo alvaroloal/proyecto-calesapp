@@ -7,19 +7,19 @@ import com.salesianostriana.dam.calesapp.user.model.UsuarioRole;
 import com.salesianostriana.dam.calesapp.user.query.UserSpecificationBuilder;
 import com.salesianostriana.dam.calesapp.user.repository.UsuarioRepository;
 import com.salesianostriana.dam.calesapp.user.util.SearchCriteria;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UsuarioService {
-
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -68,7 +68,6 @@ public class UsuarioService {
         } catch (Exception e) {
             throw new CustomException("Error al actualizar usuario");
         }
-
     }
 
     public Boolean delete(UUID id) {
@@ -76,20 +75,51 @@ public class UsuarioService {
             throw new CustomException("Usuario no encontrado");
         }
         try {
-            usuarioRepository.deleteById(id);
-            return true;
+            Optional<Usuario> userOpt = usuarioRepository.findById(id);
+            if (userOpt.isPresent()) {
+                Usuario user = userOpt.get();
+                user.getValoraciones().clear();
+                user.getContactos().clear();
+                usuarioRepository.delete(user);
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             throw new CustomException("Error al eliminar usuario");
         }
     }
 
     public List<Usuario> search(List<SearchCriteria> searchCriteriaList) {
-
         UserSpecificationBuilder userSpecificationBuilder = new UserSpecificationBuilder(searchCriteriaList);
-
         Specification<Usuario> where = userSpecificationBuilder.build();
-
         return usuarioRepository.findAll(where);
     }
 
+    public Optional<Usuario> bloquearUsuario(UUID id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new CustomException("Usuario no encontrado");
+        }
+        try {
+            Usuario usuario = usuarioRepository.findById(id).get();
+            usuario.setEnabled(false);
+            usuarioRepository.save(usuario);
+            return Optional.of(usuario);
+        } catch (Exception e) {
+            throw new CustomException("Error al bloquear usuario");
+        }
+    }
+
+    public Optional<Usuario> desbloquearUsuario(UUID id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new CustomException("Usuario no encontrado");
+        }
+        try {
+            Usuario usuario = usuarioRepository.findById(id).get();
+            usuario.setEnabled(true);
+            usuarioRepository.save(usuario);
+            return Optional.of(usuario);
+        } catch (Exception e) {
+            throw new CustomException("Error al desbloquear usuario");
+        }
+    }
 }

@@ -24,7 +24,7 @@ services:
   # servicio pgAdmin
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin-spring-prod
+    container_name: pgadmin-spring
     ports:
       - "5050:80"
     environment:
