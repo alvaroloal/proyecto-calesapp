@@ -63,7 +63,6 @@ public class UsuarioService {
             usuario.setUsername(createUsuarioRequest.username());
             usuario.setPassword(createUsuarioRequest.password());
             usuario.setRol(createUsuarioRequest.rol());
-            usuarioRepository.save(usuario);
             return Optional.of(usuario);
         } catch (Exception e) {
             throw new CustomException("Error al actualizar usuario");

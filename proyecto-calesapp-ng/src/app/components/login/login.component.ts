@@ -21,10 +21,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
-      console.log('Usuario ya autenticado, redirigiendo...');
       this.router.navigate(['/']);
     } else {
-      console.log('Mostrando formulario de login.');
       this.router.navigate(['/login']);
     }
   }

@@ -1,8 +1,10 @@
 # Calesapp
 
-**Calesapp** es una aplicación que conecta a turistas con cocheros de coches de caballos para facilitar la contratación de paseos por la ciudad. Ofrece una solución digital a un servicio tradicional, mejorando su accesibilidad y comunicación.
+**Calesapp** es una aplicación que conecta a turistas con cocheros de coches de caballos para facilitar la contratación de paseos por la ciudad. Ofrece un sistema de reservas para diferentes tipos de servicios en diferentes puntos de una ciudad con una flota de cocheros.
 
 ---
+[Memoria del proyecto](docs/MemoriaPDAM-ÁlvaroLorenteAlmán.pdf)
+
 
 ## Requisitos del sistema
 
@@ -12,32 +14,19 @@ Para ejecutar el proyecto localmente, asegúrate de tener instalado:
 - Apache Maven  
 - Docker  
 - Docker Compose  
+- Node Js
 
 ---
 
 ## Puesta en marcha
 
-1. Clonar el repositorio en tu máquina local:
-   ```bash
-   git clone https://github.com/alvaroloal/proyecto-calesapp.git
-   cd calesapp
-   ```
-
-2. Iniciar la base de datos:
-   ```bash
-   docker-compose up --build -d
-   ```
-
-3. Ejecutar la aplicación con Maven:
-   ```bash
-   mvn spring-boot:run
-   ```
-
+Clonar el repositorio en tu máquina local:
+```bash
+git clone https://github.com/alvaroloal/proyecto-calesapp.git
+```
 ---
 
-## Perfiles de configuración
-
-La aplicación dispone de distintos perfiles de configuración que se adaptan al entorno de ejecución:
+La aplicación dispone de dos perfiles de configuración que se adaptan al entorno de ejecución:
 
 - **Desarrollo**
   ```bash
@@ -49,19 +38,23 @@ La aplicación dispone de distintos perfiles de configuración que se adaptan al
   ```bash
   docker-compose -f docker-compose-dev.yml up -d --build
   ```
-   ```bash
-   docker-compose -f docker-compose-dev.yml down --remove-orphans
-  ```
+   
 - **Producción**
   ```bash
   docker-compose -f docker-compose-prod.yml up -d
   ```
   Ejecuta la aplicación en un contenedor Docker sin mostrar las consultas SQL.
 
+
+Para bajar los servicios y eliminar los recursos asociados basta con ejecutar la siguiente orden:
+```bash
+docker-compose -f docker-compose-dev.yml down --remove-orphans
+```
+
 ---
 
 ## Documentación de la API
-
+El acceso a la documentación de la api está protegido con autenticación. El usuario que tiene acceso es 'admin' con contraseña 'admin'.
 - **Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
 - **OpenAPI (JSON)**: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
@@ -83,69 +76,23 @@ Para acceder a los endpoints protegidos (usuario y administrador), hay que segui
 
 ---
 
-## Diseño de la Interfaz
+## Diseño UI
 
-Diseño UI de la aplicación web en Figma:
+[Diseño Figma](https://www.figma.com/design/j4B1QGaIhNnBDOHB3CKBqm/Calesa?node-id=0-1&t=THystnwQQcP75NMc-1)
 
-[APP WEB CALESAPP](https://www.figma.com/design/j4B1QGaIhNnBDOHB3CKBqm/Calesa?node-id=0-1&t=THystnwQQcP75NMc-1)
-
----
-
-## Descripción del problema
-
-A dia de hoy, cuando alguien quiere alquilar un coche de caballo para un paseo por la ciudad el proceso es el siguiente, ir a la parada donde se encuentra el coche de caballo y contratar el servicio. 
-Este modelo presenta varios problemas:
-
-- Generalmente un turista desconoce la ubicacion de las paradas.
-- Son muy pocos los cocheros que ofrecen sus servicios de manera particular por internet.
-- No se conocen los detalles de antemano sobre el servicio. (tarifa, duración, disponibilidad).
-- No hay valoraciones sobre como son los paseos en los coches de caballos.
+[Diseño Excalidraw](https://excalidraw.com/#json=j7m9msPvdRWd-6Zuf8EvS,B9joBmUKhWV5y1Oaw0Jw9g)
 
 ---
 
-## Motivación del proyecto
+## Diagramas
 
-Aplicacion que pone en contacto a clientes con cocheros de coches de caballo para contratar sus servicios, ofreciendo:
+![Modelo de datos](docs/diagrama-clases-dominio.drawio.png)
+![Diagrama entidad - relación](docs/diagrama-entidad-relacion.drawio.png)
 
-- Localización de paradas.
-- Plataforma para que los cocheros puedan publicar sus servicios.
-- Información sobre tarifas, duración y disponibilidad.
-- Sistema de valoración para que los usuarios evalúen los paseos.
-- Canal de contacto entre clientes y cocheros.
 
 ---
 
-## Requisitos funcionales
-
-Se definen tres roles de usuario:
-
-- **Visitante (no autenticado)**  
-- **Usuario autenticado**  
-- **Administrador**
-
-### Funcionalidades según rol
-
-#### Visitante
-- Consultar las paradas disponibles.
-
-#### Usuario autenticado
-- Ver la información de los servicios ofrecidos por los cocheros.
-- Buscar y contactar con un cochero.
-- Valorar los servicios recibidos.
-
-#### Administrador
-- Gestionar (crear, actualizar, eliminar) paradas, servicios, contactos, cocheros, valoraciones y usuarios.
-
----
-
-## Modelo de datos
-
-Diagrama del modelo de datos:  
-![Modelo de datos](docs/modelo-de-datos.png)
-
----
-
-## Pruebas de `ParadaService`
+## Testing
 
 El servicio `ParadaService` gestiona la lógica de negocio relacionada con las paradas. Las pruebas unitarias se realizan utilizando **JUnit 5** y **Mockito**, simulando las dependencias de `ParadaRepository` y `CiudadRepository`.
 
@@ -156,3 +103,5 @@ El servicio `ParadaService` gestiona la lógica de negocio relacionada con las p
 - `create()`: Valida la creación de una nueva parada a partir de un DTO.
 - `update()`: Comprueba la actualización de una parada existente.
 - `delete()`: Verifica la eliminación correcta de una parada existente.
+
+

@@ -1,0 +1,1767 @@
+{
+	"info": {
+		"_postman_id": "a21667c1-7829-4e99-890a-04618327e2fb",
+		"name": "Proyecto Calesapp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38690077"
+	},
+	"item": [
+		{
+			"name": "Usuario User",
+			"item": [
+				{
+					"name": "registarUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"lolo\",\r\n  \"password\": \"123123\",\r\n  \"email\": \"lolo@gmail.com\",\r\n  \"rol\": \"ROLE_USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"uki\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/user/verify?token=1064561e-be6a-4479-9181-8e08a3c880a9",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"user",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "1064561e-be6a-4479-9181-8e08a3c880a9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "loginUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "accederToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwNmExM2E4MS05YjEwLTRkNmMtOGJhNC01ZDY4MjQ5ZDYxMDYiLCJpYXQiOjE3NDkxMjU4MTAsImV4cCI6MTc0OTEzNzgxMH0.MlUjzCXDCPQM4CoFdeLaNtd-qsKMnWLcoPWwzL8oiW4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refreshToken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/refresh/?token=8742bea0-3dbb-434f-8a09-cbe9984f5d19",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"refresh",
+								""
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "8742bea0-3dbb-434f-8a09-cbe9984f5d19"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verTodosUsuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5M2E3YTUzZC1kNmY0LTRkZWUtYjUzNS1iNWFkYjY4NjFhNzkiLCJpYXQiOjE3NDk3NTg5MzAsImV4cCI6MTc0OTc3MDkzMH0.1pPvbHeAwno4TtkPml8fBN4mGLbq8p3TO75YGp1SBeY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtenerPorId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzQyM2UxZi00YmJmLTRmNzMtYjBhNy04ODljNjVjZWM5YzYiLCJpYXQiOjE3NDAzODM0OTAsImV4cCI6MTc0MDQ1MDE1MH0.HkrAssyRZQVSOi_to53v5f4CHzvulkDL_oew5CtcTDo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/13423e1f-4bbf-4f73-b0a7-889c65cec9c6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"13423e1f-4bbf-4f73-b0a7-889c65cec9c6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuario Admin",
+			"item": [
+				{
+					"name": "registrarUsuarioAdmin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"uki\",\r\n  \"password\": \"123\",\r\n  \"email\": \"uki@gmail.com\",\r\n  \"rol\": \"ROLE_ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"uki\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/user/verify?token=d8728f53-865f-4556-ade0-9e04ea0e5383",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"user",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "d8728f53-865f-4556-ade0-9e04ea0e5383"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "loginUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"uki\",\r\n  \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "accederToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3NGRiYWU1MS03MjRmLTQ1N2EtYjYyNi1lOWE1Y2UwNmM2MzMiLCJpYXQiOjE3NDAxMjc0NTIsImV4cCI6MTc0MDE5NDExMn0.k_rlK6anOxXtLE5R50NRznrNVf8QxKy6f7qkuPxmUsQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "accederAdmin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5NGFjZDdjYy1lMjIzLTRlMTUtODc3ZS03YmJjODRiZTRiZmQiLCJpYXQiOjE3NDA1MDgyNDAsImV4cCI6MTc0MDU3NDkwMH0.uC39Y4ZDn0oQbbcyvHojM6iJ2YfgYGVxD1niNsMbgls",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/me/admin",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"me",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refreshToken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/refresh/?token=03be5e65-bb59-4aa1-88d2-3e80d77850c4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"refresh",
+								""
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "03be5e65-bb59-4aa1-88d2-3e80d77850c4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verTodosUsuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMTc5NmFkOS0yNWZlLTQ3ZTgtYjU2OC04NmExNGYwY2Y4MDUiLCJpYXQiOjE3NDk4ODk4NzYsImV4cCI6MTc0OTkwMTg3NiwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.WSMGOrCKmIMj-e_hIYemBRb7_nYhZgu7ttXR8WFlT8A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtenerPorId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3ZWM2MWU0OS0xMDIyLTRjODktOGVhMC0xMzQ3Y2MyNTIxMDEiLCJpYXQiOjE3NDA1MzM4MzYsImV4cCI6MTc0MDYwMDQ5Nn0.zyetW3dbahoo3w-OXC78gztOqNFAYelwvJGSr5uqGQA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/13423e1f-4bbf-4f73-b0a7-889c65cec9c6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"13423e1f-4bbf-4f73-b0a7-889c65cec9c6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMTEwYTIxMy1mYzNiLTRjYTQtYjg3MC0zZjJmMTdjMDk5MDUiLCJpYXQiOjE3NDA1MTkzMzUsImV4cCI6MTc0MDU4NTk5NX0.08LQc7K0PAS4093BRd5efmrcuhpkVCZ-9HZwoOIwqLk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"manu\",\r\n  \"password\": \"123\",\r\n  \"email\": \"uki@gmail.com\",\r\n  \"rol\": \"USER\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMTc5NmFkOS0yNWZlLTQ3ZTgtYjU2OC04NmExNGYwY2Y4MDUiLCJpYXQiOjE3NDk4ODk4NzYsImV4cCI6MTc0OTkwMTg3NiwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.WSMGOrCKmIMj-e_hIYemBRb7_nYhZgu7ttXR8WFlT8A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"7f26fbb5-dbb7-4127-b4c9-85e3d64e08f0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por nombre usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ZDJjNDUzZS1mY2JiLTQwYzAtODM0OS05NDA0MTZmMjY2MWIiLCJpYXQiOjE3NDA1MjI4MjcsImV4cCI6MTc0MDU4OTQ4Nn0.rUWTJswIypCkJ31HDtgES_2C9arykCe3QMrz7BflfhI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/buscar?search=username:juanperez",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "username:juanperez"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Parada",
+			"item": [
+				{
+					"name": "listarTodas",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/paradas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paradas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarPaginadas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyY2JiZmE2Yy1mNDJhLTQ0NmMtYWJlZi05ZjBkZDcyYTEzZmMiLCJpYXQiOjE3NDA1MzQ0MjcsImV4cCI6MTc0MDYwMTA4N30.RK1wMvj6Bc7007zM81M3lW8UCysNY2hEp-Owjra7Yuk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Parada Banco de España\",\r\n    \"ubicacion\": \"Plaza de San Francisco\",\r\n    \"descripcion\": \"Parada en la puerta del Ayuntamiento de Sevilla\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paradas?page=1&size=10&sort=nombre,desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paradas"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "nombre,desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtenerPorId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OTdlNThhMC0wYTQ2LTQxYTYtOGI3My1iNmE2YmZiMDRiZDkiLCJpYXQiOjE3NDA1MDkzOTYsImV4cCI6MTc0MDU3NjA1Nn0.dHHlQalsSk7yO2OumYoJ92LmbjrmS3GuWdV35JqJ_O0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/paradas/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paradas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crearParada",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGU1OTNmMy04MWQ3LTQ2YzMtYTgwNi0wZjYwNTJjOWZmMmIiLCJpYXQiOjE3NDk5MDU1ODYsImV4cCI6MTc0OTkxNzU4NiwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.z0Qx0v8jBctdN2yjCM_XUffZA8H4CXcCTsP5nJdPOTc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Banco España\",\r\n    \"descripcion\": \"Parada en la puerta del Ayuntamiento de Sevilla\",\r\n    \"lat\": 37.3884,\r\n    \"lng\": -5.9949\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paradas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paradas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarParada",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGU1OTNmMy04MWQ3LTQ2YzMtYTgwNi0wZjYwNTJjOWZmMmIiLCJpYXQiOjE3NDk5MDU1ODYsImV4cCI6MTc0OTkxNzU4NiwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.z0Qx0v8jBctdN2yjCM_XUffZA8H4CXcCTsP5nJdPOTc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Parada Banco de España\",\r\n    \"descripcion\": \"Parada en la puerta del Ayuntamiento de Sevilla\",\r\n    \"lat\": 37.3884,\r\n    \"lng\": -5.9949\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paradas/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paradas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarParada",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyY2JiZmE2Yy1mNDJhLTQ0NmMtYWJlZi05ZjBkZDcyYTEzZmMiLCJpYXQiOjE3NDA1MzQ0MjcsImV4cCI6MTc0MDYwMTA4N30.RK1wMvj6Bc7007zM81M3lW8UCysNY2hEp-Owjra7Yuk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/paradas/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paradas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por nombre de parada",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNmVhOTg3Yy0zYzAxLTQ2NzAtOTYwZC02NjNlNjdlMjFkMTAiLCJpYXQiOjE3NDA0ODc1NTAsImV4cCI6MTc0MDU1NDIxMH0.Ng2Wl_0dGvigwjVVr_Nji5GspsVkCjOByY-Sc6lqtTA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/paradas/buscar-nombre?nombre=Plaza",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"paradas",
+								"buscar-nombre"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "Plaza"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Servicio",
+			"item": [
+				{
+					"name": "listarTodos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyY2JiZmE2Yy1mNDJhLTQ0NmMtYWJlZi05ZjBkZDcyYTEzZmMiLCJpYXQiOjE3NDA1MzQ0MjcsImV4cCI6MTc0MDYwMTA4N30.RK1wMvj6Bc7007zM81M3lW8UCysNY2hEp-Owjra7Yuk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/servicios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"servicios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtenerPorId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyY2JiZmE2Yy1mNDJhLTQ0NmMtYWJlZi05ZjBkZDcyYTEzZmMiLCJpYXQiOjE3NDA1MzQ0MjcsImV4cCI6MTc0MDYwMTA4N30.RK1wMvj6Bc7007zM81M3lW8UCysNY2hEp-Owjra7Yuk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/servicios/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crearServicio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMTc5NmFkOS0yNWZlLTQ3ZTgtYjU2OC04NmExNGYwY2Y4MDUiLCJpYXQiOjE3NDk4OTAyNjgsImV4cCI6MTc0OTkwMjI2OCwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.HT8iKyJllD9GRDnS8Y-T4cC6HyOcqyr3Qyun8dqf1uY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipoServicio\": \"OTRO\",\r\n    \"tarifa\": 150.75,\r\n    \"duracion\": 120,\r\n    \"descripcion\": \"Transporte de pasajeros en carruaje\",\r\n    \"disponibilidad\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/servicios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"servicios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarServicio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyY2JiZmE2Yy1mNDJhLTQ0NmMtYWJlZi05ZjBkZDcyYTEzZmMiLCJpYXQiOjE3NDA1MzQ0MjcsImV4cCI6MTc0MDYwMTA4N30.RK1wMvj6Bc7007zM81M3lW8UCysNY2hEp-Owjra7Yuk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"tipoServicio\": \"EVENTO\",\r\n    \"tarifa\": 90.0,\r\n    \"duracion\": 120,\r\n    \"descripcion\": \"Alquiler para eventos especiales\",\r\n    \"disponibilidad\": false\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/servicios/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarServicio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmMmRiNzY5Ni1iMjNiLTQ2NGEtOWM3Ny04MGUxMjY3ZjkyMTEiLCJpYXQiOjE3NDA1MzUwNzMsImV4cCI6MTc0MDYwMTczM30.RzwPXlsuDU8OuICUFy17SjcKnLipggHyEn1Op_9avNU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/servicios/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cochero",
+			"item": [
+				{
+					"name": "listarTodos",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cocheros",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cocheros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar Cochero por nombre y experiencia Paginados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cocheros/buscar?search=nombre:Jesus,experiencia>2,&page=0&size=5\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cocheros",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "nombre:Jesus,experiencia>2,"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar Cochero por nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cocheros/buscar-nombre?nombre=carlos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cocheros",
+								"buscar-nombre"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "carlos"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtenerPorId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzZmYwMjZjZC00M2UyLTQ1NmUtYjNiNi05NThhNjhlMDhkYWQiLCJpYXQiOjE3NDAyMjM5ODQsImV4cCI6MTc0MDI5MDY0NH0.W8Ncppm5F-aMVf_ozF4vyyFWdbOxIL7ofP-NIwu4ZUg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cocheros/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cocheros",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crearCochero",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYmJjMGUxNS0zMTNkLTRlYzQtYTdjNi1kMjI5MmEwZThhNDIiLCJpYXQiOjE3NDk3MTQ2NDUsImV4cCI6MTc0OTcyNjY0NX0.Qj2ZvrwjWjujxHoAWBkun637aY5Shmx4MdsVrgC2AqE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Pepe\",\r\n    \"apellidos\": \"Perez Alonso\",\r\n    \"experiencia\": 5.5\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/cocheros",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cocheros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarCochero",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzZmYwMjZjZC00M2UyLTQ1NmUtYjNiNi05NThhNjhlMDhkYWQiLCJpYXQiOjE3NDAyMjM5ODQsImV4cCI6MTc0MDI5MDY0NH0.W8Ncppm5F-aMVf_ozF4vyyFWdbOxIL7ofP-NIwu4ZUg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Pepe\",\r\n    \"apellidos\": \"Pérez Gómez\",\r\n    \"experiencia\": 6.5\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/cocheros/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cocheros",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarCochero",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzZmYwMjZjZC00M2UyLTQ1NmUtYjNiNi05NThhNjhlMDhkYWQiLCJpYXQiOjE3NDAyMjM5ODQsImV4cCI6MTc0MDI5MDY0NH0.W8Ncppm5F-aMVf_ozF4vyyFWdbOxIL7ofP-NIwu4ZUg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cocheros/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cocheros",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Valoracion",
+			"item": [
+				{
+					"name": "listarTodas",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/valoraciones",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"valoraciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtenerPorId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZWY5YmU3Zi1jNjA0LTRiNDUtYjMwMC05ZmU3YTEwZjAzNDMiLCJpYXQiOjE3NDAzMTQ3NjMsImV4cCI6MTc0MDM4MTQyM30.XaROPqDqshVSzmOyLPKvPVBZBfrJp9KYacI7IuvQ1ds",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/valoraciones/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"valoraciones",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crearValoracion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlYTkxMTE3Zi1jYWRmLTRiZmMtYWRhOC05MDAyMjMyNjc0NzkiLCJpYXQiOjE3NDk4Mzg0NzgsImV4cCI6MTc0OTg1MDQ3OCwidXNlcm5hbWUiOiJ1a2kiLCJyb2wiOiJBRE1JTiJ9.GnfaOpBRAcEKq4szZfjFChJb9AX9XhFl6enxmjwFSiY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"puntuacion\": 8,\r\n  \"comentario\": \"Buen servicio\",\r\n  \"fecha\": \"2020-01-01\",\r\n  \"usuarioId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n  \"servicioId\": 1\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/valoraciones",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"valoraciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarValoracion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZWY5YmU3Zi1jNjA0LTRiNDUtYjMwMC05ZmU3YTEwZjAzNDMiLCJpYXQiOjE3NDAzMTQ3NjMsImV4cCI6MTc0MDM4MTQyM30.XaROPqDqshVSzmOyLPKvPVBZBfrJp9KYacI7IuvQ1ds",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"puntuacion\": 8,\r\n  \"comentario\": \"Buen servicio\",\r\n  \"fecha\": \"2024-01-15\",\r\n  \"usuarioId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n  \"servicioId\": 1\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/valoraciones/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"valoraciones",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarValoracion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZWY5YmU3Zi1jNjA0LTRiNDUtYjMwMC05ZmU3YTEwZjAzNDMiLCJpYXQiOjE3NDAzMTQ3NjMsImV4cCI6MTc0MDM4MTQyM30.XaROPqDqshVSzmOyLPKvPVBZBfrJp9KYacI7IuvQ1ds",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/valoraciones/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"valoraciones",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contactos",
+			"item": [
+				{
+					"name": "listaContactos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/contactos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contactos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtenerPorId",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhOWRhNzgyOS1mZWNjLTRhZDItYTIxZC01YjA0YmMxYjRkYmEiLCJpYXQiOjE3NDAzMTMzMjAsImV4cCI6MTc0MDM3OTk4MH0.RayxrU3gWwOOmHjlm9brIVw9i2UkckcfRcBD32folr4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/contactos/3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contactos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crearContacto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NTBlODQwMC1lMjliLTQxZDQtYTcxNi00NDY2NTU0NDAwMDAiLCJpYXQiOjE3NTAwMjUwNzEsImV4cCI6MTc1MDAzNzA3MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbCI6IlJPTEVfQURNSU4ifQ.Eo9UCQFrfwDDXZ6sYYXawNSYq94Hkte250YP4_rYs08",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usuarioId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"mensaje\": \"Esta bien\",\r\n    \"fecha\": \"2025-02-05\",\r\n    \"servicioId\": 1,\r\n    \"paradaId\": 1,\r\n    \"cocheroId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/contactos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contactos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editarContacto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NTBlODQwMC1lMjliLTQxZDQtYTcxNi00NDY2NTU0NDAwMDAiLCJpYXQiOjE3NTAwMTg5MDksImV4cCI6MTc1MDAzMDkwOSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbCI6IlJPTEVfQURNSU4ifQ.-SJWyI-Xy39B7u1ezE4trGNhBrKyvwko0Yd33A6j5SA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mensaje\": \"Cambio de fecha para la consulta\",\r\n  \"fecha\": \"2025-02-24\",\r\n  \"servicioId\": 2,\r\n  \"usuarioId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n  \"paradaId\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/contactos/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contactos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrarContacto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhOWRhNzgyOS1mZWNjLTRhZDItYTIxZC01YjA0YmMxYjRkYmEiLCJpYXQiOjE3NDAzMTMzMjAsImV4cCI6MTc0MDM3OTk4MH0.RayxrU3gWwOOmHjlm9brIVw9i2UkckcfRcBD32folr4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/contactos/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contactos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtenerContactosPorServicio",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhOWRhNzgyOS1mZWNjLTRhZDItYTIxZC01YjA0YmMxYjRkYmEiLCJpYXQiOjE3NDAzMTMzMjAsImV4cCI6MTc0MDM3OTk4MH0.RayxrU3gWwOOmHjlm9brIVw9i2UkckcfRcBD32folr4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/contactos/servicio/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contactos",
+								"servicio",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subida ficheros",
+			"item": [
+				{
+					"name": "upload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>ID</th>\r",
+									"        <th>Name</th>\r",
+									"        <th>URI</th>\r",
+									"        <th>Type</th>\r",
+									"        <th>Size</th>\r",
+									"    </tr>\r",
+									"    <tr>\r",
+									"        <td>{{response.id}}</td>\r",
+									"        <td>{{response.name}}</td>\r",
+									"        <td>{{response.uri}}</td>\r",
+									"        <td>{{response.type}}</td>\r",
+									"        <td>{{response.size}}</td>\r",
+									"    </tr>\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return {response: pm.response.json()}\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYThhOGI1Ny03NWQyLTRhMWYtYTk0NC03ODk5ODUxNjU3ODAiLCJpYXQiOjE3NDAzOTc0NTEsImV4cCI6MTc0MDQ2NDExMX0.Zz8NXtciRZf3At2aibgsb4ePgS1zqXmDf4-ybVjgm_Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/alvar/OneDrive/Escritorio/Plaza_de_Toros_de_la_Maestranza.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>ID</th>\r",
+									"        <th>Title</th>\r",
+									"        <th>Image URL</th>\r",
+									"    </tr>\r",
+									"    <tr>\r",
+									"        <td>{{response.id}}</td>\r",
+									"        <td>{{response.title}}</td>\r",
+									"        <td>{{response.imageUrl}}</td>\r",
+									"    </tr>\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return { response: pm.response.json() }\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYThhOGI1Ny03NWQyLTRhMWYtYTk0NC03ODk5ODUxNjU3ODAiLCJpYXQiOjE3NDAzOTc0NTEsImV4cCI6MTc0MDQ2NDExMX0.Zz8NXtciRZf3At2aibgsb4ePgS1zqXmDf4-ybVjgm_Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "post",
+									"type": "file",
+									"src": "/C:/Users/alvar/OneDrive/Escritorio/fichero.json"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/alvar/OneDrive/Escritorio/Plaza_de_Toros_de_la_Maestranza.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
