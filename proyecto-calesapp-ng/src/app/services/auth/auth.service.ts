@@ -104,7 +104,6 @@ export class AuthService {
 
   register(userData: UserRegistrationData): Observable<RegistrationResponse> {
     const registerUrl = `${this.baseUrl}/auth/register`;
-    console.log(registerUrl);
     return this.http.post<RegistrationResponse>(registerUrl, userData)
       .pipe(
         tap(response => console.log('Respuesta de registro:', response)),

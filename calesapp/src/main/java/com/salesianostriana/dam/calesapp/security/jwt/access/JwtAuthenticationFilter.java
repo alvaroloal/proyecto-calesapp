@@ -38,16 +38,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        System.out.println("filtro ejecutandose");
         String token = getJwtAccessTokenFromRequest(request);
 
         // Validar el token
         // Si es válido, autenticar al usuario
         try {
             if (StringUtils.hasText(token) && jwtService.validateAccessToken(token)) {
-
-                System.out.println("token recibido: " + token);
-                System.out.println("token validado:" + jwtService.validateAccessToken(token));
                 // Obtener el sub del token, que es el ID del usuario
                 // Buscar el usuario por id
                 // Colocar el usuario autenticado en el contexto de seguridad
@@ -66,8 +62,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authenticationToken.setDetails(new WebAuthenticationDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-                    System.out.println("autenticado como" + user.getUsername() + user.getAuthorities());
 
                 }
 

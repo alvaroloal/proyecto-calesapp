@@ -98,7 +98,6 @@ public class ParadaService {
         parada.setLat(paradaDTO.lat());
         parada.setLng(paradaDTO.lng());
         parada.setCiudad(this.ciudadRepository.findByNombre("Sevilla"));
-        System.out.println(parada.toString());
         return paradaRepository.save(parada);
     }
 

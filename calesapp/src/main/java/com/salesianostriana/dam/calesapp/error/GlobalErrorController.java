@@ -5,11 +5,15 @@ import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 @Order(2)
@@ -31,5 +35,15 @@ public class GlobalErrorController extends ResponseEntityExceptionHandler {
         detalle.setTitle("Operación no permitida");
         detalle.setType(URI.create("https://www.salesianos-triana.edu/errors/authentication-failed"));
         return detalle;
+    }
+
+    @ExceptionHandler(ContactoDuplicadoException.class)
+    public ResponseEntity<?> handleContactoDuplicadoException(ContactoDuplicadoException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", HttpStatus.CONFLICT.value());
+        body.put("error", "Conflict");
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 }

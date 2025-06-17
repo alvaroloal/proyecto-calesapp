@@ -2,6 +2,7 @@ package com.salesianostriana.dam.calesapp.service;
 
 import com.salesianostriana.dam.calesapp.dto.contacto.ContactoDTO;
 import com.salesianostriana.dam.calesapp.dto.contacto.CreateUpdateContactoDTO;
+import com.salesianostriana.dam.calesapp.error.ContactoDuplicadoException;
 import com.salesianostriana.dam.calesapp.error.CustomException;
 import com.salesianostriana.dam.calesapp.model.Cochero;
 import com.salesianostriana.dam.calesapp.model.Contacto;
@@ -55,13 +56,15 @@ public class ContactoService {
     }
 
     public Contacto create(CreateUpdateContactoDTO contactoDTO) {
-        try {
-            Contacto contacto = new Contacto();
-            System.out.println(contactoDTO);
-            return updateContactoFromDTO(contacto, contactoDTO);
-        } catch (Exception e) {
-            throw new CustomException("Error al crear contacto");
+        Optional<Contacto> coincidencia = contactoRepository.hayCoincidencia(contactoDTO.cocheroId(),
+                contactoDTO.paradaId(),
+                contactoDTO.fecha());
+        if (!coincidencia.isEmpty()) {
+            throw new ContactoDuplicadoException("Ya has realizado una reserva con estos mismos datos.");
         }
+
+        Contacto contacto = new Contacto();
+        return updateContactoFromDTO(contacto, contactoDTO);
     }
 
     public Optional<Contacto> update(Long id, CreateUpdateContactoDTO contactoDTO) {
@@ -106,13 +109,17 @@ public class ContactoService {
     private Contacto updateContactoFromDTO(Contacto contacto, CreateUpdateContactoDTO contactoDTO) {
         contacto.setMensaje(contactoDTO.mensaje());
         contacto.setFecha(contactoDTO.fecha());
-        Servicio servicio = servicioRepository.findById(contactoDTO.servicioId()).get();
+        Servicio servicio = servicioRepository.findById(contactoDTO.servicioId())
+                .orElseThrow(() -> new CustomException("Servicio no encontrado"));
         contacto.setServicio(servicio);
-        Usuario usuario = usuarioRepository.findById(contactoDTO.usuarioId()).get();
+        Usuario usuario = usuarioRepository.findById(contactoDTO.usuarioId())
+                .orElseThrow(() -> new CustomException("Usuario no encontrado"));
         contacto.setUsuario(usuario);
-        Parada parada = paradaRepository.findById(contactoDTO.paradaId()).get();
+        Parada parada = paradaRepository.findById(contactoDTO.paradaId())
+                .orElseThrow(() -> new CustomException("Parada no encontrada"));
         contacto.setParada(parada);
-        Cochero cochero = cocheroRepository.findById(contactoDTO.cocheroId()).get();
+        Cochero cochero = cocheroRepository.findById(contactoDTO.cocheroId())
+                .orElseThrow(() -> new CustomException("Cochero no encontrado"));
         contacto.setCochero(cochero);
         return contactoRepository.save(contacto);
     }

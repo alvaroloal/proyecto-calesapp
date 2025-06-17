@@ -8,6 +8,7 @@ import { forkJoin } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service';
 import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -63,7 +64,7 @@ export class DetalleCocheroComponent implements OnInit {
             icon: 'success',
             title: 'Solicitud enviada',
             text: 'Tu solicitud se ha enviado correctamente al cochero.',
-            timer: 2000,
+            timer: 4000,
             showConfirmButton: false
           });
           this.form = {
@@ -75,16 +76,23 @@ export class DetalleCocheroComponent implements OnInit {
           };
         },
         error: err => {
-          console.error('Error al enviar solicitud', err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al reservar',
-            text: err.error?.message || 'No se pudo reservar con el cochero. Inténtalo más tarde.',
-            confirmButtonText: 'Aceptar'
-          });
+          if (err.status === 409) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'No disponible',
+              text: err.error.message || 'Este cochero ya está ocupado en esa fecha. Prueba otro.',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al contactar',
+              text: 'Ocurrió un error inesperado. Inténtalo más tarde.',
+            });
+          }
         }
       });
   }
+
 
 
   ngOnInit() {

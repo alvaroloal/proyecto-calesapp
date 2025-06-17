@@ -64,12 +64,6 @@ public class UsuarioController {
                                                 loginRequest.password()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 Usuario user = (Usuario) authentication.getPrincipal();
-                if (user.getUsername().equals("admin")) {
-                        user.setRol(UsuarioRole.ROLE_ADMIN);
-                } else {
-                        user.setRol(UsuarioRole.ROLE_USER);
-                }
-                System.out.println(user.toString());
                 String accessToken = jwtService.generateAccessToken(user);
                 RefreshToken refreshToken = refreshTokenService.create(user);
                 return ResponseEntity.status(HttpStatus.CREATED)
@@ -90,7 +84,6 @@ public class UsuarioController {
 
         @GetMapping("/me/admin")
         public Usuario adminMe(@AuthenticationPrincipal Usuario user) {
-                System.out.println("prueba");
                 return user;
         }
 

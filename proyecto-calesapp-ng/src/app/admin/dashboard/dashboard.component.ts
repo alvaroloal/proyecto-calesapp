@@ -571,7 +571,7 @@ export class DashboardComponent implements OnInit {
             this.contactos.push(contactoCreado);
             Swal.fire({
               icon: 'success',
-              title: '¡Contacto creado!',
+              title: '¡Reserva creada!',
               text: 'El contacto se ha registrado correctamente.',
               timer: 2000,
               showConfirmButton: false
