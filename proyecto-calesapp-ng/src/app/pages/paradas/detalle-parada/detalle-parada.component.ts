@@ -22,6 +22,8 @@ export class DetalleParadaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     this.paradaId = Number(this.route.snapshot.paramMap.get('id'));
 
     if (!isNaN(this.paradaId)) {
@@ -42,55 +44,31 @@ export class DetalleParadaComponent implements OnInit {
   }
 
   getParadaImageUrl(parada: Parada): string {
-    if (parada.nombre === "Plaza de Toros") {
-      return "assets/toros.webp";
-    }
+    if (parada.nombre === "Plaza de Toros") { return "assets/toros.webp"; }
 
     if (parada.nombre === "Plaza Virgen de los Reyes") {
       return "assets/virgendlreyes.jpg";
     }
 
-    if (parada.nombre === "Torre del Oro") {
-      return "assets/torre.jpg";
-    }
+    if (parada.nombre === "Torre del Oro") { return "assets/torre.jpg"; }
 
-    if (parada.nombre === "Parque Maria Luisa") {
-      return "assets/parque2.jpg";
-    }
+    if (parada.nombre === "Parque María Luisa") { return "assets/parque2.jpg"; }
 
-    if (parada.nombre === "Plaza de EspaÃ±a") {
-      return "assets/plazaespaña.jpg";
-    }
+    if (parada.nombre === "Plaza de España") { return "assets/plazaespaña.jpg"; }
 
-    if (parada.nombre === "Plaza de America") {
-      return "assets/plazaamerica.jpg";
-    }
+    if (parada.nombre === "Plaza de America") { return "assets/plazaamerica.jpg"; }
 
-    if (parada.nombre === "Giralda") {
-      return "assets/lagartito.jpg";
-    }
+    if (parada.nombre === "Giralda") { return "assets/lagartito.jpg"; }
 
-    if (parada.nombre === "Altozano") {
-      return "assets/altozano.jpg";
-    }
+    if (parada.nombre === "Altozano") { return "assets/altozano.jpg"; }
 
-    if (parada.nombre === "Todogoma") {
-      return "assets/todogoma.jpg";
-    }
+    if (parada.nombre === "Todogoma") { return "assets/todogoma.jpg"; }
 
-    if (parada.nombre === "Estatua Becquer") {
-      return "assets/becquer.jpg";
-    }
+    if (parada.nombre === "Estatua Bécquer") { return "assets/becquer.jpg"; }
 
-    if (parada.nombre === "Monte Gurugu") {
-      return "assets/gurugu.jpg";
-    }
-
+    if (parada.nombre === "Monte Gurugu") { return "assets/gurugu.jpg"; }
     //añadir imagenes de paradas nuevas
-    if (parada.nombre === "Archivo General de Indias") {
-      return "assets/archivoIndias.jpg";
-    }
-
+    if (parada.nombre === "Archivo General de Indias") { return "assets/archivoIndias.jpg"; }
 
     return "assets/feria.jpg";
   }

@@ -33,9 +33,9 @@ INSERT INTO cochero (nombre, apellidos, media_valoracion) VALUES
 
 
 INSERT INTO servicio (tipo_servicio, tarifa, duracion, descripcion, disponibilidad, cochero_id) VALUES
-('TRANSPORTE', 25.50, 60, 'Servicio de transporte a cualquier punto de la ciudad', true, 1),
-('EVENTO', 40.00, 120, 'Alquiler para eventos especiales', true, 2),
-('PASEO', 30.00, 90, 'Paseo guiado por el centro historico de Sevilla y sus monumentos mas emblematicos', true, 3);
+('TRANSPORTE', 70.00, 60, 'Servicio de transporte a cualquier punto de la ciudad', true, 1),
+('EVENTO', 90.00, 120, 'Alquiler para eventos especiales', true, 2),
+('PASEO', 45.00, 45, 'Paseo guiado por el centro historico de Sevilla y sus monumentos mas emblematicos', true, 3);
 
 INSERT INTO user_entity (id, username, password, enabled, verification_token, rol) VALUES
 ('550e8400-e29b-41d4-a716-446655440000', 'admin', '{noop}admin', true, 'abc123', 0),

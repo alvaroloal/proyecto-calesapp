@@ -60,15 +60,16 @@
                     <p class="text-sm text-gray-500">{{ valoracion.fecha | date:'longDate' }}</p>
 
                     <div class="mt-2 text-xs text-gray-500 font-mono break-all">
-                        <p title="{{ valoracion.usuarioId }}">
+                        <p>
                             <span class="font-sans font-semibold text-gray-600">Usuario:</span> {{
-                            valoracion.usuarioId }}
+                            valoracion.usuarioNombre }}
                         </p>
                         <p>
                             <span class="font-sans font-semibold text-gray-600">Servicio:</span> {{
-                            valoracion.servicioId }}
+                            valoracion.servicioNombre }}
                         </p>
                     </div>
+
                 </div>
             </div>
 
