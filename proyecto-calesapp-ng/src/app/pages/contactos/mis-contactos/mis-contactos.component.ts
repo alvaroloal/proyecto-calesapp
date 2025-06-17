@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Contacto } from '../../../models/contacto.model';
 import { ContactosService } from '../../../services/contactos/contactos.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-mis-contactos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './mis-contactos.component.html',
 })
 export class MisContactosComponent implements OnInit {

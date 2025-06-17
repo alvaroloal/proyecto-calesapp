@@ -78,8 +78,8 @@ export class DetalleCocheroComponent implements OnInit {
           console.error('Error al enviar solicitud', err);
           Swal.fire({
             icon: 'error',
-            title: 'Error al contactar',
-            text: err.error?.message || 'No se pudo contactar con el cochero. Inténtalo más tarde.',
+            title: 'Error al reservar',
+            text: err.error?.message || 'No se pudo reservar con el cochero. Inténtalo más tarde.',
             confirmButtonText: 'Aceptar'
           });
         }

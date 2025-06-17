@@ -300,12 +300,24 @@ export class DashboardComponent implements OnInit {
           Swal.showValidationMessage('La puntuación debe estar entre 1 y 10');
           return false;
         }
+
         if (!comentario || comentario.length < 5) {
           Swal.showValidationMessage('El comentario debe tener al menos 5 caracteres');
           return false;
         }
+
         if (!fecha || !usuarioId || !servicioId) {
           Swal.showValidationMessage('Todos los campos son obligatorios');
+          return false;
+        }
+
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+        const fechaSeleccionada = new Date(fecha);
+        fechaSeleccionada.setHours(0, 0, 0, 0);
+
+        if (fechaSeleccionada > hoy) {
+          Swal.showValidationMessage('La fecha debe ser pasada o como máximo hoy');
           return false;
         }
 
@@ -317,6 +329,7 @@ export class DashboardComponent implements OnInit {
           servicioId
         };
       }
+
     }).then(result => {
       if (result.isConfirmed && result.value) {
         const nuevaValoracion = result.value;

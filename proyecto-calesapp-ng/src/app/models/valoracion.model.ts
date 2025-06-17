@@ -3,6 +3,8 @@ export interface Valoracion {
     puntuacion: number;
     comentario: string;
     fecha: string;
-    usuarioId: number;
+    usuarioId: string;
     servicioId: number;
+    usuarioNombre: string;
+    servicioNombre: string;
 }

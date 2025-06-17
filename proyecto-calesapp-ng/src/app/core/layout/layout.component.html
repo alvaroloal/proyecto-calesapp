@@ -1,41 +1,35 @@
 <app-hero />
 <app-mapa-paradas />
-<div class="relative w-full max-w-7xl mx-auto rounded-xl shadow-lg overflow-hidden mb-10">
-    <h1 class="text-4xl font-black text-black border-b-2 border-gray-200 pb-3 tracking-tight mb-4">
+<div class="relative w-full max-w-7xl mx-auto rounded-xl shadow-lg overflow-hidden mb-16 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-4xl font-extrabold text-gray-900 border-b-2 border-gray-200 pb-4 tracking-tight mb-2">
         ¿Qué ofrecemos?
     </h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-        <div class="bg-[var(--bg-color-gray)] rounded-md shadow-md p-10 text-center">
-            <h2 class="text-xl font-bold mt-4 mb-2">Plaza de España</h2>
-            <img src="../../../assets/castano.webp" alt="Parada" class="mx-auto w-90 h-50 object-cover rounded">
-        </div>
+    <p class="text-lg text-gray-600 mb-8">
+        Descubre nuestras principales paradas de coches de caballos donde vivirás experiencias únicas en Sevilla.
+    </p>
 
-        <div class="bg-[var(--bg-color-gray)] rounded-md shadow-md p-10 text-center">
-            <h2 class="text-xl font-bold mt-4 mb-2">Maestranza</h2>
-            <img src="../../../assets/toros.webp" alt="Parada" class="mx-auto w-75 h-50 object-cover rounded">
-        </div>
-        <div class="bg-[var(--bg-color-gray)] rounded-md shadow-md p-10 text-center">
-            <h2 class="text-xl font-bold mt-4 mb-2">Catedral</h2>
-            <img src="../../../assets/virgendlreyes.jpg" alt="Parada" class="mx-auto w-80 h-50 object-cover rounded">
-        </div>
-        <div class="bg-[var(--bg-color-gray)] rounded-md shadow-md p-10 text-center">
-            <h2 class="text-xl font-bold mt-4 mb-2">Parque Maria Luisa</h2>
-            <img src="../../../assets/parque.jpg" alt="Parque Maria Luisa"
-                class="mx-auto w-80 h-50 object-cover rounded">
-
-        </div>
-        <div class="bg-[var(--bg-color-gray)] rounded-md shadow-md p-10 text-center">
-            <h2 class="text-xl font-bold mt-4 mb-2">Feria de Abril</h2>
-            <img src="../../../assets/feria.jpg" alt="Feria" class="mx-auto w-80 h-50 object-cover rounded">
-
-        </div>
-        <div class="bg-[var(--bg-color-gray)] rounded-md shadow-md p-10 text-center">
-            <h2 class="text-xl font-bold mt-4 mb-2">Semana Santa</h2>
-            <img src="../../../assets/lagarto2.jpg" alt="Feria" class="mx-auto w-80 h-50 object-cover rounded">
-
-        </div>
+    <div *ngIf="loading" class="text-center py-16 text-gray-500 text-xl">
+        Cargando paradas...
     </div>
 
+    <div *ngIf="!loading && paradas.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <a *ngFor="let parada of paradas.slice(0, 6)" [routerLink]="['/paradas', parada.id]"
+            class="group block bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 overflow-hidden border border-gray-100">
+            <img [src]="getParadaImageUrl(parada)" alt="{{ parada.nombre }}"
+                class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
+
+            <div class="p-5">
+                <h2 class="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition duration-200">
+                    {{ parada.nombre }}
+                </h2>
+            </div>
+        </a>
+    </div>
+
+    <div *ngIf="!loading && paradas.length === 0" class="text-center text-gray-500 text-lg py-12">
+        No hay paradas disponibles.
+    </div>
 </div>
+
 <app-lista-servicios />
