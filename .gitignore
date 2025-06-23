@@ -1,1 +1,4 @@
 package-lock.json
+.env
+src/environments/environment.ts
+src/environments/environment.prod.ts

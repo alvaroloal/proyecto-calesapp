@@ -4,8 +4,7 @@ import { GoogleMapsModule, MapInfoWindow, MapMarker } from '@angular/google-maps
 import { ParadasService } from '../../services/paradas/paradas.service';
 import { Parada } from '../../models/parada.model';
 import { Router } from '@angular/router';
-
-
+import { GoogleMapsLoaderService } from '../../services/mapa/google-maps-loader.service';
 
 @Component({
   selector: 'app-mapa-paradas',
@@ -17,29 +16,49 @@ export class MapaParadasComponent implements OnInit {
   paradas: Parada[] = [];
   paradaSeleccionada: Parada | null = null;
 
-
-  center: google.maps.LatLngLiteral = { lat: 37.3861, lng: -5.9922 };
+  center!: google.maps.LatLngLiteral;
   zoom = 14;
-  markerOptions: google.maps.MarkerOptions = { animation: google.maps.Animation.DROP };
+  markerOptions!: google.maps.MarkerOptions;
+
+  isLoading = true;
 
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
 
-  constructor(private paradasService: ParadasService, private router: Router) { }
+  constructor(
+    private paradasService: ParadasService,
+    private router: Router,
+    private googleMapsLoader: GoogleMapsLoaderService
+  ) { }
 
-  ngOnInit(): void {
-    this.paradasService.getParadas().subscribe({
-      next: (data) => {
-        this.paradas = data.filter(p => p.lat && p.lng);
-      },
-      error: (err) => console.error('Error cargando paradas para el mapa', err)
-    });
+  async ngOnInit(): Promise<void> {
+    this.isLoading = true;
+
+    try {
+      await this.googleMapsLoader.load();
+
+      this.center = { lat: 37.3861, lng: -5.9922 };
+      this.markerOptions = { animation: google.maps.Animation.DROP };
+
+      this.paradasService.getParadas().subscribe({
+        next: (data) => {
+          this.paradas = data.filter(p => p.lat && p.lng);
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error cargando paradas para el mapa', err);
+          this.isLoading = false;
+        }
+      });
+    } catch (error) {
+      console.error('Error al cargar Google Maps:', error);
+      this.isLoading = false;
+    }
   }
 
   abrirInfoWindow(parada: Parada, marker: MapMarker): void {
     this.paradaSeleccionada = parada;
     this.infoWindow.open(marker);
   }
-
 
   verDetallesParada(): void {
     if (this.paradaSeleccionada?.id) {
@@ -54,6 +73,5 @@ export class MapaParadasComponent implements OnInit {
     this.infoWindow.close();
     this.paradaSeleccionada = null;
   }
-
-
 }
+
