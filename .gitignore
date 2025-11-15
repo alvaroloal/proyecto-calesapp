@@ -1,3 +1,5 @@
+.claude
+CLAUDE.md
 package-lock.json
 .env
 src/environments/environment.ts

@@ -13,4 +13,3 @@ RUN npm run build --prod
 # Etapa 2: Servir con Nginx
 FROM nginx:alpine
 COPY --from=build /app/proyecto-calesapp-ng/dist/proyecto-calesapp-ng/browser/ /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
