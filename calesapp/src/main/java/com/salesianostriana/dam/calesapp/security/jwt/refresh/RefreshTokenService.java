@@ -5,7 +5,6 @@ package com.salesianostriana.dam.calesapp.security.jwt.refresh;
 import com.salesianostriana.dam.calesapp.security.jwt.access.JwtService;
 import com.salesianostriana.dam.calesapp.user.dto.UsuarioResponse;
 import com.salesianostriana.dam.calesapp.user.model.Usuario;
-import com.salesianostriana.dam.calesapp.user.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,6 @@ import java.util.UUID;
 public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
 
     @Value("${jwt.refresh.duration}")
