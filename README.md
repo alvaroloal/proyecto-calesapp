@@ -28,13 +28,12 @@
 - [🏗️ Arquitectura](#️-arquitectura)
 - [🌐 Acceso a servicios](#-acceso-a-servicios)
 - [📖 Documentación de la API](#-documentación-de-la-api)
-- [🔐 Autenticación y Seguridad](#-autenticación-y-seguridad)
+- [🔐 Autenticación y seguridad](#-autenticación-y-seguridad)
 - [🎨 Diseño UI](#-diseño-ui)
 - [📊 Diagramas](#-diagramas)
 - [🧪 Testing](#-testing)
-- [🔧 Configuración Avanzada](#-configuración-avanzada)
+- [🔧 Configuración](#-configuración-avanzada)
 - [🐳 Contenedores Docker](#-contenedores-docker)
-- [👨‍💻 Motivación](#-motivación)
 - [👤 Autor](#-autor)
 - [📄 Licencia](#-licencia)
 
@@ -48,7 +47,7 @@
 
 ## 🛠️ Tecnologías utilizadas
 
-### Backend ☕
+### Backend
 
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
@@ -65,7 +64,7 @@
 | ![Mockito](https://img.shields.io/badge/Mockito-Latest-green) | Latest | Mocking para tests |
 | ![Maven](https://img.shields.io/badge/Maven-Latest-C71A36?logo=apachemaven) | Latest | Gestión de dependencias |
 
-### Frontend 🎨
+### Frontend
 
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
@@ -79,7 +78,7 @@
 | ![Jasmine](https://img.shields.io/badge/Jasmine-Latest-8A4182?logo=jasmine) | Latest | Framework de testing |
 | ![Karma](https://img.shields.io/badge/Karma-Latest-56C0C0?logo=karma) | Latest | Test runner |
 
-### Infraestructura 🐳
+### Infraestructura
 
 | Tecnología | Propósito |
 |------------|-----------|
@@ -864,7 +863,7 @@ Colección completa con todos los endpoints:
 
 ---
 
-## 🔐 Autenticación y Seguridad
+## 🔐 Autenticación y seguridad
 
 ### 🔑 Sistema de autenticación JWT
 
@@ -1004,20 +1003,6 @@ El diseño de la interfaz de usuario se ha desarrollado utilizando herramientas 
 - ✏️ Wireframes iniciales
 - 🔄 Flujos de usuario
 - 💡 Conceptos de arquitectura UI
-
-### 🎨 Sistema de diseño
-
-#### Paleta de colores
-- **Primario**: Azul (#1E40AF) - Botones, enlaces
-- **Secundario**: Gris (#6B7280) - Textos secundarios
-- **Éxito**: Verde (#10B981) - Confirmaciones
-- **Error**: Rojo (#EF4444) - Errores y alertas
-- **Advertencia**: Amarillo (#F59E0B) - Advertencias
-
-#### Tipografía
-- **Familia**: Inter, sans-serif
-- **Tamaños**: Sistema modular con Tailwind CSS
-
 ---
 
 ## 📊 Diagramas
@@ -1146,13 +1131,13 @@ npm run test:coverage
 | **E2E** | Cypress (recomendado) | Flujos completos de usuario |
 ---
 
-## 🔧 Configuración Avanzada
+## 🔧 Configuración avanzada
 
 ### ⚙️ Variables de entorno
 
 #### Crear archivo .env
 
-Crea un archivo `.env` en la raíz del proyecto para configurar variables sensibles:
+Crea un archivo `.env` en la raíz del proyecto para configurar variables:
 
 ```bash
 # ejemplo de archivo .env
@@ -1195,7 +1180,7 @@ spring.datasource.username=${DB_USER:postgres}
 spring.datasource.password=${DB_PASSWORD:password}
 ```
 
-### 🗄️ Configuración de Base de Datos
+### 🗄️ Configuración de base de datos
 
 #### Modos de actualización de esquema
 
@@ -1443,10 +1428,9 @@ logging.level.org.springframework.security=DEBUG
 // Usar console.log estratégicamente
 console.log('Service response:', response);
 ```
-
 ---
 
-## 👨‍💻 Motivación
+### 👨‍💻 Motivación
 
 Este proyecto es un trabajo de fin de estudios de **DAM (Desarrollo de Aplicaciones Multiplataforma)**.
 
