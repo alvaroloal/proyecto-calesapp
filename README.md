@@ -1460,7 +1460,7 @@ En este este proyecto he aplicado conocimientos de:
 ### **Álvaro Lorente Almán**
 
 [![GitHub](https://img.shields.io/badge/GitHub-alvaroloal-181717?logo=github)](https://github.com/alvaroloal)
-[![Email](https://img.shields.io/badge/Email-Contact-blue?logo=gmail)](mailto:alvarollorentealman@gmail.com)
+[![Email](https://img.shields.io/badge/Email-Contact-blue?logo=gmail)](mailto:alorentealman@gmail.com)
 
 </div>
 
